@@ -50,7 +50,7 @@ Returns the information about the current user that is logged in.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: /MyProfile
+  * URL: api/myProfile
   * Body: none
 
 * Successful Response when there is a logged in user
@@ -91,7 +91,7 @@ information.
 * Require Authentication: false
 * Request
   * Method: POST
-  * URL: /Users/LogIn
+  * URL: api/users/logIn
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -157,7 +157,7 @@ user's information.
 * Require Authentication: false
 * Request
   * Method: POST
-  * URL: /Users/SignUp
+  * URL: /api/users/signUp
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -247,7 +247,7 @@ Returns all the spots.
 * Require Authentication: false
 * Request
   * Method: GET
-  * URL: /Houses
+  * URL: /api/houses
   * Body: none
 
 * Successful Response
@@ -287,7 +287,7 @@ Returns all the spots owned (created) by the current user.
 * Require Authentication: true
 * Request
   * Method: Get
-  * URL: /MyProfile/Houses
+  * URL: /api/myProfile/houses
   * Body: none
 
 * Successful Response
@@ -327,7 +327,7 @@ Returns the details of a spot specified by its id.
 * Require Authentication: false
 * Request
   * Method: GET
-  * URL: /Houses/:HouseId
+  * URL: /api/houses/:houseId
   * Body: none
 
 * Successful Response
@@ -392,7 +392,7 @@ Creates and returns a new spot.
 * Require Authentication: true
 * Request
   * Method: POST
-  * URL: /Houses
+  * URL: /api/houses
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -466,7 +466,7 @@ Create and return a new image for a spot specified by id.
 * Require proper authorization: Spot must belong to the current user
 * Request
   * Method: POST
-  * URL: /Houses/:HouseId/Images
+  * URL: /api/houses/:houseId/images
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -512,7 +512,7 @@ Updates and returns an existing spot.
 * Require proper authorization: Spot must belong to the current user
 * Request
   * Method: PUT
-  * URL: /Houses/:HouseId
+  * URL: /api/houses/:houseId
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -598,7 +598,7 @@ Deletes an existing spot.
 * Require proper authorization: Spot must belong to the current user
 * Request
   * Method: DELETE
-  * URL: /Houses/:HouseId
+  * URL: /api/houses/:houseId
   * Body: none
 
 * Successful Response
@@ -634,7 +634,7 @@ Returns all the reviews written by the current user.
 * Require Authentication: true
 * Request
   * Method: GET 
-  * URL: /MyProfile/Reviews
+  * URL: /api/myProfile/reviews
   * Body: none
 
 * Successful Response
@@ -690,7 +690,7 @@ Returns all the reviews that belong to a spot specified by id.
 * Require Authentication: false
 * Request
   * Method: GET
-  * URL: /reviews/:HouseId
+  * URL: api/reviews/:houseId
   * Body: none
 
 * Successful Response
@@ -745,7 +745,7 @@ Create and return a new review for a spot specified by id.
 * Require Authentication: true
 * Request
   * Method: POST
-  * URL: /Reviews/:HouseId/:ReviewId
+  * URL: /api/reviews/:houseId/:reviewId
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -823,7 +823,7 @@ Create and return a new image for a review specified by id.
 * Require proper authorization: Review must belong to the current user
 * Request
   * Method: POST
-  * URL: /Reviews/:HouseId/:reviewId/Images
+  * URL: /api/reviews/:houseId/:reviewId/images
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -880,7 +880,7 @@ Update and return an existing review.
 * Require proper authorization: Review must belong to the current user
 * Request
   * Method: PUT
-  * URL: /Reviews/:HouseId/:ReviewId
+  * URL: /api/reviews/:houseId/:reviewId
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -946,7 +946,7 @@ Delete an existing review.
 * Require proper authorization: Review must belong to the current user
 * Request
   * Method: DELETE
-  * URL: /Reviews/:houseId/:reviewId
+  * URL: /api/reviews/:houseId/:reviewId
   * Body: none
 
 * Successful Response
@@ -982,7 +982,7 @@ Return all the bookings that the current user has made.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: /MyProfile/Bookings
+  * URL: /api/myProfile/bookings
   * Body: none
 
 * Successful Response
@@ -1026,8 +1026,8 @@ Return all the bookings for a spot specified by id.
 
 * Require Authentication: true
 * Request
-  * Method: GET
-  * URL: /Bookings/:HouseId
+  * : GET
+  * URL: /api/bookings/:houseId
   * Body: none
 
 * Successful Response: If you ARE NOT the owner of the spot.
@@ -1095,7 +1095,7 @@ Create and return a new booking from a spot specified by id.
 * Require proper authorization: Spot must NOT belong to the current user
 * Request
   * Method: POST
-  * URL: /Bookings/:HouseId
+  * URL: /api/bookings/:houseId
   * Body:
 
     ```json
@@ -1174,7 +1174,7 @@ Update and return an existing booking.
 * Require proper authorization: Booking must belong to the current user
 * Request
   * Method: PUT
-  * URL: /bookings/:houseId/:bookingId
+  * URL: /api/bookings/:houseId/:bookingId
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -1268,7 +1268,7 @@ Delete an existing booking.
   Spot must belong to the current user
 * Request
   * Method: DELETE
-  * URL: /bookings/:houseId/:bookingId
+  * URL: /api/bookings/:houseId/:bookingId
   * Body: none
 
 * Successful Response
@@ -1317,7 +1317,7 @@ Delete an existing image for a Spot.
 * Require proper authorization: Spot must belong to the current user
 * Request
   * Method: DELETE
-  * URL: /images/:houseId/:imageId
+  * URL: /api/images/:houseId/:imageId
   * Body: none
 
 * Successful Response
@@ -1352,7 +1352,7 @@ Delete an existing image for a Review.
 * Require proper authorization: Review must belong to the current user
 * Request
   * Method: DELETE 
-  * URL: /reviews/:reviewId/images/:imageId
+  * URL: /api/reviews/:reviewId/images/:imageId
   * Body: none
 
 * Successful Response
@@ -1386,7 +1386,7 @@ Return spots filtered by query parameters.
 * Require Authentication: false
 * Request
   * Method: GET
-  * URL: &page=1&size=20&minLat=&maxLat=&minLng=&maxLng=&minPrice=&maxPrice=
+  * URL: /api/houses?page=1&size=20&minLat=&maxLat=&minLng=&maxLng=&minPrice=&maxPrice=
   * Query Parameters
     * page: integer, minimum: 1, maximum: 10, default: 1
     * size: integer, minimum: 1, maximum: 20, default: 20
