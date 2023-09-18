@@ -9,10 +9,10 @@ const routes = require('./routes')
 const { ValidationError } = require('sequelize');
 
 
-const { enviorment } = require('./config');
+const { environment } = require('./config');
 //Create a variable called isProduction 
 //that will be true if the environment is in production or not 
-const isProduction = enviorment === 'production'
+const isProduction = environment === 'production'
 
 const app = express()
 

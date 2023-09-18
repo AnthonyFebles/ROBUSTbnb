@@ -8,6 +8,15 @@ router.get('/hello/world', (req, res) => {
     res.send('Hello World!')
 })
 
+//re-set the CSRF token cookie
+router.get("/api/csrf/restore", (req, res) => {
+	const csrfToken = req.csrfToken();
+	res.cookie("XSRF-TOKEN", csrfToken);
+	res.status(200).json({
+		"XSRF-Token": csrfToken,
+	});
+});
+
 router.use('/api', apiRouter)
 
 module.exports = router
