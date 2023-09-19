@@ -1,38 +1,50 @@
 const router = require('express').Router()
-const { setTokenCookie } = require("../../utils/auth.js");
-const { User } = require("../../db/models");
+const sessionRouter = require("./session.js");
+const usersRouter = require("./users.js");
+// const { setTokenCookie } = require("../../utils/auth.js"); testing
+// const { User } = require("../../db/models"); testing
 const { restoreUser } = require("../../utils/auth.js");
-const { requireAuth } = require("../../utils/auth.js");
+// const { requireAuth } = require("../../utils/auth.js"); testing 
+
 // Connect restoreUser middleware to the API router
   // If current user session is valid, set req.user to the user in the database
   // If current user session is not valid, set req.user to null
 router.use(restoreUser);
 
-//test api router
-router.post('/test', function(req, res) {
-    res.json({ requestBody: req.body });
-  });
+router.use("/session", sessionRouter);
 
-//test user auth middleware
-router.get("/set-token-cookie", async (_req, res) => {
-	const user = await User.findOne({
-		where: {
-			username: "Isa-Demo",
-		},
-	});
-	setTokenCookie(res, user);
-	return res.json({ user: user });
+router.use("/users", usersRouter);
+
+router.post("/test", (req, res) => {
+	res.json({ requestBody: req.body });
 });
 
-//test restore user middleware
-router.get("/restore-user", (req, res) => {
-	return res.json(req.user);
-});
 
-//test require auth middleware 
-router.get("/require-auth", requireAuth, (req, res) => {
-	return res.json(req.user);
-});
+// //test api router
+// router.post('/test', function(req, res) {
+//     res.json({ requestBody: req.body });
+//   });
+
+// //test user auth middleware
+// router.get("/set-token-cookie", async (_req, res) => {
+// 	const user = await User.findOne({
+// 		where: {
+// 			username: "Isa-Demo",
+// 		},
+// 	});
+// 	setTokenCookie(res, user);
+// 	return res.json({ user: user });
+// });
+
+// //test restore user middleware
+// router.get("/restore-user", (req, res) => {
+// 	return res.json(req.user);
+// });
+
+// //test require auth middleware 
+// router.get("/require-auth", requireAuth, (req, res) => {
+// 	return res.json(req.user);
+// });
 
 
 module.exports = router 
