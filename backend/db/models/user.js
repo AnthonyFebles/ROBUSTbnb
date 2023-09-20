@@ -40,15 +40,29 @@ module.exports = (sequelize, DataTypes) => {
 					len: [60, 60],
 				},
 			},
+			firstName: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				validate: {
+					len: [4, 30],
+				},
+			},
+			lastName: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				validate: {
+					len: [4, 30],
+				},
+			},
 		},
 		{
 			sequelize,
 			modelName: "User",
-      defaultScope: {
-        attributes: {
-          exclude: ["hashedPassword", "email", "createdAt", "updatedAt"]
-        }
-      }
+			defaultScope: {
+				attributes: {
+					exclude: ["hashedPassword", "email", "createdAt", "updatedAt"],
+				},
+			},
 		}
 	);
 	return User;
