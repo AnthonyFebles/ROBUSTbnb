@@ -10,23 +10,76 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Spot.belongsTo(models.User, { foreignKey: "ownerId" })
     }
   }
-  Spot.init({
-    ownerId: DataTypes.INTEGER,
-    address: DataTypes.STRING,
-    state: DataTypes.STRING,
-    country: DataTypes.STRING,
-    lat: DataTypes.INTEGER,
-    lng: DataTypes.INTEGER,
-    name: DataTypes.STRING,
-    description: DataTypes.STRING,
-    price: DataTypes.INTEGER,
-    avgRating: DataTypes.INTEGER
-  }, {
-    sequelize,
-    modelName: 'Spot',
-  });
+  Spot.init(
+		{
+			ownerId: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+			},
+			address: {
+				type: DataTypes.STRING,
+				allowNull: false,
+        unique: true,
+        validate: {
+          len: [10, 100],
+        }
+			},
+			city: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
+			state: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
+			country: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
+			lat: {
+				type: DataTypes.FLOAT,
+				allowNull: false,
+			},
+			lng: {
+				type: DataTypes.FLOAT,
+				allowNull: false,
+			},
+			name: {
+				type: DataTypes.STRING,
+				allowNull: false,
+        unique: true
+			},
+			description: {
+				type: DataTypes.STRING,
+				allowNull: false,
+        validate: {
+          len: [10, 256]
+        }
+			},
+			price: {
+				type: DataTypes.INTEGER,
+				allowNull: true,
+			},
+			avgRating: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+        defaultValue: 0
+			},
+      previewImage: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        validate: {
+          isUrl: true
+        }
+      }
+		},
+		{
+			sequelize,
+			modelName: "Spot",
+		}
+	);
   return Spot;
 };
