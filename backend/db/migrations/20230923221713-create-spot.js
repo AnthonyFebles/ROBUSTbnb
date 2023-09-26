@@ -46,9 +46,9 @@ module.exports = {
 				allowNull: false,
 			},
 			name: {
-				type: Sequelize.STRING,
+				type: Sequelize.STRING(50),
 				allowNull: false,
-        unique: true,
+        		unique: true,
 			},
 			description: {
 				type: Sequelize.STRING(256),
@@ -60,8 +60,7 @@ module.exports = {
 			},
 			avgRating: {
 				type: Sequelize.INTEGER,
-				allowNull: true,
-        defaultValue: 0
+                defaultValue: 0
 			},
 			createdAt: {
 				allowNull: false,

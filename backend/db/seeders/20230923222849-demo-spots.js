@@ -44,7 +44,7 @@ module.exports = {
 					lat: 67.7645358,
 					lng: -125.4730327,
 					name: "Capsule Corp",
-					description: "Where Bulma does her research ",
+					description: "Where Bulma does her research",
 					price: 9999,
 				},
 			],
@@ -53,14 +53,14 @@ module.exports = {
 	},
 
 	async down(queryInterface, Sequelize) {
-	options.tableName = "Spots";
-	const Op = Sequelize.Op;
-	return queryInterface.bulkDelete(
-		options,
-		{
-			state: { [Op.in]: ["Fakefornia"] },
-		},
-		{}
-	);
+		options.tableName = "Spots";
+		const Op = Sequelize.Op;
+		return queryInterface.bulkDelete(
+			options,
+			{
+				state: { [Op.in]: ["Fakefornia"] },
+			},
+			{}
+		);
 	},
 };
