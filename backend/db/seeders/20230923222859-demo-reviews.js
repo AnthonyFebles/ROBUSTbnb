@@ -12,26 +12,26 @@ module.exports = {
 				{
 					userId: 1,
 					spotId: 1,
-					review: "this place isn't great",
-					stars: 3,
+					review: "this place is great :)",
+					stars: 4,
 				},
 				{
 					userId: 2,
 					spotId: 1,
-					review: "this place isn't great",
-					stars: 1,
+					review: "this place is ok",
+					stars: 3,
 				},
 				{
 					userId: 3,
 					spotId: 1,
-					review: "this place isn't great",
+					review: "this place is good",
 					stars: 3,
 				},
 				{
 					userId: 1,
 					spotId: 1,
-					review: "this place isn't great",
-					stars: 4,
+					review: "this place is amazing :D",
+					stars: 5,
 				},
 			],
 			{ validate: true }

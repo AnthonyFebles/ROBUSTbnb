@@ -12,6 +12,7 @@ const {
 	requireAuth,
 } = require("../../utils/auth");
 const { Spot, SpotImage, Review, User, sequelize } = require("../../db/models");
+const spot = require("../../db/models/spot");
 
 const router = express.Router();
 
@@ -107,39 +108,55 @@ router.get("/current", requireAuth, async (req, res) => {
 	return res.json(yourSpots);
 });
 
-router.get("/:spotId", async (req, res) => {
+router.get("/:spotId", requireAuth, async (req, res) => {
 	const { spotId } = req.params;
 
-	const currSpot = await Spot.findByPk(spotId, {
+	const testIfExist = await Spot.findByPk(spotId)
+
+	if (!testIfExist) {
+		res.status(404);
+		res.json({
+			message: "Spot couldn't be found",
+		});
+	}
+
+	const currSpot = await Spot.findAll({
+		where: {id: spotId},
+
 		include: [
 			{
 				model: Review,
 				attributes: [
-					[
-						sequelize.fn("AVG", sequelize.col("Reviews.stars")),
-						"avgRating",
-					],
+					[sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"],
+					
+					
 				],
 			},
 			// {
 			// 	model: User,
-			// 	attributes: ["id", "firstName", "lastName"],
+			// 	// attributes: ["id", "firstName", "lastName"],
 			// },
-            // {
-                
-            //     model: SpotImage,
-            //     attributes: ["id", "url", "isPreview"]
-               
-            // }
+			// {
+			// 	model: SpotImage,
+			// 	// attributes: ["id", "url", "isPreview"]
+			// },
 		],
-       
-		
-		raw: true,
-		
 	});
 
-    
-						
+	
+
+	let spotList = []
+	
+	currSpot.forEach(spot => {
+		spotList.push(spot.toJSON())
+	});
+
+
+    if (spotList[0].Reviews[0]){ 
+			spotList[0].avgRating = spotList[0].Reviews[0].avgRating;
+	delete spotList[0].Reviews
+	}			
+
 
     const images = await SpotImage.findAll({
         where : {
@@ -147,28 +164,63 @@ router.get("/:spotId", async (req, res) => {
         }
     })
 
+	let imageList = []
+
+	images.forEach(image=> {
+		imageList.push(image.toJSON())
+	})
+
+	for (let i = 0; i < imageList.length; i++) {
+		let currImg = imageList[i]
+
+		delete currImg.spotId
+		if (currImg.isPreview === true) {
+			spotList[0].previewImage = currImg.url
+		}
+	}
+
+	spotList[0].SpotImages = imageList
+
     const owner = await User.findAll({
         where : {
-            id: currSpot.ownerId
+            id: spotList[0].ownerId
         }
     })
 
-	if (!currSpot) {
-		res.status(404);
-		res.json({
-			message: "Spot couldn't be found",
-		});
+	const ownerList = []
+
+	owner.forEach(owner=> {
+		ownerList.push(owner.toJSON())
+	})
+
+	for (let i = 0; i < ownerList.length; i++) {
+		let currOwner = ownerList[i];
+
+		delete currOwner.username;
 	}
+
+	spotList[0].Owner = ownerList
+
+
+	
 	//Need to aggregate the number of reviews and average them
 	//Need to figure out how ot give an array of images for the previewImage
 	//probably need to make seed data for reviews
     //! Working on this part. Getting details for a single spot including images, reviews, and owner name and id. 
 
-	res.json({
-        currSpot,
-        images,
-        owner
-             });
+	res.json(
+		spotList
+	);
 });
+
+
+router.put("/:spotId", async (req, res) => {
+
+	const { spotId } = req.params
+	const { address, city, state, country, lat, lng, name, description, price } = req.body
+
+
+})
+
 
 module.exports = router;
