@@ -271,7 +271,7 @@ router.get("/:spotId", async (req, res) => {
 	}
 
 	const currSpot = await Spot.findAll({
-		 group:  'Spot.id' ,
+		 group:  ['Spot.id', 'Reviews.id'] ,
 		where: { id : id },
 
 		include: [
