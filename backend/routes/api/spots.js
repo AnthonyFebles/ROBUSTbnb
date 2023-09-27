@@ -259,19 +259,20 @@ router.get("/current", requireAuth, async (req, res) => {
 });
 
 router.get("/:spotId", async (req, res) => {
-	const { spotId } = req.params;
+	const  id  = req.params.spotId;
 
-	const testIfExist = await Spot.findByPk(spotId);
+	const testIfExist = await Spot.findByPk(id);
 
 	if (!testIfExist) {
 		res.status(404);
-		res.json({
+		return res.json({
 			message: "Spot couldn't be found",
 		});
 	}
 
 	const currSpot = await Spot.findAll({
-		where: { id: spotId },
+		 group:  'Spot.id' ,
+		where: { id : id },
 
 		include: [
 			{
@@ -299,7 +300,7 @@ router.get("/:spotId", async (req, res) => {
 
 	const images = await SpotImage.findAll({
 		where: {
-			spotId,
+			id,
 		},
 	});
 
