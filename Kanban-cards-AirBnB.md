@@ -377,3 +377,4 @@ Return spots filtered by query parameters.
 - [ ] Error response with status 400 is given when query parameter validations
   for the `page`, `size`, `minLat`, `maxLat`, `minLng`, `maxLng`, `minPrice`, or
   `maxPrice` are violated
+- [ ] Celebrate 
