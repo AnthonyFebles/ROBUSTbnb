@@ -11,7 +11,7 @@ const {
 	restoreUser,
 	requireAuth,
 } = require("../../utils/auth");
-const { Spot, SpotImage, Review, User, sequelize } = require("../../db/models");
+const { Spot, SpotImage, Review, User, sequelize, ReviewImage } = require("../../db/models");
 const spot = require("../../db/models/spot");
 
 const router = express.Router();
@@ -425,5 +425,185 @@ router.delete("/:spotId", requireAuth, async (req, res) => {
 		message: "Successfully deleted",
 	});
 });
+
+router.get("/:spotId/reviews", async (req, res) => {
+	const { spotId } = req.params;
+
+	const checkSpot = await Spot.findAll({
+		where: {
+			id: spotId
+		}
+	})
+
+	//console.log(checkSpot)
+
+	if (!checkSpot.length){
+		res.status(404)
+		return res.json({
+			message: "Spot Couldn't be found"
+		})
+	}
+
+	const yourReviews = await Review.findAll({
+		where: {
+			spotId,
+		},
+
+		include: [
+			{
+				model: User,
+				attributes: {
+					exclude: [
+						"username",
+						"email",
+						"hashedPassword",
+						"createdAt",
+						"updatedAt",
+					],
+				},
+			},
+			{
+				model: Spot,
+				attributes: {
+					exclude: ["description", "avgRating", "createdAt", "updatedAt"],
+				},
+			},
+			// {
+			// 	model: ReviewImage,
+			// 	attributes: ["id", "url"],
+			// },
+		],
+	});
+
+
+	if(!yourReviews.length) {
+		
+		return res.json({
+			message: "No Reviews Here Sorry :("
+		})
+	}
+
+	let reviewsList = [];
+
+	yourReviews.forEach((Review) => {
+		reviewsList.push(Review.toJSON());
+	});
+
+	//console.log(reviewsList[0].Spot.id)
+
+	for (let i = 0; i < reviewsList.length; i++) {
+		let currReview = reviewsList[i];
+		const id = currReview.Spot.id;
+		const reviewId = currReview.id;
+		const images = await SpotImage.findAll({
+			where: {
+				id,
+			},
+		});
+
+		let imageList = [];
+
+		images.forEach((image) => {
+			imageList.push(image.toJSON());
+		});
+		const reviewImages = await ReviewImage.findAll({
+			where: {
+				reviewId,
+			},
+			attributes: {
+				exclude: ["createdAt", "updatedAt", "reviewId"],
+			},
+		});
+
+		let reviewImageList = [];
+
+		reviewImages.forEach((image) => {
+			reviewImageList.push(image.toJSON());
+		});
+
+		currReview.ReviewImages = reviewImageList;
+		for (let i = 0; i < imageList.length; i++) {
+			let currImg = imageList[i];
+
+			delete currImg.spotId;
+			if (currImg.isPreview === true) {
+				currReview.Spot.previewImage = currImg.url;
+			}
+			delete currReview.Spot;
+		}
+	}
+
+	res.json({ Reviews: reviewsList });
+});
+
+const validateReview = [
+	check("review")
+		.exists({ checkFalsy: true })
+		.notEmpty()
+		.withMessage("Review text is required."),
+	check("stars")
+		.exists({ checkFalsy: true })
+		.isInt({
+			min: 1
+		})
+		.isInt({
+			max: 5
+		})
+		.withMessage("Stars must be an integer from 1 to 5."),
+	handleValidationErrors,
+];
+
+router.post("/:spotId/reviews", requireAuth, validateReview, async (req, res) => {
+	const { spotId } = req.params
+	const { review, stars } = req.body
+	const  user  = req.user.id
+
+	const checkSpot = await Spot.findAll({
+		where: {
+			id: spotId
+		},
+		include : {
+			model: Review
+		}
+	})
+
+	if (!checkSpot.length) {
+		res.status(404)
+		return res.json({
+			message: "Spot couldn't be found"
+		})
+	}
+
+	const spotList = [];
+
+	checkSpot.forEach(el => {
+		spotList.push(el.toJSON())
+	})
+
+	//console.log(spotList[0].Reviews)
+
+	for (let i = 0; i < spotList[0].Reviews.length; i++) {
+		let currReview = spotList[0].Reviews[i]
+		if (currReview.userId === user) {
+			res.status(500)
+			return res.json({
+				message: "User already has a review for this spot"
+			})
+		}
+	}
+
+
+	const newReview = await Review.create({
+		userId : user,
+		spotId : parseInt(spotId),
+		review,
+		stars
+})
+
+
+	res.json(newReview)
+})
+
+
 
 module.exports = router;

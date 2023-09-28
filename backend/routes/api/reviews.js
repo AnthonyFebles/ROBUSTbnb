@@ -104,9 +104,7 @@ router.get("/current", requireAuth, async (req, res) => {
     res.json({Reviews: reviewsList})
 })
 
-router.get("/:spotId/reviews", async (req, res) => {
-    
-})
+
 
 
 
