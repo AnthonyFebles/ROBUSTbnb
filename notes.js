@@ -19,6 +19,7 @@
 
 //! 9.28 ***
 //! Go through all previous routes and make sure the error handling is correct.
+//! Make sure responses are what they should be 
 //! Start back up on the reviews and finish them off
 
 

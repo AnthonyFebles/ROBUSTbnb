@@ -11,10 +11,64 @@ const {
 	restoreUser,
 	requireAuth,
 } = require("../../utils/auth");
-const { Spot, SpotImage, Review, User, sequelize, ReviewImage } = require("../../db/models");
+const {
+	Spot,
+	SpotImage,
+	Review,
+	User,
+	sequelize,
+	ReviewImage,
+} = require("../../db/models");
 const spot = require("../../db/models/spot");
 
 const router = express.Router();
+
+const validateCreate = [
+	check("address")
+		.exists({ checkFalsy: true })
+		.notEmpty()
+		.withMessage("Street address is required."),
+	check("city")
+		.exists({ checkFalsy: true })
+		.notEmpty()
+		.withMessage("City is required."),
+	check("state")
+		.exists({ checkFalsy: true })
+		.notEmpty()
+		.withMessage("State is required."),
+	check("country")
+		.exists({ checkFalsy: true })
+		.notEmpty()
+		.withMessage("Country is required."),
+	check("lat")
+		.exists({ checkFalsy: true })
+		.notEmpty()
+		.isFloat()
+		.withMessage("Latitude is not valid."),
+	check("lng")
+		.exists({ checkFalsy: true })
+		.notEmpty()
+		.isFloat()
+		.withMessage("Longitude is not valid."),
+	check("name")
+		.exists({ checkFalsy: true })
+		.notEmpty()
+		.withMessage("Name is required."),
+	check("description")
+		.exists({ checkFalsy: true })
+		.notEmpty()
+		.withMessage("Description is required."),
+	check("price")
+		.exists({ checkFalsy: true })
+		.notEmpty()
+		.withMessage("Price per day is required."),
+	check("name")
+		.isLength({
+			max : 50
+		})
+		.withMessage("Name must be less than 50 characters"),
+	handleValidationErrors,
+];
 
 router.get("/", async (_req, res) => {
 	// const allSpots = await Spot.findAll();
@@ -22,78 +76,76 @@ router.get("/", async (_req, res) => {
 	// return res.json({
 	// 	spots: allSpots,
 	// });
-		
 
-		const yourSpots = await Spot.findAll({
-			
-			include: [
-				{
-					model: Review,
-					attributes: ["stars"],
-					// attributes: [
-					// 	[sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"],
-					// ],
-				},
-				{
-					model: SpotImage,
-					attributes: ["url", "isPreview"],
-				},
-			],
-		});
+	const yourSpots = await Spot.findAll({
+		include: [
+			{
+				model: Review,
+				attributes: ["stars"],
+				// attributes: [
+				// 	[sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"],
+				// ],
+			},
+			{
+				model: SpotImage,
+				attributes: ["url", "isPreview"],
+			},
+		],
+	});
 
-		let spotList = [];
+	let spotList = [];
 
-		//console.log(yourSpots);
+	//console.log(yourSpots);
 
-		yourSpots.forEach((spot) => {
-			spotList.push(spot.toJSON());
-		});
+	yourSpots.forEach((spot) => {
+		spotList.push(spot.toJSON());
+	});
 
-		if (spotList[0].Reviews) {
-			for (let i = 0; i < spotList.length; i++) {
-				const currSpot = spotList[i];
-				let stars = 0;
-				if (currSpot.Reviews) {
-					for (let j = 0; j < currSpot.Reviews.length; j++) {
-						const currReview = spotList[i].Reviews[j];
-						stars += currReview.stars;
-						//console.log(stars, "#######")
-					}
-					const avgRating = stars / currSpot.Reviews.length;
-					//console.log(avgRating)
-					if (!avgRating) {
-						currSpot.avgRating = 0;
-					} else currSpot.avgRating = avgRating;
-					//console.log(currSpot)
-					//spotList[i].avgStarRating = spotList[i].Reviews[i].avgRating;
-				}
-
-				delete spotList[i].Reviews;
-				// delete spotList[i].avgRating;
-			}
-		}
-		let imageList = [];
-
+	if (spotList[0].Reviews) {
 		for (let i = 0; i < spotList.length; i++) {
 			const currSpot = spotList[i];
-			for (let j = 0; j < currSpot.SpotImages.length; j++) {
-				let currImg = currSpot.SpotImages[j];
-
-				if (currImg.isPreview === true) {
-					currSpot.previewImage = currImg.url;
+			let stars = 0;
+			if (currSpot.Reviews) {
+				for (let j = 0; j < currSpot.Reviews.length; j++) {
+					const currReview = spotList[i].Reviews[j];
+					stars += currReview.stars;
+					//console.log(stars, "#######")
 				}
+				let avgRating = stars / currSpot.Reviews.length;
+				if (avgRating) {
+					avgRating = avgRating.toFixed(1);
+					currSpot.avgRating = Number(avgRating);
+				} else currSpot.avgRating = 0;
+				//console.log(currSpot)
+				//spotList[i].avgStarRating = spotList[i].Reviews[i].avgRating;
 			}
-			delete currSpot.SpotImages;
+
+			delete spotList[i].Reviews;
+			// delete spotList[i].avgRating;
 		}
+	}
+	let imageList = [];
 
-		imageList.forEach((image) => {
-			imageList.push(image.toJSON());
-		});
+	for (let i = 0; i < spotList.length; i++) {
+		const currSpot = spotList[i];
+		for (let j = 0; j < currSpot.SpotImages.length; j++) {
+			let currImg = currSpot.SpotImages[j];
 
-		return res.json({ Spots: spotList });
+			if (currImg.isPreview === true) {
+				currSpot.previewImage = currImg.url;
+			}
+		}
+		delete currSpot.SpotImages;
+	}
+
+	imageList.forEach((image) => {
+		imageList.push(image.toJSON());
+	});
+
+	return res.json({ Spots: spotList });
 });
 
-router.post("/", requireAuth, async (req, res) => {
+router.post("/", requireAuth, validateCreate, async (req, res) => {
 	const { user } = req;
 	if (user) {
 		const safeUser = {
@@ -122,15 +174,15 @@ router.post("/", requireAuth, async (req, res) => {
 			price,
 		});
 
-		const newSpotId = newSpot.dataValues.id
+		const newSpotId = newSpot.dataValues.id;
 
 		const returnSpot = await Spot.findByPk(newSpotId, {
 			attributes: {
-				exclude: ["avgRating"]
-			}
-		})
-		
-		console.log(returnSpot)	
+				exclude: ["avgRating", "previewImage"],
+			},
+		});
+
+		//console.log(returnSpot);
 
 		return res.json(returnSpot);
 	} catch (error) {
@@ -139,7 +191,6 @@ router.post("/", requireAuth, async (req, res) => {
 			message: "Bad Request",
 			errors: error.errors[0].message,
 		});
-		
 	}
 });
 
@@ -193,13 +244,16 @@ router.get("/current", requireAuth, async (req, res) => {
 			},
 			{
 				model: SpotImage,
-				attributes: ["url", "isPreview"]
-			}
-			
+				attributes: ["url", "isPreview"],
+			},
 		],
-
-		
 	});
+
+	if (!yourSpots.length) {
+		return res.json({
+			message: "You don't currently have any spots to rent!",
+		});
+	}
 
 	let spotList = [];
 
@@ -216,50 +270,45 @@ router.get("/current", requireAuth, async (req, res) => {
 			if (currSpot.Reviews) {
 				for (let j = 0; j < currSpot.Reviews.length; j++) {
 					const currReview = spotList[i].Reviews[j];
-					stars += currReview.stars
-					//console.log(stars, "#######")	
+					stars += currReview.stars;
+					//console.log(stars, "#######")
 				}
 				const avgRating = stars / currSpot.Reviews.length;
-				//console.log(avgRating)
-				if(!avgRating) {
-					currSpot.avgRating = 0
-				} else 
-				currSpot.avgRating = avgRating
+				if (avgRating) {
+					avgRating = avgRating.toFixed(1);
+					currSpot.avgRating = Number(avgRating);
+				} else currSpot.avgRating = 0;
 				//console.log(currSpot)
 				//spotList[i].avgStarRating = spotList[i].Reviews[i].avgRating;
 			}
 
-
-
-
-			 delete spotList[i].Reviews;
+			delete spotList[i].Reviews;
 			// delete spotList[i].avgRating;
 		}
 	}
 	let imageList = [];
 
 	for (let i = 0; i < spotList.length; i++) {
-		const currSpot = spotList[i]
-		for ( let j =0; j < currSpot.SpotImages.length; j ++) {
-			let currImg = currSpot.SpotImages[j]
+		const currSpot = spotList[i];
+		for (let j = 0; j < currSpot.SpotImages.length; j++) {
+			let currImg = currSpot.SpotImages[j];
 
 			if (currImg.isPreview === true) {
-				currSpot.previewImage = currImg.url
+				currSpot.previewImage = currImg.url;
 			}
 		}
-	delete currSpot.SpotImages
+		delete currSpot.SpotImages;
 	}
 
 	imageList.forEach((image) => {
 		imageList.push(image.toJSON());
 	});
 
-
 	return res.json({ Spots: spotList });
 });
 
 router.get("/:spotId", async (req, res) => {
-	const  id  = req.params.spotId;
+	const id = req.params.spotId;
 
 	const testIfExist = await Spot.findByPk(id);
 
@@ -271,8 +320,8 @@ router.get("/:spotId", async (req, res) => {
 	}
 
 	const currSpot = await Spot.findAll({
-		 group:  ['Spot.id', 'Reviews.id'] ,
-		where: { id : id },
+		group: ["Spot.id", "Reviews.id"],
+		where: { id: id },
 
 		include: [
 			{
@@ -291,16 +340,25 @@ router.get("/:spotId", async (req, res) => {
 		spotList.push(spot.toJSON());
 	});
 
+	console.log(spotList[0].Reviews[0].avgRating);
+
 	if (spotList[0].Reviews[0]) {
 		spotList[0].numReviews = spotList[0].Reviews[0].numReviews;
-		spotList[0].avgStarRating = spotList[0].Reviews[0].avgRating;
-		delete spotList[0].Reviews;
-		delete spotList[0].avgRating;
+		spotList[0].avgStarRating = Number((spotList[0].Reviews[0].avgRating));
 	}
+	
+	delete spotList[0].Reviews;
+
+	if (!spotList[0].avgStarRating){
+		spotList[0].avgStarRating = 0
+	} 
+	
+	delete spotList[0].avgRating;
+
 
 	const images = await SpotImage.findAll({
 		where: {
-			id,
+			spotId: id,
 		},
 	});
 
@@ -344,7 +402,7 @@ router.get("/:spotId", async (req, res) => {
 	res.json(spotList);
 });
 
-router.put("/:spotId", requireAuth, async (req, res) => {
+router.put("/:spotId", requireAuth, validateCreate, async (req, res) => {
 	const ownerId = req.user.id;
 	const spotId = req.params.spotId;
 	const { address, city, state, country, lat, lng, name, description, price } =
@@ -431,17 +489,17 @@ router.get("/:spotId/reviews", async (req, res) => {
 
 	const checkSpot = await Spot.findAll({
 		where: {
-			id: spotId
-		}
-	})
+			id: spotId,
+		},
+	});
 
 	//console.log(checkSpot)
 
-	if (!checkSpot.length){
-		res.status(404)
+	if (!checkSpot.length) {
+		res.status(404);
 		return res.json({
-			message: "Spot Couldn't be found"
-		})
+			message: "Spot Couldn't be found",
+		});
 	}
 
 	const yourReviews = await Review.findAll({
@@ -475,12 +533,10 @@ router.get("/:spotId/reviews", async (req, res) => {
 		],
 	});
 
-
-	if(!yourReviews.length) {
-		
+	if (!yourReviews.length) {
 		return res.json({
-			message: "No Reviews Here Sorry :("
-		})
+			message: "No Reviews Here Sorry :(",
+		});
 	}
 
 	let reviewsList = [];
@@ -544,66 +600,67 @@ const validateReview = [
 	check("stars")
 		.exists({ checkFalsy: true })
 		.isInt({
-			min: 1
+			min: 1,
 		})
 		.isInt({
-			max: 5
+			max: 5,
 		})
 		.withMessage("Stars must be an integer from 1 to 5."),
 	handleValidationErrors,
 ];
 
-router.post("/:spotId/reviews", requireAuth, validateReview, async (req, res) => {
-	const { spotId } = req.params
-	const { review, stars } = req.body
-	const  user  = req.user.id
+router.post(
+	"/:spotId/reviews",
+	requireAuth,
+	validateReview,
+	async (req, res) => {
+		const { spotId } = req.params;
+		const { review, stars } = req.body;
+		const user = req.user.id;
 
-	const checkSpot = await Spot.findAll({
-		where: {
-			id: spotId
-		},
-		include : {
-			model: Review
-		}
-	})
+		const checkSpot = await Spot.findAll({
+			where: {
+				id: spotId,
+			},
+			include: {
+				model: Review,
+			},
+		});
 
-	if (!checkSpot.length) {
-		res.status(404)
-		return res.json({
-			message: "Spot couldn't be found"
-		})
-	}
-
-	const spotList = [];
-
-	checkSpot.forEach(el => {
-		spotList.push(el.toJSON())
-	})
-
-	//console.log(spotList[0].Reviews)
-
-	for (let i = 0; i < spotList[0].Reviews.length; i++) {
-		let currReview = spotList[0].Reviews[i]
-		if (currReview.userId === user) {
-			res.status(500)
+		if (!checkSpot.length) {
+			res.status(404);
 			return res.json({
-				message: "User already has a review for this spot"
-			})
+				message: "Spot couldn't be found",
+			});
 		}
+
+		const spotList = [];
+
+		checkSpot.forEach((el) => {
+			spotList.push(el.toJSON());
+		});
+
+		//console.log(spotList[0].Reviews)
+
+		for (let i = 0; i < spotList[0].Reviews.length; i++) {
+			let currReview = spotList[0].Reviews[i];
+			if (currReview.userId === user) {
+				res.status(500);
+				return res.json({
+					message: "User already has a review for this spot",
+				});
+			}
+		}
+
+		const newReview = await Review.create({
+			userId: user,
+			spotId: parseInt(spotId),
+			review,
+			stars,
+		});
+
+		res.json(newReview);
 	}
-
-
-	const newReview = await Review.create({
-		userId : user,
-		spotId : parseInt(spotId),
-		review,
-		stars
-})
-
-
-	res.json(newReview)
-})
-
-
+);
 
 module.exports = router;
