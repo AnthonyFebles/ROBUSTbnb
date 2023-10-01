@@ -20,10 +20,11 @@
 //! 9.28 ***
 //! Go through all previous routes and make sure the error handling is correct.
 //! Make sure responses are what they should be 
-//! Start back up on the reviews and finish them off
+
 
 
 //! 9.29 && 9.30 ***
+//! Start back up on the reviews and finish them off, current on add an image to a review
 //! Go through the bookings and complete the entire set
 //! Post up to main, and check Render. De Bug Everything
 
