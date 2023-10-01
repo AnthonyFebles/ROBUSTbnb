@@ -120,11 +120,20 @@ router.post("/:reviewId/Images", requireAuth, async (req, res) => {
 		},
 	});
 
+    if (thisReview[0].dataValues.userId !== req.user.id){
+        res.status(403)
+        return res.json({
+            message: "Forbidden"
+        })
+    }
+
 	const reviewImages = await ReviewImage.findAll({
 		where: {
-			reviewId,
+			reviewId: reviewId,
 		},
 	});
+
+    
 
 	const reviewImageList = [];
 
@@ -191,37 +200,45 @@ router.put("/:reviewId", requireAuth, async (req, res) => {
     
     const thisReview = await Review.findByPk(reviewId)
 
+
+    
     const errors = {}
     
-
-   if (
-			!review ||
-			stars > 5 ||
-            stars < 1 ||
-            typeof stars !== typeof 1
+    
+    if (
+        !review ||
+        stars > 5 ||
+        stars < 1 ||
+        typeof stars !== typeof 1
 		) {
-			if (!review) {
-				errors.review = "Review text is required";
+            if (!review) {
+                errors.review = "Review text is required";
 			}
 
-    if (stars > 5 || stars < 1 || typeof stars !== typeof 1) {
-			errors.stars = "Stars must be an integer from 1 to 5";
-		}
-
-    res.status(400)
-    return res.json({
-        message: "Bad Request",
-        errors
-    })
-
+            if (stars > 5 || stars < 1 || typeof stars !== typeof 1) {
+                errors.stars = "Stars must be an integer from 1 to 5";
+            }
+            
+            res.status(400)
+            return res.json({
+                message: "Bad Request",
+                errors
+            })
+            
         }
-
+        
         if (!thisReview) {
             res.status(404)
             res.json({
                 message : "Review couldn't be found"
             })
         }
+        if (thisReview.dataValues.userId !== req.user.id) {
+                res.status(403);
+                return res.json({
+                    message: "Forbidden",
+                });
+            }
 
 await thisReview.set({
 				review,
@@ -238,7 +255,11 @@ router.delete("/:reviewId", requireAuth, async (req, res) => {
 
     const { reviewId } = req.params
 
+
+
     const thisReview = await Review.findByPk(reviewId)
+    
+   
 
     if (!thisReview) {
         res.status(404)
@@ -246,6 +267,13 @@ router.delete("/:reviewId", requireAuth, async (req, res) => {
             message: "Review couldn't be found"
         })
     }
+    
+     if (thisReview.dataValues.userId !== req.user.id) {
+				res.status(403);
+				return res.json({
+					message: "Forbidden",
+				});
+			}
 
 
     await thisReview.destroy()

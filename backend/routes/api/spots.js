@@ -208,9 +208,9 @@ router.post("/:spotId/images", requireAuth, async (req, res) => {
 	}
 
 	if (ownerId !== currSpot.ownerId) {
-		res.status(200);
+		res.status(403);
 		return res.json({
-			message: "Not authorized to make edits to this spot",
+			message: "Forbidden",
 		});
 	}
 
@@ -340,7 +340,7 @@ router.get("/:spotId", async (req, res) => {
 		spotList.push(spot.toJSON());
 	});
 
-	console.log(spotList[0].Reviews[0].avgRating);
+	//console.log(spotList[0].Reviews[0].avgRating);
 
 	if (spotList[0].Reviews[0]) {
 		spotList[0].numReviews = spotList[0].Reviews[0].numReviews;
@@ -424,7 +424,7 @@ router.put("/:spotId", requireAuth, validateCreate, async (req, res) => {
 	if (spot.ownerId !== ownerId) {
 		res.status(403);
 		return res.json({
-			msg: "User not authorized to make changes to this spot",
+			message: "Forbidden",
 		});
 	}
 
@@ -473,7 +473,7 @@ router.delete("/:spotId", requireAuth, async (req, res) => {
 	if (ownerId !== spot.ownerId) {
 		res.status(403);
 		return res.json({
-			msg: "User not authorized to make changes to this spot",
+			message: "Forbidden",
 		});
 	}
 
