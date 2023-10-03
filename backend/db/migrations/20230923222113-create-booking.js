@@ -20,12 +20,16 @@ module.exports = {
 				},
 				spotId: {
 					type: Sequelize.INTEGER,
+					
 				},
 				startDate: {
 					type: Sequelize.DATE,
+					allowNull:false,
+					unique: true
 				},
 				endDate: {
 					type: Sequelize.DATE,
+					allowNull: false
 				},
 				createdAt: {
 					allowNull: false,
@@ -38,7 +42,7 @@ module.exports = {
 					defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
 				},
 			},
-			options
+			options, 
 		);
 	},
 	async down(queryInterface, Sequelize) {

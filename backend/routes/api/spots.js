@@ -18,8 +18,10 @@ const {
 	User,
 	sequelize,
 	ReviewImage,
+	Booking
 } = require("../../db/models");
 const spot = require("../../db/models/spot");
+const booking = require("../../db/models/booking");
 
 const router = express.Router();
 
@@ -64,7 +66,7 @@ const validateCreate = [
 		.withMessage("Price per day is required."),
 	check("name")
 		.isLength({
-			max : 50
+			max: 50,
 		})
 		.withMessage("Name must be less than 50 characters"),
 	handleValidationErrors,
@@ -344,17 +346,16 @@ router.get("/:spotId", async (req, res) => {
 
 	if (spotList[0].Reviews[0]) {
 		spotList[0].numReviews = spotList[0].Reviews[0].numReviews;
-		spotList[0].avgStarRating = Number((spotList[0].Reviews[0].avgRating));
+		spotList[0].avgStarRating = Number(spotList[0].Reviews[0].avgRating);
 	}
-	
+
 	delete spotList[0].Reviews;
 
-	if (!spotList[0].avgStarRating){
-		spotList[0].avgStarRating = 0
-	} 
-	
-	delete spotList[0].avgRating;
+	if (!spotList[0].avgStarRating) {
+		spotList[0].avgStarRating = 0;
+	}
 
+	delete spotList[0].avgRating;
 
 	const images = await SpotImage.findAll({
 		where: {
@@ -662,5 +663,194 @@ router.post(
 		res.json(newReview);
 	}
 );
+
+router.get("/:spotId/bookings", requireAuth, async (req, res) => {
+	const ownerId = req.user.id;
+	const spotId = req.params.spotId;
+	
+
+	const spot = await Spot.findAll( {
+
+		where : {
+			id: spotId
+		},
+
+		attributes: {
+			exclude: ["avgRating", "previewImage"],
+		},
+
+		include: {
+			model:Booking
+		}
+	});
+
+	if (!spot) {
+		res.status(404);
+		return res.json({
+			message: "Spot couldn't be found",
+		});
+	}
+
+	const spotList = []
+
+	spot.forEach(el => {
+		spotList.push(el.toJSON())
+	})
+
+
+	const bookings = await Booking.findAll({
+		where : {
+			spotId
+		},
+		include: {
+			model:User
+		}
+	})
+
+	const bookingList = []
+
+	
+
+	bookings.forEach(el => {
+		bookingList.push(el.toJSON())
+	})
+
+	if (spotList[0].ownerId !== ownerId) {
+		bookingList.forEach(el => {
+			delete el.id
+			delete el.userId;
+			delete el.createdAt;
+			delete el.updatedAt;
+			delete el.User;
+			
+		})
+		
+		return res.json({Bookings: bookingList})
+
+		};
+
+
+		bookingList.forEach((el) => {
+			delete el.User.username
+			
+		})
+	
+
+		return res.json({Bookings: bookingList})
+})
+
+router.post("/:spotId/bookings", requireAuth, async (req, res) => {
+	const ownerId = req.user.id;
+	const spotId = parseInt(req.params.spotId);
+
+	const {startDate, endDate } = req.body
+
+	const newStartDate = new Date(startDate)
+	const newEndDate = new Date(endDate)
+
+
+
+	const spot = await Spot.findAll({
+		where: {
+			id: spotId,
+		},
+
+		attributes: {
+			exclude: ["avgRating", "previewImage"],
+		},
+
+		include: {
+			model: Booking,
+		},
+	});
+
+	if (!spot.length) {
+		res.status(404);
+		return res.json({
+			message: "Spot couldn't be found",
+		});
+	}
+	const spotList = [];
+
+	spot.forEach((el) => {
+		spotList.push(el.toJSON());
+	});
+
+	const bookings = await Booking.findAll({
+		where: {
+			spotId,
+		},
+		include: {
+			model: User,
+		},
+	});
+
+	const bookingList = [];
+
+	bookings.forEach((el) => {
+		bookingList.push(el.toJSON());
+	});
+
+	//console.log(spotList)
+
+	if (spotList[0].ownerId === ownerId) {
+		res.status(403)
+		return res.json({
+			message: "Forbidden"
+		})
+	}
+
+	if (newStartDate >= newEndDate) {
+		res.status(400)
+		return res.json({
+			message: "Bad Request",
+			errors: {
+				endDate: "endDate cannot be on or before startDate"
+			}
+		})
+	}
+
+	const errors = {}
+	
+
+	bookingList.forEach(el => {
+		if (newStartDate <= el.endDate) {
+			errors.startDate = "Start date conflicts with an existing booking"
+			
+		}
+		if (newEndDate <= el.startDate) {
+			errors.endDate = "End date conflicts with an existing booking"
+		}
+
+		
+	})
+	console.log(errors)
+	if (errors.startDate || errors.endDate) {
+		res.status(403);
+		return res.json({
+			message: "Sorry, this spot is already booked for the specified dates",
+			errors: errors,
+		});
+	} 
+
+	console.log(newStartDate, newEndDate, startDate, endDate)
+
+	const userId = parseInt(ownerId)
+
+	const newBooking = await Booking.create({
+		spotId,
+		userId,
+		startDate,
+		endDate,
+	});
+
+	await newBooking.save()
+
+	return res.json(newBooking)
+
+
+})
+
+
 
 module.exports = router;
