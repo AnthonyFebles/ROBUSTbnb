@@ -18,7 +18,6 @@ const {
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 
-
 const router = express.Router();
 
 router.get("/current", requireAuth, async (req, res) => {
@@ -120,20 +119,18 @@ router.post("/:reviewId/Images", requireAuth, async (req, res) => {
 		},
 	});
 
-    if (thisReview[0].dataValues.userId !== req.user.id){
-        res.status(403)
-        return res.json({
-            message: "Forbidden"
-        })
-    }
+	if (thisReview[0].dataValues.userId !== req.user.id) {
+		res.status(403);
+		return res.json({
+			message: "Forbidden",
+		});
+	}
 
 	const reviewImages = await ReviewImage.findAll({
 		where: {
 			reviewId: reviewId,
 		},
 	});
-
-    
 
 	const reviewImageList = [];
 
@@ -168,12 +165,11 @@ router.post("/:reviewId/Images", requireAuth, async (req, res) => {
 
 	await newImg.save();
 
-
-    const newImgJson = await ReviewImage.findAll({
-        where: {
-            id : newImg.id
-        }
-    })
+	const newImgJson = await ReviewImage.findAll({
+		where: {
+			id: newImg.id,
+		},
+	});
 
 	const thisImg = [];
 
@@ -181,112 +177,85 @@ router.post("/:reviewId/Images", requireAuth, async (req, res) => {
 		thisImg.push(el.toJSON());
 	});
 
-	
-
-    delete thisImg[0].reviewId
-    delete thisImg[0].updatedAt
-    delete thisImg[0].createdAt
-
-    
+	delete thisImg[0].reviewId;
+	delete thisImg[0].updatedAt;
+	delete thisImg[0].createdAt;
 
 	return res.json(thisImg);
 });
 
 router.put("/:reviewId", requireAuth, async (req, res) => {
-    
-    const { reviewId } = req.params
+	const { reviewId } = req.params;
 
-    const { review, stars } = req.body
-    
-    const thisReview = await Review.findByPk(reviewId)
+	const { review, stars } = req.body;
 
+	const thisReview = await Review.findByPk(reviewId);
 
-    
-    const errors = {}
-    
-    
-    if (
-        !review ||
-        stars > 5 ||
-        stars < 1 ||
-        typeof stars !== typeof 1
-		) {
-            if (!review) {
-                errors.review = "Review text is required";
-			}
+	const errors = {};
 
-            if (stars > 5 || stars < 1 || typeof stars !== typeof 1) {
-                errors.stars = "Stars must be an integer from 1 to 5";
-            }
-            
-            res.status(400)
-            return res.json({
-                message: "Bad Request",
-                errors
-            })
-            
-        }
-        
-        if (!thisReview) {
-            res.status(404)
-            res.json({
-                message : "Review couldn't be found"
-            })
-        }
-        if (thisReview.dataValues.userId !== req.user.id) {
-                res.status(403);
-                return res.json({
-                    message: "Forbidden",
-                });
-            }
+	if (!review || stars > 5 || stars < 1 || typeof stars !== typeof 1) {
+		if (!review) {
+			errors.review = "Review text is required";
+		}
 
-await thisReview.set({
-				review,
-				stars,
-			});
+		if (stars > 5 || stars < 1 || typeof stars !== typeof 1) {
+			errors.stars = "Stars must be an integer from 1 to 5";
+		}
 
-    await thisReview.save()
+		res.status(400);
+		return res.json({
+			message: "Bad Request",
+			errors,
+		});
+	}
 
-    res.json({thisReview,
-    })
-})
+	if (!thisReview) {
+		res.status(404);
+		res.json({
+			message: "Review couldn't be found",
+		});
+	}
+	if (thisReview.dataValues.userId !== req.user.id) {
+		res.status(403);
+		return res.json({
+			message: "Forbidden",
+		});
+	}
+
+	await thisReview.set({
+		review,
+		stars,
+	});
+
+	await thisReview.save();
+
+	res.json({ thisReview });
+});
 
 router.delete("/:reviewId", requireAuth, async (req, res) => {
+	const { reviewId } = req.params;
 
-    const { reviewId } = req.params
+	const thisReview = await Review.findByPk(reviewId);
 
+	if (!thisReview) {
+		res.status(404);
+		return res.json({
+			message: "Review couldn't be found",
+		});
+	}
 
+	if (thisReview.dataValues.userId !== req.user.id) {
+		res.status(403);
+		return res.json({
+			message: "Forbidden",
+		});
+	}
 
-    const thisReview = await Review.findByPk(reviewId)
-    
-   
+	await thisReview.destroy();
 
-    if (!thisReview) {
-        res.status(404)
-        return res.json({
-            message: "Review couldn't be found"
-        })
-    }
-    
-     if (thisReview.dataValues.userId !== req.user.id) {
-				res.status(403);
-				return res.json({
-					message: "Forbidden",
-				});
-			}
-
-
-    await thisReview.destroy()
-
-    return res.json({
-        message: "Successfully deleted"
-    })
-})
-
-
-
-
-
-
+	return res.json({
+		message: "Successfully deleted",
+	});
+});
 
 module.exports = router;

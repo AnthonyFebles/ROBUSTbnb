@@ -22,9 +22,6 @@ const validateLogin = [
 	handleValidationErrors,
 ];
 
-
-
-
 // Log in
 router.post("/", validateLogin, async (req, res, next) => {
 	const { credential, password } = req.body;
@@ -39,12 +36,11 @@ router.post("/", validateLogin, async (req, res, next) => {
 	});
 
 	if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
-		
-		res.status(401)
+		res.status(401);
 		res.json({
-			message: "Invalid credentials"
-		})
-		
+			message: "Invalid credentials",
+		});
+
 		//const err = new Error("Login failed");
 		// err.status = 401;
 		// err.title = "Login failed";
@@ -67,13 +63,10 @@ router.post("/", validateLogin, async (req, res, next) => {
 });
 
 // Log out
-router.delete(
-  '/',
-  (_req, res) => {
-    res.clearCookie('token');
-    return res.json({ message: 'success' });
-  }
-);
+router.delete("/", (_req, res) => {
+	res.clearCookie("token");
+	return res.json({ message: "success" });
+});
 
 router.get("/", (req, res) => {
 	const { user } = req;
@@ -91,7 +84,6 @@ router.get("/", (req, res) => {
 	} else return res.json({ user: null });
 });
 
-
 // router.post("/", validateLogin, async (req, res, next) => {
 // 	const { credential, password } = req.body;
 
@@ -104,8 +96,6 @@ router.get("/", (req, res) => {
 // 		},
 // 	});
 
-    
-
 // 	if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
 // 		const err = new Error("Login failed");
 // 		err.status = 401;
@@ -113,7 +103,6 @@ router.get("/", (req, res) => {
 // 		err.errors = { credential: "The provided credentials were invalid." };
 // 		return next(err);
 // 	}
-
 
 // 	const safeUser = {
 // 		id: user.id,
@@ -129,8 +118,5 @@ router.get("/", (req, res) => {
 // 		user: safeUser,
 // 	});
 // });
-
-
-
 
 module.exports = router;
