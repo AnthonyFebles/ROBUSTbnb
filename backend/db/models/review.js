@@ -18,7 +18,22 @@ module.exports = (sequelize, DataTypes) => {
 			userId: { type: DataTypes.INTEGER, allowNull: false },
 			spotId: { type: DataTypes.INTEGER, allowNull: false },
 			review: { type: DataTypes.STRING, allowNull: false, notEmpty: true },
-			stars: { type: DataTypes.INTEGER },
+			stars: {
+				type: DataTypes.INTEGER,
+				validate: {
+					isInt: {
+						msg: "Stars must be an integer from 1 to 5",
+					},
+					min: {
+						args: [1],
+						msg: "Stars must be an integer from 1 to 5",
+					},
+					max: {
+						args: [5],
+						msg: "Stars must be an integer from 1 to 5",
+					},
+				},
+			},
 		},
 		{
 			sequelize,

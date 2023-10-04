@@ -3,6 +3,13 @@ const bcrypt = require("bcryptjs");
 const { Op } = require("sequelize");
 
 const {
+	areIntervalsOverlapping,
+	isAfter,
+	isBefore,
+	isEqual,
+} = require("date-fns");
+
+const {
 	setTokenCookie,
 	restoreUser,
 	requireAuth,
@@ -39,6 +46,14 @@ router.get("/current", requireAuth, async (req, res) => {
 	booking.forEach((element) => {
 		bookingList.push(element.toJSON());
 	});
+
+	//! TEST THIS
+	if (!bookingList.length) {
+		res.status(404)
+		res.json({
+			message: "Bookings couldn't be found",
+		});
+	}
 
 	for (let i = 0; i < bookingList.length; i++) {
 		let currBookingList = bookingList[i];
@@ -152,6 +167,16 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
 		bookingList.push(el.toJSON());
 	});
 
+	const allBookings = await Booking.findAll({
+		where: 
+		{
+			spotId: bookingList[0].spotId,
+			 id: {[Op.not]: bookingId}
+		},
+
+		
+	})
+
 	//console.log(spotList)
 
 	if (bookingList[0].userId !== userId) {
@@ -171,42 +196,130 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
 		});
 	}
 
-	if (
-		bookingList[0].startDate < new Date().toJSON ||
-		bookingList[0].endDate < new Date().toJSON
-	) {
-		res.status(403);
-		return res.json({
-			message: "Past Bookings can't be modified",
-		});
-	}
+	const allBookingList = []
 
-	const errors = {};
-
-	bookingList.forEach((el) => {
-		if (newStartDate <= el.endDate) {
-			errors.startDate = "Start date conflicts with an existing booking";
-		}
-		if (newEndDate <= el.startDate) {
-			errors.endDate = "End date conflicts with an existing booking";
-		}
+	allBookings.forEach((el) => {
+		allBookingList.push(el.toJSON());
 	});
-	//console.log(errors);
-	if (errors.startDate || errors.endDate) {
-		res.status(403);
-		return res.json({
-			message: "Sorry, this spot is already booked for the specified dates",
-			errors: errors,
-		});
-	}
+
+		const errors = {};
+//!Test This
+	allBookingList.forEach((el) => {
+		
+		if(newEndDate === el.startDate) {
+			errors.endDate = "End date conflicts with an existing booking line 210";
+			res.status(403);
+			return res.json({
+				message: "Sorry, this spot is already booked for the specified dates",
+				errors: errors,
+			});
+		}
+
+		if (isEqual(newStartDate, el.startDate)) {
+			if (isEqual(newEndDate, el.endDate)) {
+				errors.endDate = "End date conflicts with an existing booking line 244";
+				
+			}
+			errors.startDate = "Start date conflicts with an existing booking line 219";
+			res.status(403);
+			return res.json({
+				message: "Sorry, this spot is already booked for the specified dates",
+				errors: errors,
+			});
+		}
+
+		if (isEqual(newStartDate, el.endDate)) {
+			errors.startDate = "Start date conflicts with an existing booking line 228";
+			res.status(403);
+			return res.json({
+				message: "Sorry, this spot is already booked for the specified dates",
+				errors: errors,
+			});
+		}
+		if (isEqual(newEndDate, el.startDate)) {
+			errors.endDate = "End date conflicts with an existing booking line 236";
+			res.status(403);
+			return res.json({
+				message: "Sorry, this spot is already booked for the specified dates",
+				errors: errors,
+			});
+		}
+		if (isEqual(newEndDate, el.endDate)) {
+			errors.endDate = "End date conflicts with an existing booking line 244";
+			res.status(403);
+			return res.json({
+				message: "Sorry, this spot is already booked for the specified dates",
+				errors: errors,
+			});
+		}
+		if (
+			isBefore(newStartDate, el.endDate) &&
+			isAfter(newStartDate, el.startDate)
+		) {
+			errors.startDate = "Start date conflicts with an existing  line 255";
+			if (
+				isBefore(newEndDate, el.endDate) &&
+				isAfter(newEndDate, el.startDate)
+			) {
+				errors.endDate = "End date conflicts with an existing booking line 264";
+				
+			}
+			res.status(403);
+			return res.json({
+				message: "Sorry, this spot is already booked for the specified dates",
+				errors: errors,
+			});
+		}
+
+		if (isBefore(newEndDate, el.endDate) && isAfter(newEndDate, el.startDate)) {
+			errors.endDate = "End date conflicts with an existing booking line 264";
+			res.status(403);
+			return res.json({
+				message: "Sorry, this spot is already booked for the specified dates",
+				errors: errors,
+			});
+		}
+
+		if (
+			areIntervalsOverlapping(
+				{
+					start: newStartDate,
+					end: newEndDate,
+				},
+				{
+					start: el.startDate,
+					end: el.endDate,
+				},
+				{ inclusive: false }
+			)
+		) {
+			errors.startDate = "Start date conflicts with an existing booking line 285";
+			errors.endDate = "End date conflicts with an existing booking line 286";
+			res.status(403);
+			return res.json({
+				message: "Sorry, this spot is already booked for the specified dates",
+				errors: errors,
+			});
+		}
+	})
+
+
+	//console.log(errors, "########################################################################################################");
+	// if (errors.startDate || errors.endDate) {
+	// 	res.status(403);
+	// 	return res.json({
+	// 		message: "Sorry, this spot is already booked for the specified dates",
+	// 		errors: errors,
+	// 	});
+	// }
 
 	//console.log(newStartDate, newEndDate, startDate, endDate);
 
 	const currBooking = await Booking.findByPk(bookingId);
 
 	await currBooking.set({
-		newStartDate,
-		newEndDate,
+		startDate:newStartDate,
+		endDate:newEndDate,
 	});
 
 	await currBooking.save();

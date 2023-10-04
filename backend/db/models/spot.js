@@ -10,8 +10,8 @@ module.exports = (sequelize, DataTypes) => {
 		static associate(models) {
 			Spot.belongsTo(models.User, { foreignKey: "ownerId" });
 			Spot.hasMany(models.SpotImage, { foreignKey: "spotId" });
-			Spot.hasMany(models.Review, { foreignKey: "spotId"});
-			Spot.hasMany(models.Booking, {foreignKey: "spotId"})
+			Spot.hasMany(models.Review, { foreignKey: "spotId" });
+			Spot.hasMany(models.Booking, { foreignKey: "spotId" });
 		}
 	}
 	Spot.init(
@@ -46,10 +46,30 @@ module.exports = (sequelize, DataTypes) => {
 			lat: {
 				type: DataTypes.FLOAT,
 				allowNull: false,
+				validate: {
+					min: { 
+						args: [-90], 
+						msg: "latitude is invalid " 
+					},
+					max: { 
+						args: [90], 
+						msg: "latitude is invalid " 
+					},
+				},
 			},
 			lng: {
 				type: DataTypes.FLOAT,
 				allowNull: false,
+				validate: {
+					min: { 
+						args: [-180], 
+						msg: "longitude is invalid " 
+					},
+					max: { 
+						args: [180], 
+						msg: "longitude is invalid " 
+					},
+				},
 			},
 			name: {
 				type: DataTypes.STRING,
@@ -75,6 +95,12 @@ module.exports = (sequelize, DataTypes) => {
 			price: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
+				validate: {
+					min: { 
+						args: [1], 
+						msg: "Price is invalid" 
+					},
+				},
 			},
 			avgRating: {
 				type: DataTypes.INTEGER,
