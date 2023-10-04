@@ -11,7 +11,8 @@ if (process.env.NODE_ENV === "production") {
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		await Booking.bulkCreate(
+    options.tableName = "Bookings";
+		await Booking.bulkCreate(options,
 			[
 				{
 					userId: 1,
@@ -61,11 +62,10 @@ module.exports = {
 	},
 
 	async down(queryInterface, Sequelize) {
-		/**
-		 * Add commands to revert seed here.
-		 *
-		 * Example:
-		 * await queryInterface.bulkDelete('People', null, {});
-		 */
+		options.tableName = "Bookings";
+		const Op = Sequelize.Op;
+		return queryInterface.bulkDelete(options, {
+			spotId: 1,
+		});
 	},
 };
