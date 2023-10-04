@@ -8,31 +8,62 @@ if (process.env.NODE_ENV === "production") {
 	options.schema = process.env.SCHEMA; // define your schema in options object
 }
 
+// module.exports = {
+// 	async up(queryInterface, Sequelize) {
+// 		options.tableName = "Users";
+// 		await User.bulkCreate(options,
+// 			[
+// 				{
+// 					email: "demo@user.io",
+// 					username: "Isa-Demo",
+// 					hashedPassword: bcrypt.hashSync("password"),
+// 					firstName: "Joel",
+// 					lastName: "Schmoe"
+// 				},
+// 				{
+// 					email: "user1@user.io",
+// 					username: "FakeUser1",
+// 					hashedPassword: bcrypt.hashSync("password"),
+// 					firstName: "Joes",
+// 					lastName: "Schmoes"
+// 				},
+// 				{
+// 					email: "user2@user.io",
+// 					username: "FakeUser2",
+// 					hashedPassword: bcrypt.hashSync("password"),
+// 					firstName: "Jose",
+// 					lastName: "Schmose"
+// 				},
+// 			],
+// 			{ validate: true }
+// 		);
+// 	},
 module.exports = {
-	async up(queryInterface, Sequelize) {
+	up: async (queryInterface, Sequelize) => {
 		options.tableName = "Users";
-		await User.bulkCreate(options,
+		return queryInterface.bulkInsert(
+			options,
 			[
 				{
 					email: "demo@user.io",
 					username: "Isa-Demo",
 					hashedPassword: bcrypt.hashSync("password"),
 					firstName: "Joel",
-					lastName: "Schmoe"
+					lastName: "Schmoe",
 				},
 				{
 					email: "user1@user.io",
 					username: "FakeUser1",
 					hashedPassword: bcrypt.hashSync("password"),
 					firstName: "Joes",
-					lastName: "Schmoes"
+					lastName: "Schmoes",
 				},
 				{
 					email: "user2@user.io",
 					username: "FakeUser2",
 					hashedPassword: bcrypt.hashSync("password"),
 					firstName: "Jose",
-					lastName: "Schmose"
+					lastName: "Schmose",
 				},
 			],
 			{ validate: true }

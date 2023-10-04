@@ -8,7 +8,7 @@ const { SpotImage, sequelize } = require("../models");
 module.exports = {
 	async up(queryInterface, Sequelize) {
 		options.tableName = "SpotImages";
-		await SpotImage.bulkCreate(options, [
+		return queryInterface.bulkInsert(options, [
 			{
 				url: "image.url",
 				spotId: 1,
