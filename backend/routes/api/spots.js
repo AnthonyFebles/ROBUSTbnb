@@ -944,7 +944,7 @@ router.post("/:spotId/bookings", requireAuth, async (req, res) => {
 
 	bookingList.forEach((el) => {
 		if (newEndDate === el.startDate) {
-			errors.endDate = "End date conflicts with an existing booking line 210";
+			errors.endDate = "End date conflicts with an existing booking";
 			res.status(403);
 			return res.json({
 				message: "Sorry, this spot is already booked for the specified dates",
@@ -954,10 +954,10 @@ router.post("/:spotId/bookings", requireAuth, async (req, res) => {
 
 		if (isEqual(newStartDate, el.startDate)) {
 			if (isEqual(newEndDate, el.endDate)) {
-				errors.endDate = "End date conflicts with an existing booking line 244";
+				errors.endDate = "End date conflicts with an existing booking";
 			}
 			errors.startDate =
-				"Start date conflicts with an existing booking line 219";
+				"Start date conflicts with an existing booking";
 			res.status(403);
 			return res.json({
 				message: "Sorry, this spot is already booked for the specified dates",
@@ -967,7 +967,7 @@ router.post("/:spotId/bookings", requireAuth, async (req, res) => {
 
 		if (isEqual(newStartDate, el.endDate)) {
 			errors.startDate =
-				"Start date conflicts with an existing booking line 228";
+				"Start date conflicts with an existing booking";
 			res.status(403);
 			return res.json({
 				message: "Sorry, this spot is already booked for the specified dates",
@@ -975,7 +975,7 @@ router.post("/:spotId/bookings", requireAuth, async (req, res) => {
 			});
 		}
 		if (isEqual(newEndDate, el.startDate)) {
-			errors.endDate = "End date conflicts with an existing booking line 236";
+			errors.endDate = "End date conflicts with an existing booking";
 			res.status(403);
 			return res.json({
 				message: "Sorry, this spot is already booked for the specified dates",
@@ -983,7 +983,7 @@ router.post("/:spotId/bookings", requireAuth, async (req, res) => {
 			});
 		}
 		if (isEqual(newEndDate, el.endDate)) {
-			errors.endDate = "End date conflicts with an existing booking line 244";
+			errors.endDate = "End date conflicts with an existing booking";
 			res.status(403);
 			return res.json({
 				message: "Sorry, this spot is already booked for the specified dates",
@@ -994,12 +994,12 @@ router.post("/:spotId/bookings", requireAuth, async (req, res) => {
 			isBefore(newStartDate, el.endDate) &&
 			isAfter(newStartDate, el.startDate)
 		) {
-			errors.startDate = "Start date conflicts with an existing  line 255";
+			errors.startDate = "Start date conflicts with an existing";
 			if (
 				isBefore(newEndDate, el.endDate) &&
 				isAfter(newEndDate, el.startDate)
 			) {
-				errors.endDate = "End date conflicts with an existing booking line 264";
+				errors.endDate = "End date conflicts with an existing booking";
 			}
 			res.status(403);
 			return res.json({
@@ -1009,7 +1009,7 @@ router.post("/:spotId/bookings", requireAuth, async (req, res) => {
 		}
 
 		if (isBefore(newEndDate, el.endDate) && isAfter(newEndDate, el.startDate)) {
-			errors.endDate = "End date conflicts with an existing booking line 264";
+			errors.endDate = "End date conflicts with an existing booking";
 			res.status(403);
 			return res.json({
 				message: "Sorry, this spot is already booked for the specified dates",
@@ -1031,8 +1031,8 @@ router.post("/:spotId/bookings", requireAuth, async (req, res) => {
 			)
 		) {
 			errors.startDate =
-				"Start date conflicts with an existing booking line 285";
-			errors.endDate = "End date conflicts with an existing booking line 286";
+				"Start date conflicts with an existing booking";
+			errors.endDate = "End date conflicts with an existing booking";
 			res.status(403);
 			return res.json({
 				message: "Sorry, this spot is already booked for the specified dates",
