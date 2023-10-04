@@ -314,7 +314,7 @@ router.post("/", requireAuth, validateCreate, async (req, res) => {
 		});
 
 		//console.log(returnSpot);
-
+		res.status(201)
 		return res.json(returnSpot);
 	} catch (error) {
 		res.status(400);
@@ -786,7 +786,7 @@ router.post(
 			review,
 			stars,
 		});
-
+		res.status(201)
 		res.json(newReview);
 	}
 );
