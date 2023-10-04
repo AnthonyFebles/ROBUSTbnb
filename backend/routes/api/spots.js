@@ -1,5 +1,12 @@
 const express = require("express");
 
+const {
+	areIntervalsOverlapping,
+	isAfter,
+	isBefore,
+	isEqual,
+} = require("date-fns");
+
 const { Op } = require("sequelize");
 const bcrypt = require("bcryptjs");
 
@@ -43,12 +50,12 @@ const validateCreate = [
 	check("lat")
 		.exists({ checkFalsy: true })
 		.notEmpty()
-		.isFloat()
+		.isFloat({ min: -90, max: 90 })
 		.withMessage("Latitude is not valid."),
 	check("lng")
 		.exists({ checkFalsy: true })
 		.notEmpty()
-		.isFloat()
+		.isFloat({ min: -180, max: 180 })
 		.withMessage("Longitude is not valid."),
 	check("name")
 		.exists({ checkFalsy: true })
@@ -61,6 +68,7 @@ const validateCreate = [
 	check("price")
 		.exists({ checkFalsy: true })
 		.notEmpty()
+		.isInt({ min: 1 })
 		.withMessage("Price per day is required."),
 	check("name")
 		.isLength({
@@ -100,16 +108,16 @@ router.get("/", async (req, res) => {
 		errors.size = " Size must be greater than or equal to 1";
 	}
 
-	if (!isFloat(maxLat)) {
+	if (!isFloat(maxLat) || maxLat > 90 || maxLat < -90) {
 		errors.maxLat = "Maximum Latitude is invalid";
 	}
-	if (!isFloat(minLat)) {
+	if (!isFloat(minLat) || minLat < -90 || minLat > 90) {
 		errors.minLat = "Minimum Latitude is invalid";
 	}
-	if (!isFloat(minLng)) {
+	if (!isFloat(minLng) || minLng < -180 || minLng > 180) {
 		errors.minLng = "Minimum longitude is invalid";
 	}
-	if (!isFloat(maxLng)) {
+	if (!isFloat(maxLng) || maxLng > 180 || maxLng < -180) {
 		errors.maxLng = "Maximum longitude is invalid";
 	}
 	if (minPrice < 0) {
@@ -193,6 +201,25 @@ router.get("/", async (req, res) => {
 	yourSpots.forEach((spot) => {
 		spotList.push(spot.toJSON());
 	});
+
+	if (minLat || minLng || maxLng || maxLat) {
+		if (
+			errors.page ||
+			errors.size ||
+			errors.maxLat ||
+			errors.maxLng ||
+			errors.minLat ||
+			errors.minLng ||
+			errors.minPrice ||
+			errors.maxPrice
+		) {
+			res.status(400);
+			return res.json({
+				message: "Bad Request",
+				errors: errors,
+			});
+		}
+	}
 
 	if (!spotList.length) {
 		res.status(404);
@@ -704,8 +731,6 @@ const validateReview = [
 		.exists({ checkFalsy: true })
 		.isInt({
 			min: 1,
-		})
-		.isInt({
 			max: 5,
 		})
 		.withMessage("Stars must be an integer from 1 to 5."),
@@ -812,6 +837,20 @@ router.get("/:spotId/bookings", requireAuth, async (req, res) => {
 		bookingList.push(el.toJSON());
 	});
 
+	if (!bookingList.length) {
+		res.status(404);
+		res.json({
+			message: "Bookings couldn't be found",
+		});
+	}
+
+	if (!spot.length) {
+		res.status(404);
+		return res.json({
+			message: "Spot couldn't be found",
+		});
+	}
+
 	if (spotList[0].ownerId !== ownerId) {
 		bookingList.forEach((el) => {
 			delete el.id;
@@ -854,17 +893,18 @@ router.post("/:spotId/bookings", requireAuth, async (req, res) => {
 		},
 	});
 
-	if (!spot.length) {
-		res.status(404);
-		return res.json({
-			message: "Spot couldn't be found",
-		});
-	}
 	const spotList = [];
 
 	spot.forEach((el) => {
 		spotList.push(el.toJSON());
 	});
+
+	if (!spotList.length) {
+		res.status(404);
+		return res.json({
+			message: "Spot couldn't be found",
+		});
+	}
 
 	const bookings = await Booking.findAll({
 		where: {
@@ -903,11 +943,101 @@ router.post("/:spotId/bookings", requireAuth, async (req, res) => {
 	const errors = {};
 
 	bookingList.forEach((el) => {
-		if (newStartDate <= el.endDate) {
-			errors.startDate = "Start date conflicts with an existing booking";
-		}
-		if (newEndDate <= el.startDate) {
+		if (newEndDate === el.startDate) {
 			errors.endDate = "End date conflicts with an existing booking";
+			res.status(403);
+			return res.json({
+				message: "Sorry, this spot is already booked for the specified dates",
+				errors: errors,
+			});
+		}
+
+		if (isEqual(newStartDate, el.startDate)) {
+			if (isEqual(newEndDate, el.endDate)) {
+				errors.endDate = "End date conflicts with an existing booking";
+			}
+			errors.startDate =
+				"Start date conflicts with an existing booking";
+			res.status(403);
+			return res.json({
+				message: "Sorry, this spot is already booked for the specified dates",
+				errors: errors,
+			});
+		}
+
+		if (isEqual(newStartDate, el.endDate)) {
+			errors.startDate =
+				"Start date conflicts with an existing booking";
+			res.status(403);
+			return res.json({
+				message: "Sorry, this spot is already booked for the specified dates",
+				errors: errors,
+			});
+		}
+		if (isEqual(newEndDate, el.startDate)) {
+			errors.endDate = "End date conflicts with an existing booking";
+			res.status(403);
+			return res.json({
+				message: "Sorry, this spot is already booked for the specified dates",
+				errors: errors,
+			});
+		}
+		if (isEqual(newEndDate, el.endDate)) {
+			errors.endDate = "End date conflicts with an existing booking";
+			res.status(403);
+			return res.json({
+				message: "Sorry, this spot is already booked for the specified dates",
+				errors: errors,
+			});
+		}
+		if (
+			isBefore(newStartDate, el.endDate) &&
+			isAfter(newStartDate, el.startDate)
+		) {
+			errors.startDate = "Start date conflicts with an existing";
+			if (
+				isBefore(newEndDate, el.endDate) &&
+				isAfter(newEndDate, el.startDate)
+			) {
+				errors.endDate = "End date conflicts with an existing booking";
+			}
+			res.status(403);
+			return res.json({
+				message: "Sorry, this spot is already booked for the specified dates",
+				errors: errors,
+			});
+		}
+
+		if (isBefore(newEndDate, el.endDate) && isAfter(newEndDate, el.startDate)) {
+			errors.endDate = "End date conflicts with an existing booking";
+			res.status(403);
+			return res.json({
+				message: "Sorry, this spot is already booked for the specified dates",
+				errors: errors,
+			});
+		}
+
+		if (
+			areIntervalsOverlapping(
+				{
+					start: newStartDate,
+					end: newEndDate,
+				},
+				{
+					start: el.startDate,
+					end: el.endDate,
+				},
+				{ inclusive: false }
+			)
+		) {
+			errors.startDate =
+				"Start date conflicts with an existing booking";
+			errors.endDate = "End date conflicts with an existing booking";
+			res.status(403);
+			return res.json({
+				message: "Sorry, this spot is already booked for the specified dates",
+				errors: errors,
+			});
 		}
 	});
 	//console.log(errors);

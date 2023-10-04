@@ -119,6 +119,13 @@ router.post("/:reviewId/Images", requireAuth, async (req, res) => {
 		},
 	});
 
+	if (!thisReview.length) {
+		res.status(404);
+		return res.json({
+			message: "Review couldn't be found",
+		});
+	}
+
 	if (thisReview[0].dataValues.userId !== req.user.id) {
 		res.status(403);
 		return res.json({
@@ -145,12 +152,7 @@ router.post("/:reviewId/Images", requireAuth, async (req, res) => {
 		});
 	}
 
-	if (!thisReview.length) {
-		res.status(404);
-		return res.json({
-			message: "Review couldn't be found",
-		});
-	}
+	
 
 	const thisReviewList = [];
 
@@ -181,7 +183,7 @@ router.post("/:reviewId/Images", requireAuth, async (req, res) => {
 	delete thisImg[0].updatedAt;
 	delete thisImg[0].createdAt;
 
-	return res.json(thisImg);
+	return res.json(thisImg[0]);
 });
 
 router.put("/:reviewId", requireAuth, async (req, res) => {
@@ -198,10 +200,14 @@ router.put("/:reviewId", requireAuth, async (req, res) => {
 			errors.review = "Review text is required";
 		}
 
-		if (stars > 5 || stars < 1 || typeof stars !== typeof 1) {
+		if (stars > 5 || stars < 1 ) {
 			errors.stars = "Stars must be an integer from 1 to 5";
 		}
 
+		if (typeof stars !== typeof 1){
+			errors.stars = "Stars must be an integer from 1 to 5";
+		}
+		
 		res.status(400);
 		return res.json({
 			message: "Bad Request",
