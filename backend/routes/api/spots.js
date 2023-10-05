@@ -476,7 +476,7 @@ router.get("/:spotId", async (req, res) => {
 	if (spotList[0].Reviews[0]) {
 		spotList[0].numReviews = spotList[0].Reviews[0].numReviews;
 		spotList[0].avgStarRating = Number(spotList[0].Reviews[0].avgRating);
-	}
+	} else spotList[0].numReviews = 0
 
 	delete spotList[0].Reviews;
 
