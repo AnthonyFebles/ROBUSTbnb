@@ -256,7 +256,7 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
 			isBefore(newStartDate, el.endDate) &&
 			isAfter(newStartDate, el.startDate)
 		) {
-			errors.startDate = "Start date conflicts with an existing ";
+			errors.startDate = "Start date conflicts with an existing booking";
 			if (
 				isBefore(newEndDate, el.endDate) &&
 				isAfter(newEndDate, el.startDate)
