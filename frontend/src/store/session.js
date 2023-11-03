@@ -60,6 +60,16 @@ export const restoreUser = (user) => async (dispatch) => {
     return res
 }
 
+export const logOut = () => async (dispatch) => {
+    const res = await csrfFetch('api/session', {
+        method: "DELETE"
+    })
+    
+    dispatch(removeUser())
+
+    return res
+}
+
 const sessionReducer = (state = { user: null }, action) => {
     
 	switch (action.type) {
