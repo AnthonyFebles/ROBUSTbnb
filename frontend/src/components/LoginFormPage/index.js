@@ -48,7 +48,7 @@ const LoginFormPage = () => {
 					/>
 				</label>
 				{errors.credential && <p>{errors.credential}</p>}
-				<button type="submit">Log In</button>
+				<button class ='login' type="submit">Log In</button>
 			</form>
 		</>
 	);
