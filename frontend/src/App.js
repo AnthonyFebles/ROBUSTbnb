@@ -5,6 +5,7 @@ import LoginFormPage from './components/LoginFormModal'
 import SignupFormPage from "./components/SignupFormModal";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
+import AllSpots from "./components/AllSpots";
 
 function App() {
   const dispatch = useDispatch();
@@ -19,6 +20,9 @@ function App() {
 			<Navigation isLoaded={isLoaded} />
 			{isLoaded && (
 				<Switch>
+					<Route exact to='/'>
+						<AllSpots/>
+					</Route>
 				</Switch>
 			)}
 		</>
