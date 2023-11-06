@@ -3,21 +3,23 @@ import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import "./LoginForm.css";
+import { useModal } from "../../context/Modal";
 
-const LoginFormPage = () => {
+const LoginFormModal = () => {
 	const dispatch = useDispatch();
 	const sessionUser = useSelector((state) => state.session.user);
 	const [credential, setCredential] = useState("");
 	const [password, setPassword] = useState("");
 	const [errors, setErrors] = useState({});
 	const history = useHistory();
+	const { closeModal } = useModal()
 
 	if (sessionUser) return history.push("/");
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		setErrors({});
-		return dispatch(sessionActions.logIn({ credential, password })).catch(
+		return dispatch(sessionActions.logIn({ credential, password })).then(closeModal).catch(
 			async (res) => {
 				const data = await res.json();
 				if (data && data.errors) setErrors(data.errors);
@@ -48,10 +50,10 @@ const LoginFormPage = () => {
 					/>
 				</label>
 				{errors.credential && <p>{errors.credential}</p>}
-				<button type="submit">Log In</button>
+				<button class ='login' type="submit">Log In</button>
 			</form>
 		</>
 	);
 };
 
-export default LoginFormPage;
+export default LoginFormModal;

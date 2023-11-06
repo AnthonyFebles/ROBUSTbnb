@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { useModal } from "../../context/Modal";
 import "./SignupForm.css";
 
-const SignupFormPage = () => {
+const SignupFormModal = () => {
 	const dispatch = useDispatch();
 	const sessionUser = useSelector((state) => state.session.user);
 	const [email, setEmail] = useState("");
@@ -14,7 +15,8 @@ const SignupFormPage = () => {
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [errors, setErrors] = useState({});
-    const history = useHistory()
+  const { closeModal } = useModal()
+  const history = useHistory()
 
 	if (sessionUser) return history.push('/');
 
@@ -30,7 +32,7 @@ const SignupFormPage = () => {
 					lastName,
 					password,
 				})
-			).catch(async (res) => {
+			).then(closeModal).catch(async (res) => {
 				const data = await res.json();
 				if (data && data.errors) {
 					setErrors(data.errors);
@@ -116,4 +118,4 @@ const SignupFormPage = () => {
 
 ;
 
-export default SignupFormPage;
+export default SignupFormModal;
