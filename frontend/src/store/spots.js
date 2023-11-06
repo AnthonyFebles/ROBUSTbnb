@@ -2,6 +2,7 @@ const LOAD = "spot/LOAD";
 const CREATE_SPOT = "spot/CREATE_Spot";
 const UPDATE_SPOT = "spot/UPDATE_Spot";
 const DELETE_SPOT = 'spot/DELETE'
+const GET_ONE = 'spot/GET_ONE'
 
 const load = (list) => ({
 	type: LOAD,
@@ -19,12 +20,19 @@ const updatedSpot = (spot) => ({
 	spot,
 });
 
+const getOneSpot = (spot) => ({
+    type:GET_ONE,
+    spot
+})
+
+
+
 export const getSpots = () => async (dispatch) => {
 	const response = await fetch(`/api/spots`);
 
 	if (response.ok) {
 		const list = await response.json();
-        console.log(list, "This is the list **********")
+        //console.log(list, "This is the list **********")
 		//console.log(list, "***************")
 		dispatch(load(list));
 	}
@@ -40,8 +48,12 @@ export const getOne = (spotId) => async (dispatch) => {
 	//console.log(response, "asdhfbjlasdjbfioas")
 	if (response.ok) {
 		const Spot = await response.json();
-		dispatch(load(Spot));
+		dispatch(getOneSpot(Spot));
+        console.log(Spot, "this is the spot in getOne")
+        return Spot
 	}
+
+    return response
 };
 
 export const createNewSpot = (spot) => async (dispatch) => {
@@ -96,24 +108,31 @@ const sortList = (list) => {
 const SpotReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case LOAD:
-            console.log(action, "console log the action")
+            //console.log(action, "console log the action")
 			const allSpots = {};
 			action.list.Spots.forEach((spot) => {
 				allSpots[spot.id] = spot;
 			});
+            console.log(action, "load action")
 			return {
 				...allSpots,
 				...state,
 				list: sortList(action.list.Spots),
 			};
+		case GET_ONE :
+            console.log(action, "action", state, "state")
+            const currSpot = {};
+            action.spot.forEach((spot) => {
+                currSpot[spot.id] = spot
+            })
+            return {
+                ...currSpot,
+                ...action,
+                ...state,
+                list : sortList(action.spot)
+            }
 		
 		
-		// case GET_ONE:
-		// console.log(action)
-		//   // return{
-		//   //   ...state,
-		//   //   [action.SpotId]
-		//   // }
 		default:
 			return state;
 	}
