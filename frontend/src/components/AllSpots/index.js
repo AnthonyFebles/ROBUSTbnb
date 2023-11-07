@@ -32,9 +32,9 @@ const AllSpots = () => {
 
     //console.log(spot,'console.log spot')
 
-    spot.forEach(element => {
-        <h2>{element.name}</h2>
-    });
+    // spot.forEach(element => {
+    //     <h2>{element.name}</h2>
+    // });
 
 
 
