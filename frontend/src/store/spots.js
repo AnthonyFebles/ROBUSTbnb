@@ -50,7 +50,7 @@ export const getOne = (spotId) => async (dispatch) => {
 	if (response.ok) {
 		const Spot = await response.json();
 		dispatch(getOneSpot(Spot));
-        console.log(Spot, "this is the spot in getOne")
+        //.log(Spot, "this is the spot in getOne")
         return Spot
 	}
 
@@ -114,14 +114,14 @@ const SpotReducer = (state = initialState, action) => {
 			action.list.Spots.forEach((spot) => {
 				allSpots[spot.id] = spot;
 			});
-            console.log(action, "load action")
+            //console.log(action, "load action")
 			return {
 				...allSpots,
 				...state,
 				list: sortList(action.list.Spots),
 			};
 		case GET_ONE :
-            console.log(action, "action", state, "state")
+            //console.log(action, "action", state, "state")
             const currSpot = {};
             action.spot.forEach((spot) => {
                 currSpot[spot.id] = spot

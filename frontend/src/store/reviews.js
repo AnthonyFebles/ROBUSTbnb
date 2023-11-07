@@ -12,13 +12,13 @@ export const getReviews = (spotId) => async (dispatch) => {
 
 	if (response.ok) {
 		const list = await response.json();
-		console.log(list, "This is the list **********")
+		//console.log(list, "This is the list **********")
 		//console.log(list, "***************")
 		dispatch(load(list));
         return list
 	}
 
-     console.log('res not ok *********************')
+    // console.log('res not ok *********************')
 	return response;
 };
 
@@ -45,7 +45,7 @@ const ReviewReducer = (state = initialState, action) => {
 				allReviews[review.id] = review;
 			});
         }
-			console.log(action, "load review action *******************");
+			//console.log(action, "load review action *******************");
 
              if( action.list.Reviews) {
 			return {
