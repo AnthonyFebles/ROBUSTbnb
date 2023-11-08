@@ -50,28 +50,3 @@ button {
 	
 }
 
-nav {
-	border-bottom: solid black 2px;
-	max-height: 80px;
-	width: 100vw;
-	display: inline-block;
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-template-rows: 1fr;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 30px 10%;
-
-}
-
-.profile-button {
-	
-	max-height: 80px;
-	margin-right: 20px;
-	
-}
-
-.logo-home {
-	margin-right: 400px;
-	display: inline-block;
-}
