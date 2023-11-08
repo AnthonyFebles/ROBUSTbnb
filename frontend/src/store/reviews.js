@@ -38,7 +38,7 @@ const sortList = (list) => {
 const ReviewReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case GET_REVIEWS:
-			//console.log(action, "console log the action")
+			console.log(action, "console log the action")
 			const allReviews = {};
             if( action.list.Reviews) {
 			action.list.Reviews.forEach((review) => {
@@ -54,8 +54,8 @@ const ReviewReducer = (state = initialState, action) => {
 				list: sortList(action.list.Reviews),
 			};
         } else return {
-            ...allReviews,
-            ...state
+            ...action
+            
         }
 		default:
 			return state;

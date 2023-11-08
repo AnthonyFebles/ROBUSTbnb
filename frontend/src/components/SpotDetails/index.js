@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { getOne } from "../../store/spots";
-import { Dispatch } from "react";
-import { getSpots } from "../../store/spots";
+import { getOne } from "../../store/spot";
 import { getReviews } from "../../store/reviews";
 
 const SpotDetails = () => {
@@ -19,54 +17,98 @@ const SpotDetails = () => {
 		dispatch(getReviews(spotId));
 	}, [dispatch]);
 
-	useEffect(() => {
-		const fetchOwner = async () => {
-			const res = await fetch(`/api/spots/${spotId}`);
 
-			if (res.ok) {
-				const spot = await res.json();
-
-				setOwner(spot[0].Owner[0]);
-			}
-		};
-		fetchOwner();
-	}, []);
 
 	useEffect(() => {
-        let final = 0
+		let final = 0;
 		let total = 0;
 		for (let i = 0; i < Reviews.length; i++) {
 			const currReview = Reviews[i];
 			total += currReview.stars;
-            console.log(currReview)
+			//console.log(currReview)
 		}
 
-        if (total > 0) {
-		 final = parseFloat(total / Reviews.length).toFixed(2);
-        }
-        console.log(final, 'total', total)
+		if (total > 0) {
+			final = parseFloat(total / Reviews.length).toFixed(2);
+		}
+		//console.log(final, 'total', total)
 		setAvgStars(final);
-	}, );
+	});
 
 	//console.log(owner, "owner");
 
 	const Spot = useSelector((state) => {
-		return state.spots[spotId];
+		return state.spot
 	});
+	// useEffect(() => {
+	//     setReviews(Reviews)
+	//     console.log(reviews, "reviews")
+	// }, [Spot] )
 
 	const Reviews = useSelector((state) => {
+		//console.log(state, "entire state in side Reviews");
+        if(state.reviews.list.message) {
+            return []
+        }
 		return state.reviews.list.map((spotId) => state.reviews[spotId]);
 	});
 
-	//console.log(Reviews, "full state")
-	//console.log(Spot, 'spot state', spotId, 'spot ID',)
+	console.log(Reviews, "Reviews");
 
-	if (!Spot) {
-		//console.log('no Spot')
-		return null;
+    //console.log(Spot, "spot")
+	
+
+	if (!Reviews.length) {
+		//console.log("no reviews");
 	}
 
 	let content = null;
+
+	let numReviews = null;
+
+    const reviewDate = (element) => {
+        const arr = element.split('-')
+        const year = arr[0]
+        const month = arr[1]
+
+        const monthNames = [
+					"January",
+					"February",
+					"March",
+					"April",
+					"May",
+					"June",
+					"July",
+					"August",
+					"September",
+					"October",
+					"November",
+					"December",
+				];
+        const longMonth = monthNames[month -1]
+
+        const date = `${longMonth} ${year}`
+        return date
+    
+    }
+if(Reviews[0]) {
+    console.log(reviewDate(Reviews[0].createdAt))
+}
+	if (Reviews.length === 1) {
+		numReviews = (
+			<li>
+				<b>{Reviews.length} Review</b>
+			</li>
+		);
+	}
+
+	if (Reviews.length > 1) {
+		numReviews = (
+			<li>
+				<b>{Reviews.length} Reviews</b>
+			</li>
+		);
+	}
 
 	content = (
 		<div className="Spot-detail-lists">
@@ -81,7 +123,7 @@ const SpotDetails = () => {
 					</li>
 					<li>
 						<b>Hosted By</b> {owner === "" ? "Loading" : owner.firstName}{" "}
-						{owner === "" ? "Please Refresh" : owner.lastName}
+						{owner === "" ? "Loading" : owner.lastName}
 					</li>
 					<li>
 						<b>Description</b> {Spot.description}
@@ -89,21 +131,12 @@ const SpotDetails = () => {
 					<li>
 						<b>Price</b> ${Spot.price} Night
 					</li>
-					<li>
-						{/* <b>Moves</b>
-							<ul>
-								{Spot.moves &&
-									Spot.moves.map((move, i) => <li key={move + i}>{move}</li>)}
-							</ul> */}
-					</li>
-					<li>
-						<b>Review Count</b>
-						{Reviews.length}
-					</li>
+					<li></li>
+					{numReviews}
 					<li>
 						<b>Average Rating</b>
 						<i className="fa-solid fa-star"></i>
-						{avgStars === 0 || !avgStars  ? "New" : `${avgStars}`}
+						{avgStars === 0 || !avgStars ? "New" : `${avgStars}`}
 					</li>
 				</ul>
 				{Reviews.length !== 0 ? (
@@ -113,13 +146,14 @@ const SpotDetails = () => {
 								<li>
 									{" "}
 									<b>Review</b> {element.review}
+                                    <span>{element.User.firstName} {reviewDate(element.createdAt)}</span>
 								</li>
 							</ul>
 						);
 					})
 				) : (
 					<>
-						<span>Leave A Review!</span> <textarea></textarea>
+						<span>Be the first to leave a review!</span> <textarea></textarea>
 					</>
 				)}
 			</div>
@@ -134,14 +168,9 @@ const SpotDetails = () => {
 			<div className={`Spot-detail-image-background`}>
 				<div
 					className="Spot-detail-image"
-					style={{ backgroundImage: `url('${Spot.imageUrl}')` }}
+					style={{ backgroundImage: `url('')` }}
 				></div>
-				<div>
-					{/* <h1 className="bigger">{Spot.name}</h1>
-					{!showEditPokeForm && Spot.captured && (
-						<button onClick={() => setShowEditPokeForm(true)}>Edit</button>
-					)} */}
-				</div>
+				<div></div>
 			</div>
 			{content}
 		</div>

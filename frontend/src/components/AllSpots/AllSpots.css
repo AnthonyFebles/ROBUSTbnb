@@ -1,5 +1,20 @@
 img {
     display: flex;
+    flex-direction: column;
     width: 400px;
     
+}
+.thumbnail-container {
+    display: flex;
+}
+
+.thumbnail {
+    display: flex;
+    flex-direction: row;
+    max-width: 400px;
+    text-align: center;
+}
+
+NavLink {
+    max-width: 400px;
 }

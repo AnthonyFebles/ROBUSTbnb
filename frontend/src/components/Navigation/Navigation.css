@@ -1,6 +1,11 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+
+}
+
 a {
-    display: grid;
-    flex-direction: column;
+    
     text-decoration: none;
     color: black;
     font-size: 30px;
@@ -8,14 +13,13 @@ a {
 }
 
 li {
+	display: inline-block;
    list-style-type: none;
-   display: grid;
    font-size: 30px;
    font-family: nunito, roboto, proxima-nova, "proxima nova", sans-serif;
 }
 
 button {
-    
 	background: #ff4742;
 	border: 1px solid #ff4742;
 	border-radius: 6px;
@@ -31,11 +35,43 @@ button {
 	min-height: 40px;
 	padding: 12px 14px;
 	text-align: center;
-    max-width: 300px;
+	
 }
 
 
 .hidden {
     display: none;
     visibility: hidden;
+}
+
+
+.logo {
+	width: 69px;
+	
+}
+
+nav {
+	border-bottom: solid black 2px;
+	max-height: 80px;
+	width: 100vw;
+	display: inline-block;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: 1fr;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 30px 10%;
+
+}
+
+.profile-button {
+	
+	max-height: 80px;
+	margin-right: 20px;
+	
+}
+
+.logo-home {
+	margin-right: 400px;
+	display: inline-block;
 }

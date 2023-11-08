@@ -46,17 +46,13 @@ const AllSpots = () => {
 				return (
 					<NavLink key={spot.name} to={`/spots/${spot.id}`}>
 						<div
-							className={
-								Number.parseInt(spotId) === spot.id
-									? "nav-entry is-selected"
-									: "nav-entry"
-							}
+							className="thumbnail-container"
 						>
 							<div
 								className="nav-entry-image"
 								
 							></div>
-							<div>
+							<div className="thumbnail">
 								
 								<img src={`${spot.previewImage}`} alt="Spot Preview Image" />
 								<div className="primary-text">{spot.name}</div>
@@ -72,9 +68,7 @@ const AllSpots = () => {
 				);
             })}
 			</nav>
-            <Route path='spots/:spotId'>
-                <SpotDetails/>
-            </Route>
+            
             </>
 		);
 }
