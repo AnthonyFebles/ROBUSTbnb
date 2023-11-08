@@ -63,7 +63,7 @@ nav {
 
 header {
 	display: flex;
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 	padding-bottom: 5px;
 	justify-content: space-between; 
 }
@@ -88,4 +88,15 @@ header {
 .dropdown-li-logout, .dropdown-li-login, .dropdown-li-signup {
 	padding-top: 5px;
 	padding-bottom: 5px;
+}
+
+.actual-profile-button:hover {
+	box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px  ;
+}
+
+.actual-profile-button {
+	border-radius: 20px;
+	background-color: white;
+	border-color: gray;
+	color: gray;
 }
