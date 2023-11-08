@@ -1,11 +1,12 @@
 * {
 	box-sizing: border-box;
 	margin: 0;
-
+	padding-left: 5px;
+	padding-right: 5 px	;
 }
 
-a {
-    
+a, li, button {
+	text-align: center;
     text-decoration: none;
     color: black;
     font-size: 30px;
@@ -13,7 +14,7 @@ a {
 }
 
 li {
-	display: inline-block;
+	display: flex;
    list-style-type: none;
    font-size: 30px;
    font-family: nunito, roboto, proxima-nova, "proxima nova", sans-serif;
@@ -27,7 +28,6 @@ button {
 	box-sizing: border-box;
 	color: #ffffff;
 	cursor: pointer;
-	display: inline-block;
 	font-family: nunito, roboto, proxima-nova, "proxima nova", sans-serif;
 	font-size: 16px;
 	font-weight: 800;
@@ -44,9 +44,48 @@ button {
     visibility: hidden;
 }
 
-
 .logo {
-	width: 69px;
-	
+	padding-top: 5px;
+	max-width: 50px;
+	justify-content: center;
 }
 
+.profile-button {
+	padding-right: 40px;
+	align-self: center;
+}
+
+nav {
+	justify-content: center;
+
+}
+
+
+header {
+	display: flex;
+	border-bottom: 1px solid black;
+	padding-bottom: 5px;
+	justify-content: space-between; 
+}
+
+.profile-dropdown {
+	font-size: 10px;
+	position: absolute;
+	right: 0;
+	border: solid black 1px ;
+	padding: 3px;
+	border-radius: 3px;
+	box-shadow: rgba(0, 0, 0, 0.1) 10px 10px 10px;
+	background-color: #ffffff;
+}
+
+.dropdown-li {
+	font-size: 20px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.dropdown-li-logout, .dropdown-li-login, .dropdown-li-signup {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}

@@ -12,21 +12,23 @@ function Navigation({ isLoaded }) {
 	const sessionUser = useSelector((state) => state.session.user);
 
 	return (
-		<nav>
-		<ul className="profileButton">
-			<li className="logo-home">
-				<NavLink exact to="/">
-				<img className='logo'  src ="https://i.imgur.com/9IQJP32.png"></img>
-					Home
-				</NavLink>
-			</li>
+		<header>
+			<nav className="nav-bar">
+				<ul>
+					<li className="logo-home">
+						<NavLink exact to="/">
+							<img className="logo" src="https://i.imgur.com/9IQJP32.png"></img>
+							
+						</NavLink>
+					</li>
+				</ul>
+			</nav>
 			{isLoaded && (
-				<li>
+				<div className="profile-button">
 					<ProfileButton user={sessionUser} />
-				</li>
+				</div>
 			)}
-		</ul>
-		</nav>
+		</header>
 	);
 }
 
