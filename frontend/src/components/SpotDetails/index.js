@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getOne } from "../../store/spot";
 import { getReviews } from "../../store/reviews";
+import './SpotDetails.css'
 
 
 const SpotDetails = () => {
@@ -10,7 +11,7 @@ const SpotDetails = () => {
 
 	let { spotId } = useParams();
 
-	const [owner, setOwner] = useState("");
+	
 	const [avgStars, setAvgStars] = useState(0);
 
 	useEffect(() => {
@@ -97,84 +98,130 @@ if(Reviews[0]) {
 }
 	if (Reviews.length === 1) {
 		numReviews = (
-			<li>
-				<b>{Reviews.length} Review</b>
-			</li>
+			
+				<b>{Reviews.length} review</b>
+			
 		);
 	}
 
 	if (Reviews.length > 1) {
 		numReviews = (
-			<li>
-				<b>{Reviews.length} Reviews</b>
-			</li>
+			
+				<b>{Reviews.length} reviews</b>
+			
 		);
 	}
+
+	let owner;
+
+	if( Spot.Owner) {
+		owner = Spot.Owner[0]
+	}
+
+
+
+	console.log(Spot.Owner)
 
 	content = (
 		<div className="Spot-detail-lists">
 			<div>
-				<h2>Information</h2>
-				<ul>
-					<li>
-						<b>Name</b> {Spot.name}
-					</li>
-					<li>
-						<b>Location</b> {Spot.city} {Spot.state} {Spot.country}
-					</li>
-					<li>
-						<b>Hosted By</b> {owner === "" ? "Loading" : owner.firstName}{" "}
-						{owner === "" ? "Loading" : owner.lastName}
-					</li>
-					<li>
-						<b>Description</b> {Spot.description}
-					</li>
-					<li>
-						<b>Price</b> ${Spot.price} Night
-					</li>
-					<li></li>
-					{numReviews}
-					<li>
-						<b>Average Rating</b>
+				<h1 id="spotName">{Spot.name}</h1>
+				<h2 id="spotLocation">
+					{Spot.city}, {Spot.state}, {Spot.country}
+				</h2>
+				<div className="image-container">
+					<img
+						className="previewImg"
+						src="https://variety.com/wp-content/uploads/2022/01/03_c-Joshua-White-JWPictures_2081.jpg"
+						alt="preview"
+					></img>
+					<img
+						src="https://variety.com/wp-content/uploads/2022/01/03_c-Joshua-White-JWPictures_2081.jpg"
+						id="prev1"
+						alt="small-img"
+					></img>
+					<img
+						src="https://variety.com/wp-content/uploads/2022/01/03_c-Joshua-White-JWPictures_2081.jpg"
+						id="prev2"
+						alt="small-img2"
+					></img>
+					<img
+						src="https://variety.com/wp-content/uploads/2022/01/03_c-Joshua-White-JWPictures_2081.jpg"
+						id="prev3"
+						alt="small-img3"
+					></img>
+					<img
+						src="https://variety.com/wp-content/uploads/2022/01/03_c-Joshua-White-JWPictures_2081.jpg"
+						id="prev4"
+						alt="small-img4"
+					></img>
+				</div>
+				<div className="under-images">
+					<div id="hosted-by">
+						<h2>
+							<b>Hosted by </b>
+							{"  "}
+							{owner === undefined ? "Loading" : owner.firstName}{" "}
+							{owner === undefined ? "Loading" : owner.lastName}
+						</h2>
+						<br></br>
+						<p>
+							<b>{Spot.description}</b>
+						</p>
+
+						<br></br>
+					</div>
+					<span className="reservation-area">
+						<b id="price">${Spot.price}</b> night
 						<i className="fa-solid fa-star"></i>
 						{avgStars === 0 || !avgStars ? "New" : `${avgStars}`}
-					</li>
-				</ul>
-				{Reviews.length !== 0 ? (
-					Reviews.map((element) => {
-						return (
-							<ul key={`${element.id}`}>
-								<li>
+						<span className="center-dot">.</span>
+						{numReviews}
+						<div>
+							<button className="reserve-button" onClick={() => alert("Feature coming soon")}>
+								Reserve
+							</button>
+						</div>
+					</span>
+				</div>
+				<div className="reviews header">
+					<h2>
+						<i className="fa-solid fa-star"></i>
+						{avgStars === 0 || !avgStars ? "New" : `${avgStars}`}
+						<span className="center-dot">.</span>
+						{numReviews}
+					</h2>
+				</div>
+				<div className="reviews-container">
+					{Reviews.length !== 0 ? (
+						Reviews.map((element) => {
+							return (
+								<div className="reviews">
 									{" "}
-									<b>Review</b> {element.review}
-                                    <span>{element.User.firstName} {reviewDate(element.createdAt)}</span>
-								</li>
-							</ul>
-						);
-					})
-				) : (
-					<>
-						<span>Be the first to leave a review!</span> <textarea></textarea>
-					</>
-				)}
-			</div>
-			<div>
-				<button onClick={() => alert("Feature coming soon")}>Reserve</button>
+									<div className="reviewer-name">
+										<b>{element.User.firstName}</b>
+									</div>
+									<div className="review-date">
+										{reviewDate(element.createdAt)}
+									</div>
+									<div className="review">{element.review}</div>
+								</div>
+							);
+						})
+					) : (
+						<>
+							<span>Be the first to leave a review!</span> <textarea></textarea>
+						</>
+					)}
+				</div>
 			</div>
 		</div>
 	);
 
 	return (
-		<div className="Spot-detail">
-			<div className={`Spot-detail-image-background`}>
-				<div
-					className="Spot-detail-image"
-					style={{ backgroundImage: `url('')` }}
-				></div>
-				<div></div>
-			</div>
+		<body className="spot-detail">
 			{content}
-		</div>
+		</body>
 	);
 };
 

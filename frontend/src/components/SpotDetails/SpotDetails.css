@@ -1,0 +1,93 @@
+.spot-detail {
+    max-width: 1000px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+#spotName {
+    text-align: left;
+    padding-top: 20px;
+}
+
+#spotLocation {
+    font-size: 18px;
+    font-weight: 100;
+}
+
+.image-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr ;
+    width: 90vw;
+    max-width: 1000px;
+    height: 500px;
+    justify-content: center;
+    justify-self: center;
+    text-align: center;
+    margin: 0 ;
+    
+}
+
+.previewImg {
+    grid-column-start: 1 ;
+    grid-row-start:1;
+    padding: 5px;
+    min-width: 100%;
+    max-height: 200%;
+    min-height: 200% ;
+    margin: 5px;
+    
+}
+
+
+#prev1, #prev2, #prev3, #prev4 {
+   
+    border-radius: 15px;
+    max-width: 100%;
+    min-width: 100%;
+    min-height: 100%;
+    padding: 5px ;
+    margin: 5px;
+}
+
+#prev3 {
+    grid-column-start: 2;
+}
+
+#hosted-by{
+    padding-top: 20px;
+    padding-bottom: 10px;
+    
+}
+
+.under-images {
+    display: flex;
+    border-bottom: solid black 1px;
+    justify-content: space-between;
+}
+
+.reservation-area {
+    padding-top: 20px;
+   border: solid black 3px;
+   border-radius: 10px;
+margin-top: 10px;
+margin-bottom: 10px;
+padding: left 20px; 
+padding-right: 20px;
+    
+}
+
+#price {
+    font-size: 20px;
+}
+
+.reserve-button {
+    margin: 0 auto;
+    width: 90%;
+    max-height: 10%;
+    border-radius: 0px;
+    max-height: fit-content;
+    box-shadow:  black 5px 5px;
+}

@@ -62,7 +62,7 @@ const LoginFormModal = () => {
 						required
 					/>
 				</label>
-				<label class="pword">
+				<label className="pword">
 					Password
 					<input
 						type="password"
@@ -73,7 +73,7 @@ const LoginFormModal = () => {
 				</label>
 				{errors && <p>{errors.message}</p>}
 				<button
-					class="login"
+					className="login"
 					type="submit"
 					disabled={handleDisabled(credential, password)}
 				>
@@ -81,7 +81,7 @@ const LoginFormModal = () => {
 				</button>
 				<button
 				    onClick={handleDemo}
-					class="demo-login"
+					className="demo-login"
 					type="submit"
 					
 				>
