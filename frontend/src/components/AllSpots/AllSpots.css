@@ -9,12 +9,10 @@ img {
     max-width: 24vw;
     display: grid;
     grid-template-columns: 1fr; 
-    grid-template-rows: 1fr 1fr  ;
+    grid-template-rows: 1fr 0.1fr  ;
     flex-basis: 33%;
-    padding-left: 10px;
-    padding-right: 10px;
-    margin-left: 5px;
-    margin-right: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 

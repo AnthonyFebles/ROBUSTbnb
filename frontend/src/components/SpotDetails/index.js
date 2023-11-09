@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getOne } from "../../store/spot";
 import { getReviews } from "../../store/reviews";
 
+
 const SpotDetails = () => {
 	const dispatch = useDispatch();
 
@@ -46,7 +47,7 @@ const SpotDetails = () => {
 	// }, [Spot] )
 
 	const Reviews = useSelector((state) => {
-		//console.log(state, "entire state in side Reviews");
+		console.log(state, "entire state in side Reviews");
         if(state.reviews.list.message) {
             return []
         }

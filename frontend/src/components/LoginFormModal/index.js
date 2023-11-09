@@ -22,15 +22,37 @@ const LoginFormModal = () => {
 		return dispatch(sessionActions.logIn({ credential, password })).then(closeModal).catch(
 			async (res) => {
 				const data = await res.json();
-				if (data && data.errors) setErrors(data.errors);
+				if (data && data.message) setErrors({message: data.message});
+				//console.log(data)
+				alert(data.message)
 			}
 		);
 	};
 
+	const handleDisabled = (cred, pass) => {
+		if (cred.length < 4 || pass.length < 6 ) {
+			return true
+		}
+		return false
+	}
+
+	const handleDemo =() => {
+		setCredential('Isa-Demo')
+		setPassword('password')
+		return dispatch(sessionActions.logIn({ credential, password }))
+			.then(closeModal)
+			.catch(async (res) => {
+				const data = await res.json();
+				if (data && data.message) setErrors({ message: data.message });
+				console.log(data);
+				
+			});;
+	}
+
 	return (
 		<>
 			<h1>Log In</h1>
-			<form onSubmit={handleSubmit}>
+			<form className='login-form' onSubmit={handleSubmit}>
 				<label>
 					Username or Email
 					<input
@@ -49,8 +71,22 @@ const LoginFormModal = () => {
 						required
 					/>
 				</label>
-				{errors.credential && <p>{errors.credential}</p>}
-				<button class ='login' type="submit">Log In</button>
+				{errors && <p>{errors.message}</p>}
+				<button
+					class="login"
+					type="submit"
+					disabled={handleDisabled(credential, password)}
+				>
+					Log In
+				</button>
+				<button
+				    onClick={handleDemo}
+					class="demo-login"
+					type="submit"
+					
+				>
+					Demo User
+				</button>
 			</form>
 		</>
 	);
