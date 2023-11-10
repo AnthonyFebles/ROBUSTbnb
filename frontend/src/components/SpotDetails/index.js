@@ -4,12 +4,16 @@ import { useSelector, useDispatch } from "react-redux";
 import { getOne } from "../../store/spot";
 import { getReviews } from "../../store/reviews";
 import './SpotDetails.css'
+import OpenModalButton from "../OpenModalButton";
+import ReviewFormModal from "../ReviewFormModal";
 
 
 const SpotDetails = () => {
 	const dispatch = useDispatch();
 
 	let { spotId } = useParams();
+	console.log(spotId, 'spotId use params')
+	console.log(useParams())
 
 	
 	const [avgStars, setAvgStars] = useState(0);
@@ -17,7 +21,7 @@ const SpotDetails = () => {
 	useEffect(() => {
 		dispatch(getOne(spotId));
 		dispatch(getReviews(spotId));
-	}, [dispatch]);
+	}, [dispatch, ReviewFormModal ]);
 
 
 
@@ -42,6 +46,11 @@ const SpotDetails = () => {
 	const Spot = useSelector((state) => {
 		return state.spot
 	});
+
+	const user = useSelector((state) => {
+		console.log(state.session, "session slice of state aka user variable")
+		return state.session.user
+	})
 	// useEffect(() => {
 	//     setReviews(Reviews)
 	//     console.log(reviews, "reviews")
@@ -59,7 +68,6 @@ const SpotDetails = () => {
 
     //console.log(Spot, "spot")
 	
-
 	if (!Reviews.length) {
 		//console.log("no reviews");
 	}
@@ -117,10 +125,42 @@ if(Reviews[0]) {
 	if( Spot.Owner) {
 		owner = Spot.Owner[0]
 	}
+	let isOwner = false;
+	if (user && Spot.Owner) {
+		console.log(user.id, "user");
+		const isOwnerFunc = () => {
+			if (user.id === Spot.Owner[0].id) {
+				return true 
+			}
+			else return false 
+		};
+		isOwner = isOwnerFunc();
+	}
 
+	let hasReview = false;
 
+	
+	
 
-	console.log(Spot.Owner)
+	const hasReviewFunc = () => {
+		if (Reviews.length) {
+			for (let i = 0; i < Reviews.length; i++) {
+				let currReview = Reviews[i];
+				console.log(currReview, "currReview");
+				if (user) {
+					if (user.id === currReview.userId) {
+						console.log("you have a review");
+						return true
+					}
+				}
+			}
+		}
+		return false
+	}
+
+	hasReview = hasReviewFunc()
+
+	//console.log(Spot.Owner[0].id, "owner")
 
 	content = (
 		<div className="Spot-detail-lists">
@@ -174,27 +214,41 @@ if(Reviews[0]) {
 					<span className="reservation-area">
 						<b id="price">${Spot.price}</b> night
 						<i className="fa-solid fa-star"></i>
-						{avgStars === 0 || !avgStars ? "New" : `${avgStars}`}
-						<span className="center-dot">.</span>
+						{avgStars === 0 || !avgStars ? "New" : `${avgStars} ·`}
+						<span className="center-dot"></span>
 						{numReviews}
 						<div>
-							<button className="reserve-button" onClick={() => alert("Feature coming soon")}>
+							<button
+								className="reserve-button"
+								onClick={() => alert("Feature coming soon")}
+							>
 								Reserve
 							</button>
 						</div>
 					</span>
 				</div>
-				<div className="reviews header">
+
+				<div className="reviews-header">
 					<h2>
 						<i className="fa-solid fa-star"></i>
-						{avgStars === 0 || !avgStars ? "New" : `${avgStars}`}
-						<span className="center-dot">.</span>
+						{avgStars === 0 || !avgStars ? "New " : `${avgStars} ·`}
 						{numReviews}
+						<div className="post-review-button">
+							{user && !hasReview && !isOwner ? (
+								<OpenModalButton
+									buttonText="Post Your Review"
+									modalComponent={<ReviewFormModal spotId={spotId} />}
+								/>
+							) : (
+								<span></span>
+							)}
+						</div>
+						<span className="center-dot"></span>
 					</h2>
 				</div>
 				<div className="reviews-container">
 					{Reviews.length !== 0 ? (
-						Reviews.map((element) => {
+						Reviews.toReversed().map((element) => {
 							return (
 								<div className="reviews">
 									{" "}
@@ -210,7 +264,9 @@ if(Reviews[0]) {
 						})
 					) : (
 						<>
-							<span>Be the first to leave a review!</span> <textarea></textarea>
+							<span className="reviews-header">
+								Be the first to leave a review!
+							</span>{" "}
 						</>
 					)}
 				</div>

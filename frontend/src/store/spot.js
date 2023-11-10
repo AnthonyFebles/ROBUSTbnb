@@ -1,3 +1,4 @@
+import { csrfFetch } from "./csrf";
 const CREATE_SPOT = "spot/CREATE_Spot";
 const UPDATE_SPOT = "spot/UPDATE_Spot";
 const DELETE_SPOT = "spot/DELETE";
@@ -21,7 +22,7 @@ const getOneSpot = (spot) => ({
 
 
 export const getOne = (spotId) => async (dispatch) => {
-	const response = await fetch(`/api/spots/${spotId}`);
+	const response = await csrfFetch(`/api/spots/${spotId}`);
 	//console.log(response, "asdhfbjlasdjbfioas")
 	if (response.ok) {
 		const Spot = await response.json();
@@ -34,7 +35,7 @@ export const getOne = (spotId) => async (dispatch) => {
 };
 
 export const createNewSpot = (spot) => async (dispatch) => {
-	const response = await fetch(`/api/spot`, {
+	const response = await csrfFetch(`/api/spot`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",

@@ -59,7 +59,7 @@
 #hosted-by{
     padding-top: 20px;
     padding-bottom: 10px;
-    
+    max-width: 70%;
 }
 
 .under-images {
@@ -76,6 +76,7 @@ margin-top: 10px;
 margin-bottom: 10px;
 padding: left 20px; 
 padding-right: 20px;
+max-height: 120px
     
 }
 
@@ -86,8 +87,36 @@ padding-right: 20px;
 .reserve-button {
     margin: 0 auto;
     width: 90%;
-    max-height: 10%;
+    
     border-radius: 0px;
-    max-height: fit-content;
+    
     box-shadow:  black 5px 5px;
+}
+
+.reviews-header {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.center-dot {
+
+    vertical-align: middle;
+}
+
+.reviewer-name {
+    font-size: 18px;
+}
+
+.review-date {
+    color: grey;
+    font-size: 16px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.review{
+    padding-bottom: 40px
+}
+.post-review-button{
+    padding-top: 10px;
 }

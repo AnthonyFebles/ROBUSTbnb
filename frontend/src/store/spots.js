@@ -1,3 +1,4 @@
+import { csrfFetch } from "./csrf";
 const LOAD = "spot/LOAD";
 const CREATE_SPOT = "spot/CREATE_Spot";
 const UPDATE_SPOT = "spot/UPDATE_Spot";
