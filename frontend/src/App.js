@@ -7,6 +7,7 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import AllSpots from "./components/AllSpots";
 import SpotDetails from "./components/SpotDetails";
+import NewSpot from "./components/NewSpot";
 
 function App() {
   const dispatch = useDispatch();
@@ -21,6 +22,9 @@ function App() {
 			<Navigation isLoaded={isLoaded} />
 			{isLoaded && (
 				<Switch>
+					<Route path='/spots/new'>
+						<NewSpot/>
+					</Route>
 					<Route path='/spots/:spotId'>
 						<SpotDetails/>
 					</Route>

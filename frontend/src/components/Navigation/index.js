@@ -12,10 +12,10 @@ import "./Navigation.css";
 function Navigation({ isLoaded }) {
 	const sessionUser = useSelector((state) => state.session.user);
 
-	const history= useHistory
+	const history= useHistory()
 
 	const handleClick = () => {
-		
+		 history.push('/spots/new')
 	}
 
 	return (
@@ -32,7 +32,7 @@ function Navigation({ isLoaded }) {
 			{isLoaded && (
 				<div className="right-side-nav">
 					<div className="newSpotButton">
-						{sessionUser ? <button className="new-spot-button">Create A New Spot</button> : <></>}
+						{sessionUser ? <button onClick={handleClick} className="new-spot-button">Create A New Spot</button> : <></>}
 					</div>
 
 					<div className="profile-button">

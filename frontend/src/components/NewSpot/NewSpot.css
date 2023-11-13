@@ -1,0 +1,30 @@
+.headers {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.newSpotForm {
+    padding: 40px 20px;
+    margin-top: 30px;
+    margin: 0 auto;
+    max-width: 80vw;
+    display: flex;
+    
+}
+
+.cityState-form {
+    display: inline-block;
+    width: 100%;
+}
+
+.latLong-form{
+    display: inline-block;
+   
+}
+
+label {
+    max-width: 400px
+}
