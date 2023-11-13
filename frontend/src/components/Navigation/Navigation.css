@@ -66,6 +66,8 @@ header {
 	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 	padding-bottom: 5px;
 	justify-content: space-between; 
+	margin-bottom: 40px;
+
 }
 
 .profile-dropdown {
@@ -99,4 +101,21 @@ header {
 	background-color: white;
 	border-color: gray;
 	color: gray;
+}
+
+.newSpotButton {
+	
+	align-self: center;
+	margin: 0 auto;
+	margin-right: 20px;
+}
+
+.right-side-nav{
+	display: flex;
+}
+
+.new-spot-button {
+	background: white;
+		color: turquoise;
+		border: none;
 }

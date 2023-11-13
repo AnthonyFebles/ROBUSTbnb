@@ -14,7 +14,9 @@ const LoginFormModal = () => {
 	const history = useHistory();
 	const { closeModal } = useModal()
 
-	if (sessionUser) return history.push("/");
+	if(sessionUser) {
+		console.log(sessionUser)
+	}
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -40,13 +42,12 @@ const LoginFormModal = () => {
 		setCredential('Isa-Demo')
 		setPassword('password')
 		return dispatch(sessionActions.logIn({ credential, password }))
-			.then(closeModal)
-			.catch(async (res) => {
+			.then(closeModal).catch(async (res) => {
 				const data = await res.json();
-				if (data && data.message) setErrors({ message: data.message });
-				console.log(data);
 				
-			});;
+				
+			})
+			;
 	}
 
 	return (
