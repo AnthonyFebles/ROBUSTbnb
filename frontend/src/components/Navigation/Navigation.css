@@ -71,17 +71,23 @@ header {
 }
 
 .profile-dropdown {
+	margin-right: 20px;
+	margin-top: 8px;
 	font-size: 10px;
 	position: absolute;
 	right: 0;
 	border: solid black 1px ;
-	padding: 3px;
+	padding: 15px;
 	border-radius: 3px;
 	box-shadow: rgba(0, 0, 0, 0.1) 10px 10px 10px;
 	background-color: #ffffff;
+	border-radius: 5px;
 }
 
 .dropdown-li {
+	justify-content: center;
+
+	margin: 0 auto;
 	font-size: 20px;
 	padding-top: 5px;
 	padding-bottom: 5px;
@@ -116,6 +122,11 @@ header {
 
 .manage {
 	border-bottom: black solid 1px;
+}
+
+.logout {
+	border-radius: 40px;
+	margin: 0 auto;
 }
 
 .newSpotButton {

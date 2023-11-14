@@ -41,6 +41,18 @@ export const getSpots = () => async (dispatch) => {
 	return response;
 };
 
+export const getUserSpots = () => async (dispatch) => {
+	const res = await csrfFetch(`/api/spots/current`)
+
+	if (res.ok ){
+		console.log(res, "res");
+		const list = await res.json()
+		dispatch(load(list))
+	}
+	console.log(res, "res")
+	return res
+}
+
 
 
 export const createNewSpot = (spot) => async (dispatch) => {
@@ -62,7 +74,7 @@ export const createNewSpot = (spot) => async (dispatch) => {
 };
 
 export const updateSpot = (spot) => async (dispatch) => {
-	const response = await fetch(`/api/spot/${spot.id}`, {
+	const response = await csrfFetch(`/api/spot/${spot.id}`, {
 		method: "PUT",
 		body: JSON.stringify(spot),
 		headers: {
@@ -97,6 +109,7 @@ const SpotsReducer = (state = initialState, action) => {
 		case LOAD:
             //console.log(action, "console log the action")
 			const allSpots = {};
+			if(action.list.Spots) {
 			action.list.Spots.forEach((spot) => {
 				allSpots[spot.id] = spot;
 			});
@@ -105,6 +118,10 @@ const SpotsReducer = (state = initialState, action) => {
 				...allSpots,
 				...state,
 				list: sortList(action.list.Spots),
+			}}else return {
+				...allSpots,
+				...state,
+				
 			};
 	
 		
