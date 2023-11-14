@@ -1,32 +1,48 @@
-//aka Landing Page
 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./ManageSpots.css";
-import { getUserSpots } from "../../store/spots";
-import { NavLink, useParams, Route } from "react-router-dom";
+import { getUserSpots } from "../../store/userSpot";
+import { NavLink, useParams, Route, useHistory } from "react-router-dom";
 import SpotDetails from "../SpotDetails";
+
+
+
+//! LOADING PREVIOUS SPOTS IN STATE, SHOULD USE A NEW REDUCER CALLED USER SPOT TO GET RID OF THIS BUG MORE EASILY
+//! LOADING PREVIOUS SPOTS IN STATE, SHOULD USE A NEW REDUCER CALLED USER SPOT TO GET RID OF THIS BUG MORE EASILY
+//! LOADING PREVIOUS SPOTS IN STATE, SHOULD USE A NEW REDUCER CALLED USER SPOT TO GET RID OF THIS BUG MORE EASILY
+//! LOADING PREVIOUS SPOTS IN STATE, SHOULD USE A NEW REDUCER CALLED USER SPOT TO GET RID OF THIS BUG MORE EASILY
+//! LOADING PREVIOUS SPOTS IN STATE, SHOULD USE A NEW REDUCER CALLED USER SPOT TO GET RID OF THIS BUG MORE EASILY
+//! LOADING PREVIOUS SPOTS IN STATE, SHOULD USE A NEW REDUCER CALLED USER SPOT TO GET RID OF THIS BUG MORE EASILY
+//! LOADING PREVIOUS SPOTS IN STATE, SHOULD USE A NEW REDUCER CALLED USER SPOT TO GET RID OF THIS BUG MORE EASILY
+//! LOADING PREVIOUS SPOTS IN STATE, SHOULD USE A NEW REDUCER CALLED USER SPOT TO GET RID OF THIS BUG MORE EASILY
 
 const ManageSpots = () => {
 	const dispatch = useDispatch();
+    const history = useHistory()
 
 	useEffect(() => {
 		dispatch(getUserSpots());
 	}, [dispatch]);
 
-	const { spotId } = useParams();
+	const handleNewSpot = () => {
+        history.push('/spots/new')
+    }
 
 	const spot = useSelector((state) => {
-		//console.log( state.spots, "console.log the state")
-		return state.spots.list.map((spotId) => state.spots[spotId]);
+		//console.log( state, "console.log the state")
+		return state.userSpots.userList.map((spotId) => state.userSpots[spotId]);
 	});
 
-    console.log(spot, 'spot')
+    //console.log(spot, 'spot')
 
 	if (!spot.length) {
 		
 		return (
-            <button>Create New Spot</button>
+            <div className="outer-div-manage">
+				<h1 className="manage-spots-header">Manage Your Spots</h1>
+            <button onClick={handleNewSpot} >Create New Spot</button>
+            </div>
         )
 	}
 
@@ -39,7 +55,7 @@ const ManageSpots = () => {
 	return (
 		<>
 			<div className="outer-div-manage">
-				<h1 className="manage-spots-header">Manage Spots</h1>
+				<h1 className="manage-spots-header">Manage Your Spots</h1>
 				<nav>
 					{spot.toReversed().map((spot) => {
 						return (
