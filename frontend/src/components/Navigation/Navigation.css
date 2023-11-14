@@ -103,6 +103,21 @@ header {
 	color: gray;
 }
 
+.manage-spots{
+	background: white;
+	color: black;
+	border: none;
+	box-shadow: none;
+	width: 100%;
+}
+.email {
+	border-bottom: black solid 1px;
+}
+
+.manage {
+	border-bottom: black solid 1px;
+}
+
 .newSpotButton {
 	
 	align-self: center;
