@@ -52,8 +52,8 @@ export const createNewSpot = (spot) => async (dispatch) => {
 	return new Error("Failed to create Spot");
 };
 
-export const updateSpot = (spot) => async (dispatch) => {
-	const response = await fetch(`/api/spots/${spot.id}`, {
+export const updateSpot = (spot, spotId) => async (dispatch) => {
+	const response = await csrfFetch(`/api/spots/${spotId}`, {
 		method: "PUT",
 		body: JSON.stringify(spot),
 		headers: {
@@ -63,7 +63,7 @@ export const updateSpot = (spot) => async (dispatch) => {
 
 	if (response.ok) {
 		const Spot = await response.json();
-		dispatch(updatedSpot(spot));
+		dispatch(createSpot(spot));
 		return Spot;
 	}
 
@@ -84,6 +84,9 @@ const SpotReducer = (state = {}, action) => {
 				...state,
 				...action.spot[0],
 			};
+
+		
+
 
 		default:
 			return state;

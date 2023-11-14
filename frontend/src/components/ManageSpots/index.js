@@ -8,19 +8,12 @@ import SpotDetails from "../SpotDetails";
 
 
 
-//! LOADING PREVIOUS SPOTS IN STATE, SHOULD USE A NEW REDUCER CALLED USER SPOT TO GET RID OF THIS BUG MORE EASILY
-//! LOADING PREVIOUS SPOTS IN STATE, SHOULD USE A NEW REDUCER CALLED USER SPOT TO GET RID OF THIS BUG MORE EASILY
-//! LOADING PREVIOUS SPOTS IN STATE, SHOULD USE A NEW REDUCER CALLED USER SPOT TO GET RID OF THIS BUG MORE EASILY
-//! LOADING PREVIOUS SPOTS IN STATE, SHOULD USE A NEW REDUCER CALLED USER SPOT TO GET RID OF THIS BUG MORE EASILY
-//! LOADING PREVIOUS SPOTS IN STATE, SHOULD USE A NEW REDUCER CALLED USER SPOT TO GET RID OF THIS BUG MORE EASILY
-//! LOADING PREVIOUS SPOTS IN STATE, SHOULD USE A NEW REDUCER CALLED USER SPOT TO GET RID OF THIS BUG MORE EASILY
-//! LOADING PREVIOUS SPOTS IN STATE, SHOULD USE A NEW REDUCER CALLED USER SPOT TO GET RID OF THIS BUG MORE EASILY
-//! LOADING PREVIOUS SPOTS IN STATE, SHOULD USE A NEW REDUCER CALLED USER SPOT TO GET RID OF THIS BUG MORE EASILY
-
 const ManageSpots = () => {
 	const dispatch = useDispatch();
     const history = useHistory()
 
+    const {spotId} = useParams
+ 
 	useEffect(() => {
 		dispatch(getUserSpots());
 	}, [dispatch]);
@@ -45,12 +38,9 @@ const ManageSpots = () => {
             </div>
         )
 	}
-
-	//console.log(spot,'console.log spot')
-
-	// spot.forEach(element => {
-	//     <h2>{element.name}</h2>
-	// });
+const handleUpdate = (spot) => {
+    history.push(`/spots/${spot.id}/edit`)
+}
 
 	return (
 		<>
@@ -100,14 +90,14 @@ const ManageSpots = () => {
 												)}
 											</div>
 										</div>
-										<div className="update-delete-container">
-											<span className="update-delete-buttons">
-												<button className="update">Update</button>{" "}
-												<button className="delete">Delete</button>
-											</span>
-										</div>
 									</div>
 								</NavLink>
+								<div className="update-delete-container">
+									<span className="update-delete-buttons">
+										<button className="update" onClick={()=> handleUpdate(spot)} > Update</button>{" "}
+										<button className="delete">Delete</button>
+									</span>
+								</div>
 							</div>
 						);
 					})}

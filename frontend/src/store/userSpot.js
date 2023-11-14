@@ -17,7 +17,7 @@ export const getUserSpots = () => async (dispatch) => {
 
 	if (res.ok) {
         const userList = await res.json();
-		console.log(userList, "res");
+		//console.log(userList, "res");
 		dispatch(load(userList));
 	}
 	//console.log(res, "res");
@@ -41,13 +41,13 @@ const UserSpotsReducer = (state = initialState, action) => {
     //console.log(action, "action console.log line 41 reducer")
 	switch (action.type) {
 		case LOAD:
-			console.log(action, "console log the action")
+			//console.log(action, "console log the action")
 			const allSpots = {};
 			if (action.userList.Spots) {
 				action.userList.Spots.forEach((spot) => {
 					allSpots[spot.id] = spot;
 				});
-				console.log(action, "load action");
+				//console.log(action, "load action");
 				return {
 					...allSpots,
 					...state,
@@ -61,7 +61,7 @@ const UserSpotsReducer = (state = initialState, action) => {
 				};
 
 		default:
-            console.log('enter default')
+            //console.log('enter default')
 			return state;
 	}
 };
