@@ -25,6 +25,8 @@ const NewSpot = () => {
 	const [imageThree, setImageThree] = useState("");
 	const [imageFour, setImageFour] = useState("");
 	const [errors, setErrors] = useState({});
+	const [imgErrors, setImageErrors] = useState({});
+    const [createClick, setCreateClick] = useState(false)
 
 	useEffect(() => {
 		dispatch(getSpots());
@@ -34,8 +36,7 @@ const NewSpot = () => {
 		return state.spots.list;
 	});
 
-    const spotId = spots.length + 1;
-    
+	const spotId = spots.length + 1;
 
 	//console.log(spots, "spots");
 
@@ -53,12 +54,56 @@ const NewSpot = () => {
 
 	const imgPayload = [previewImg, imageOne, imageTwo, imageThree, imageFour];
 
+	for (let i = 0; i < imgPayload.length; i++) {
+		let currImg = imgPayload[i];
+		imgPayload[i] = { url: currImg, spotId: spotId, preview: false };
+		imgPayload[0].preview = true;
+
+		console.log(imgPayload);
+	}
+
+	//png, .jpg, or .jpeg
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		setErrors({});
-		return dispatch(createNewSpot(payload))
-			.catch(async (res) => {
+        setCreateClick(true)
+
+		return dispatch(createNewSpot(payload)).then(
+			() => {
+				return imgPayload.forEach((el, idx, arr) => {
+					dispatch(addImage(spotId, el)).then(
+						() => {
+							return history.push(`/spots/${spotId}`);
+						},
+						async (res) => {
+							const data = await res.json();
+							if (data) {
+								console.log(data, "imgErrordata");
+								if (data.message) {
+									setErrors({ message: data.message });
+									alert(data.message);
+								}
+								if (data.errors) {
+									const derrors = data.errors;
+									console.log(derrors, "img errors");
+								}
+							}
+						}
+					);
+				});
+			},
+			async (res) => {
 				const data = await res.json();
+				if (previewImg.length === 0) {
+					console.log(previewImg.length, "img preview");
+
+					setErrors({
+						preview: "Preview image is required",
+					});
+					console.log(errors.preview);
+				}
+
 				if (data) {
 					if (data.message) {
 						setErrors({ message: data.message });
@@ -66,9 +111,10 @@ const NewSpot = () => {
 					}
 					if (data.errors instanceof Object) {
 						const derrors = data.errors;
-                        console.log(derrors, "form errors")
+						console.log(derrors, "form errors");
 						if (derrors) {
 							setErrors({
+								...errors,
 								address: derrors.address,
 								city: derrors.city,
 								country: derrors.country,
@@ -76,49 +122,34 @@ const NewSpot = () => {
 								name: derrors.name,
 								price: derrors.price,
 								state: derrors.state,
+								lat: derrors.lat,
+								lng: derrors.lng,
 							});
-
-							if (lat.length > 0) {
-								setErrors({
-									...errors,
-									lat: derrors.lat,
-								});
-							}
-							if (lng.length > 0) {
-								setErrors({
-									...errors,
-									lng: derrors.lng,
-								});
-							}
 						}
 					}
-                    
-                    if (typeof data.errors === typeof 'string') {
-                        alert(data.errors)
-                    }
-                    
-					if (!data.errors) {
-						
-                        return dispatch(addImage(imgPayload, spotId)).catch(async (res) => {
-                            const data = await res.json()
-                            if (data) {
-                                if (data.message) {
-                                    setErrors({message: data.message})
-                                    alert(data.message)
-                                }
-                                if(data.errors) {
-                                    const derrors = data.errors
-                                    console.log(derrors, 'img errors')
-                                }
-                            }
-                        }).then( () => [
-                            history.push(`/spots/${spotId}`)
-                        ])
-						
+
+					if (typeof data.errors === typeof "string") {
+						alert(data.errors);
 					}
 				}
-			})
+			}
+		);
+	};
+
+	const handleDisable = (preview, img1, img2, img3, img4) => {
+		if (preview.length > 1) {
+           if (
+							preview.toString().endsWith(".png") ||
+							preview.toString().endsWith(".jpg") ||
+							preview.toString().endsWith(".jpeg")
+						) {
+							
+							return false;
+						}
 			
+		}
+		
+		return true;
 	};
 
 	return (
@@ -132,6 +163,7 @@ const NewSpot = () => {
 			</div>
 			<form className="newSpotForm" onSubmit={handleSubmit}>
 				<div className="location-form">
+					{errors.country && <p className="rr">{errors.country}</p>}
 					<label>
 						Country
 						<input
@@ -140,7 +172,7 @@ const NewSpot = () => {
 							onChange={(e) => setCountry(e.target.value)}
 						></input>
 					</label>
-					{errors.country && <errors>{errors.country}</errors>}
+					{errors.address && <p className="rr">{errors.address}</p>}
 					<label>
 						Street Address
 						<input
@@ -149,8 +181,9 @@ const NewSpot = () => {
 							onChange={(e) => setAddress(e.target.value)}
 						></input>
 					</label>
-					{errors.address && <errors>{errors.address}</errors>}
+
 					<span className="cityState-form">
+						{errors.city && <p className="rr">{errors.city}</p>}
 						<label>
 							City
 							<input
@@ -159,7 +192,8 @@ const NewSpot = () => {
 								onChange={(e) => setCity(e.target.value)}
 							></input>
 						</label>
-						{errors.city && <errors>{errors.city}</errors>}
+
+						{errors.state && <p className="rr">{errors.state}</p>}
 						<label>
 							State
 							<input
@@ -168,9 +202,9 @@ const NewSpot = () => {
 								onChange={(e) => setState(e.target.value)}
 							></input>
 						</label>
-						{errors.state && <errors>{errors.state}</errors>}
 					</span>
 					<span className="latLong-form">
+						{errors.lat && <p className="rr">{errors.lat}</p>}
 						<label>
 							Latitude
 							<input
@@ -180,7 +214,8 @@ const NewSpot = () => {
 							></input>
 							,
 						</label>
-						{errors.lat && lat.length > 0 && <errors>{errors.lat}</errors>}
+
+						{errors.lng && <p className="rr">{errors.lng}</p>}
 						<label>
 							Longitude
 							<input
@@ -189,7 +224,6 @@ const NewSpot = () => {
 								onChange={(e) => setLng(e.target.value)}
 							></input>
 						</label>
-						{errors.lng && lng.length > 0 && <errors>{errors.lng}</errors>}
 					</span>
 				</div>
 
@@ -202,6 +236,7 @@ const NewSpot = () => {
 							neighborhood.
 						</p>
 					</div>
+					{errors.description && <p className="rr">{errors.description}</p>}
 					<textarea
 						className="descriptionText-form"
 						rows={10}
@@ -209,7 +244,6 @@ const NewSpot = () => {
 						value={description}
 						onChange={(e) => setDescription(e.target.value)}
 					></textarea>
-					{errors.description && <errors>{errors.description}</errors>}
 				</div>
 
 				<div className="title-form">
@@ -219,7 +253,7 @@ const NewSpot = () => {
 							Catch guests' attention with a spot title that highlights what
 							makes your place special.
 						</p>
-
+						{errors.name && <p className="rr">{errors.name}</p>}
 						<input
 							placeholder="Name of your spot"
 							value={title}
@@ -236,7 +270,7 @@ const NewSpot = () => {
 							higher in search results.
 						</p>
 					</div>
-					${" "}
+					$ {errors.price && <p className="rr">{errors.price}</p>}
 					<input
 						placeholder="Price per night(USD)"
 						value={price}
@@ -251,20 +285,95 @@ const NewSpot = () => {
 					</div>
 
 					<input
-						placeholder="Preview image URL)"
+						placeholder="Preview image URL"
 						value={previewImg}
-						onChange={(e) => setPreviewImg({url: e.target.value,
-		spotId,
-		isPreview: true})}
+						onChange={(e) => setPreviewImg(e.target.value)}
 					></input>
-					<input placeholder="Image URL"></input>
-					<input placeholder="Image URL"></input>
-					<input placeholder="Image URL"></input>
-					<input placeholder="Image URL"></input>
+					{createClick ? (
+						handleDisable(previewImg) ? (
+							<p className="rr">Image URL must end in .png, .jpg, or .jpeg</p>
+						) : (
+							<p></p>
+						)
+					) : (
+						<p></p>
+					)}
+
+					<input
+						placeholder="Image URL"
+						value={imageOne}
+						onChange={(e) => setImageOne(e.target.value)}
+					></input>
+					{createClick ? (
+						handleDisable(imageOne) ? (
+							<p className="rr">Image URL must end in .png, .jpg, or .jpeg</p>
+						) : (
+							<p></p>
+						)
+					) : (
+						<p></p>
+					)}
+
+					<input
+						placeholder="Image URL"
+						value={imageTwo}
+						onChange={(e) => setImageTwo(e.target.value)}
+					></input>
+					{createClick ? (
+						handleDisable(imageTwo) ? (
+							<p className="rr">Image URL must end in .png, .jpg, or .jpeg</p>
+						) : (
+							<p></p>
+						)
+					) : (
+						<p></p>
+					)}
+
+					<input
+						placeholder="Image URL"
+						value={imageThree}
+						onChange={(e) => setImageThree(e.target.value)}
+					></input>
+					{createClick ? (
+						handleDisable(imageThree) ? (
+							<p className="rr">Image URL must end in .png, .jpg, or .jpeg</p>
+						) : (
+							<p></p>
+						)
+					) : (
+						<p></p>
+					)}
+
+					<input
+						placeholder="Image URL"
+						value={imageFour}
+						onChange={(e) => setImageFour(e.target.value)}
+					></input>
+					{createClick ? (
+						handleDisable(imageFour) ? (
+							<p className="rr">Image URL must end in .png, .jpg, or .jpeg</p>
+						) : (
+							<p></p>
+						)
+					) : (
+						<p></p>
+					)}
 				</div>
 
 				<div className="submitButton-form">
-					<button className="createSpotButton-form">Create a spot</button>
+					<button
+                        
+						className="createSpotButton-form"
+						disabled={handleDisable(
+							previewImg,
+							imageOne,
+							imageTwo,
+							imageThree,
+							imageFour
+						)}
+					>
+						Create a spot
+					</button>
 				</div>
 			</form>
 		</>

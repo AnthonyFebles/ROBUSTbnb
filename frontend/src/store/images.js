@@ -22,7 +22,7 @@ const uploadImages = (payloadArray) => ({
 
 
 export const addImage= (spot, image) => async (dispatch) => {
-	const response = await csrfFetch(`/api/spot/${spot.id}`, {
+	const response = await csrfFetch(`/api/spots/${spot}/images`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",

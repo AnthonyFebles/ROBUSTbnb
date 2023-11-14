@@ -35,7 +35,7 @@ const AllSpots = () => {
 	return (
 		<>
 			<nav>
-				{spot.map((spot) => {
+				{spot.toReversed().map((spot) => {
 					return (
 						<div key={spot.id}  className="all-spots">
 							<NavLink to={`/spots/${spot.id}`}>

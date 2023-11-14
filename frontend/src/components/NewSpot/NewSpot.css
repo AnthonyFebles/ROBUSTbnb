@@ -28,3 +28,16 @@
 label {
     max-width: 400px
 }
+
+.rr {
+    color: red;
+    font-size: 15px;
+}
+
+.createSpotButton-form:disabled {
+    background-color: white;
+        color: grey;
+        border: grey solid 3px;
+        box-shadow: 0px 5px 0px;
+        cursor: not-allowed;
+}
