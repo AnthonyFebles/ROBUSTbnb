@@ -1,6 +1,12 @@
-a {
-    display: grid;
-    flex-direction: column;
+* {
+	box-sizing: border-box;
+	margin: 0;
+	
+	padding-right: 5 px	;
+}
+
+a, li, button {
+	text-align: center;
     text-decoration: none;
     color: black;
     font-size: 30px;
@@ -8,14 +14,13 @@ a {
 }
 
 li {
+	display: flex;
    list-style-type: none;
-   display: grid;
    font-size: 30px;
    font-family: nunito, roboto, proxima-nova, "proxima nova", sans-serif;
 }
 
 button {
-    
 	background: #ff4742;
 	border: 1px solid #ff4742;
 	border-radius: 6px;
@@ -23,7 +28,6 @@ button {
 	box-sizing: border-box;
 	color: #ffffff;
 	cursor: pointer;
-	display: inline-block;
 	font-family: nunito, roboto, proxima-nova, "proxima nova", sans-serif;
 	font-size: 16px;
 	font-weight: 800;
@@ -31,11 +35,113 @@ button {
 	min-height: 40px;
 	padding: 12px 14px;
 	text-align: center;
-    max-width: 300px;
+	
 }
 
 
 .hidden {
     display: none;
     visibility: hidden;
+}
+
+.logo {
+	padding-top: 5px;
+	max-width: 50px;
+	justify-content: center;
+}
+
+.profile-button {
+	padding-right: 40px;
+	align-self: center;
+}
+
+nav {
+	justify-content: center;
+
+}
+
+
+header {
+	display: flex;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+	padding-bottom: 5px;
+	justify-content: space-between; 
+	margin-bottom: 40px;
+
+}
+
+.profile-dropdown {
+	margin-right: 20px;
+	margin-top: 8px;
+	font-size: 10px;
+	position: absolute;
+	right: 0;
+	border: solid black 1px ;
+	padding: 15px;
+	border-radius: 3px;
+	box-shadow: rgba(0, 0, 0, 0.1) 10px 10px 10px;
+	background-color: #ffffff;
+	border-radius: 5px;
+}
+
+.dropdown-li {
+	justify-content: center;
+
+	margin: 0 auto;
+	font-size: 20px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.dropdown-li-logout, .dropdown-li-login, .dropdown-li-signup {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.actual-profile-button:hover {
+	box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px  ;
+}
+
+.actual-profile-button {
+	border-radius: 20px;
+	background-color: white;
+	border-color: gray;
+	color: gray;
+}
+
+.manage-spots{
+	background: white;
+	color: black;
+	border: none;
+	box-shadow: none;
+	width: 100%;
+}
+.email {
+	border-bottom: black solid 1px;
+}
+
+.manage {
+	border-bottom: black solid 1px;
+}
+
+.logout {
+	border-radius: 40px;
+	margin: 0 auto;
+}
+
+.newSpotButton {
+	
+	align-self: center;
+	margin: 0 auto;
+	margin-right: 20px;
+}
+
+.right-side-nav{
+	display: flex;
+}
+
+.new-spot-button {
+	background: white;
+		color: turquoise;
+		border: none;
 }

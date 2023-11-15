@@ -1,3 +1,5 @@
+
+
 let options = {};
 if (process.env.NODE_ENV === "production") {
 	options.schema = process.env.SCHEMA; // define your schema in options object
@@ -10,7 +12,7 @@ module.exports = {
 		options.tableName = "SpotImages";
 		return queryInterface.bulkInsert(options, [
 			{
-				url: "image.url",
+				url: "https://tinypic.host/images/2023/11/06/App_Academy_Building.jpeg",
 				spotId: 1,
 				isPreview: true,
 			},
@@ -23,6 +25,21 @@ module.exports = {
 				url: "images.urls",
 				spotId: 1,
 				isPreview: false,
+			},
+			{
+				url: "https://i.imgur.com/f9iJGg7.jpg",
+				spotId: 2,
+				isPreview: true,
+			},
+			{
+				url: "https://tinypic.host/images/2023/11/06/Capsule_Corp.webp",
+				spotId: 3,
+				isPreview: true,
+			},
+			{
+				url: "https://tinypic.host/images/2023/11/06/Capsule_Corporation.webp",
+				spotId: 4,
+				isPreview: true,
 			},
 		]);
 	},

@@ -1,0 +1,38 @@
+.dont-delete{
+    background: gray;
+    margin-bottom: 15px;
+    margin-top: 15px;
+     border: black solid 2px;
+    box-shadow: rgba(0, 0, 0, 1) 5px 5px;
+    width: 100%;
+}
+
+h2 {
+    font-size: 18px;
+    text-align: left;
+}
+
+.yes-delete{
+     margin-bottom: 15px;
+    margin-top: 15px;
+    
+     border: black solid 2px;
+    box-shadow: rgba(0, 0, 0, 1) 5px 5px;
+    width: 100%;
+}
+
+.delete-form {
+    display: flex;
+    border: none;
+    max-width: 35vw;
+    
+   
+}
+
+#modal-content{
+    border: black solid 3px;
+     margin: 3px auto;
+    padding: 0px 0px 0px 0px;
+    display:flex;
+    width: 40vw
+}

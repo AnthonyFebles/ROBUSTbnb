@@ -61,7 +61,7 @@ export const restoreUser = (user) => async (dispatch) => {
 }
 
 export const logOut = () => async (dispatch) => {
-    const res = await csrfFetch('api/session', {
+    const res = await csrfFetch('/api/session', {
         method: "DELETE"
     })
     
@@ -76,10 +76,12 @@ const sessionReducer = (state = { user: null }, action) => {
         case SET_USER: {
             const newState = {...state}
             newState.user = action.payload
-            return newState
+            console.log(action, 'this is the action for set_user')
+            return {user: action.payload.user}
         }
         case REMOVE_USER : {
             const newState = { ...state };
+            //console.log(newState, "new state in log out")
             newState.user = null
             return newState
         }

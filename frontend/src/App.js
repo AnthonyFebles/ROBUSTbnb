@@ -5,6 +5,11 @@ import LoginFormPage from './components/LoginFormModal'
 import SignupFormPage from "./components/SignupFormModal";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
+import AllSpots from "./components/AllSpots";
+import SpotDetails from "./components/SpotDetails";
+import NewSpot from "./components/NewSpot";
+import ManageSpots from "./components/ManageSpots";
+import UpdateSpot from "./components/UpdateSpot";
 
 function App() {
   const dispatch = useDispatch();
@@ -19,6 +24,21 @@ function App() {
 			<Navigation isLoaded={isLoaded} />
 			{isLoaded && (
 				<Switch>
+					<Route path='/spots/current'>
+						<ManageSpots/>
+					</Route>
+					<Route path='/spots/new'>
+						<NewSpot/>
+					</Route>
+					<Route path='/spots/:spotId/edit'>
+						<UpdateSpot/>
+					</Route>
+					<Route path='/spots/:spotId'>
+						<SpotDetails/>
+					</Route>
+					<Route exact path='/'>
+						<AllSpots/>
+					</Route>
 				</Switch>
 			)}
 		</>

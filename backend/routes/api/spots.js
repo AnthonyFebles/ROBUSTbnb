@@ -404,7 +404,7 @@ router.get("/current", requireAuth, async (req, res) => {
 					stars += currReview.stars;
 					//console.log(stars, "#######")
 				}
-				const avgRating = stars / currSpot.Reviews.length;
+				let avgRating = stars / currSpot.Reviews.length;
 				if (avgRating) {
 					avgRating = avgRating.toFixed(1);
 					currSpot.avgRating = Number(avgRating);
