@@ -166,7 +166,7 @@ router.get("/", async (req, res) => {
 		searchQuery.price = { [Op.between]: [minPrice, maxPrice] };
 	}
 
-	//console.log(searchQuery)
+	////console.log(searchQuery)
 
 	if (page > 0 && size > 0) {
 		query.limit = size;
@@ -196,7 +196,7 @@ router.get("/", async (req, res) => {
 
 	let spotList = [];
 
-	//console.log(yourSpots);
+	////console.log(yourSpots);
 
 	yourSpots.forEach((spot) => {
 		spotList.push(spot.toJSON());
@@ -236,14 +236,14 @@ router.get("/", async (req, res) => {
 				for (let j = 0; j < currSpot.Reviews.length; j++) {
 					const currReview = spotList[i].Reviews[j];
 					stars += currReview.stars;
-					//console.log(stars, "#######")
+					////console.log(stars, "#######")
 				}
 				let avgRating = stars / currSpot.Reviews.length;
 				if (avgRating) {
 					avgRating = avgRating.toFixed(1);
 					currSpot.avgRating = Number(avgRating);
 				} else currSpot.avgRating = 0;
-				//console.log(currSpot)
+				////console.log(currSpot)
 				//spotList[i].avgStarRating = spotList[i].Reviews[i].avgRating;
 			}
 
@@ -313,8 +313,8 @@ router.post("/", requireAuth, validateCreate, async (req, res) => {
 			},
 		});
 
-		//console.log(returnSpot);
-		res.status(201)
+		////console.log(returnSpot);
+		res.status(201);
 		return res.json(returnSpot);
 	} catch (error) {
 		res.status(400);
@@ -388,7 +388,7 @@ router.get("/current", requireAuth, async (req, res) => {
 
 	let spotList = [];
 
-	//console.log(yourSpots);
+	////console.log(yourSpots);
 
 	yourSpots.forEach((spot) => {
 		spotList.push(spot.toJSON());
@@ -402,14 +402,14 @@ router.get("/current", requireAuth, async (req, res) => {
 				for (let j = 0; j < currSpot.Reviews.length; j++) {
 					const currReview = spotList[i].Reviews[j];
 					stars += currReview.stars;
-					//console.log(stars, "#######")
+					////console.log(stars, "#######")
 				}
 				let avgRating = stars / currSpot.Reviews.length;
 				if (avgRating) {
 					avgRating = avgRating.toFixed(1);
 					currSpot.avgRating = Number(avgRating);
 				} else currSpot.avgRating = 0;
-				//console.log(currSpot)
+				////console.log(currSpot)
 				//spotList[i].avgStarRating = spotList[i].Reviews[i].avgRating;
 			}
 
@@ -471,12 +471,12 @@ router.get("/:spotId", async (req, res) => {
 		spotList.push(spot.toJSON());
 	});
 
-	//console.log(spotList[0].Reviews[0].avgRating);
+	////console.log(spotList[0].Reviews[0].avgRating);
 
 	if (spotList[0].Reviews[0]) {
 		spotList[0].numReviews = spotList[0].Reviews[0].numReviews;
 		spotList[0].avgStarRating = Number(spotList[0].Reviews[0].avgRating);
-	} else spotList[0].numReviews = 0
+	} else spotList[0].numReviews = 0;
 
 	delete spotList[0].Reviews;
 
@@ -623,7 +623,7 @@ router.get("/:spotId/reviews", async (req, res) => {
 		},
 	});
 
-	//console.log(checkSpot)
+	////console.log(checkSpot)
 
 	if (!checkSpot.length) {
 		res.status(404);
@@ -675,7 +675,7 @@ router.get("/:spotId/reviews", async (req, res) => {
 		reviewsList.push(Review.toJSON());
 	});
 
-	//console.log(reviewsList[0].Spot.id)
+	////console.log(reviewsList[0].Spot.id)
 
 	for (let i = 0; i < reviewsList.length; i++) {
 		let currReview = reviewsList[i];
@@ -768,7 +768,7 @@ router.post(
 			spotList.push(el.toJSON());
 		});
 
-		//console.log(spotList[0].Reviews)
+		////console.log(spotList[0].Reviews)
 
 		for (let i = 0; i < spotList[0].Reviews.length; i++) {
 			let currReview = spotList[0].Reviews[i];
@@ -786,7 +786,7 @@ router.post(
 			review,
 			stars,
 		});
-		res.status(201)
+		res.status(201);
 		res.json(newReview);
 	}
 );
@@ -921,7 +921,7 @@ router.post("/:spotId/bookings", requireAuth, async (req, res) => {
 		bookingList.push(el.toJSON());
 	});
 
-	//console.log(spotList)
+	////console.log(spotList)
 
 	if (spotList[0].ownerId === ownerId) {
 		res.status(403);
@@ -956,8 +956,7 @@ router.post("/:spotId/bookings", requireAuth, async (req, res) => {
 			if (isEqual(newEndDate, el.endDate)) {
 				errors.endDate = "End date conflicts with an existing booking";
 			}
-			errors.startDate =
-				"Start date conflicts with an existing booking";
+			errors.startDate = "Start date conflicts with an existing booking";
 			res.status(403);
 			return res.json({
 				message: "Sorry, this spot is already booked for the specified dates",
@@ -966,8 +965,7 @@ router.post("/:spotId/bookings", requireAuth, async (req, res) => {
 		}
 
 		if (isEqual(newStartDate, el.endDate)) {
-			errors.startDate =
-				"Start date conflicts with an existing booking";
+			errors.startDate = "Start date conflicts with an existing booking";
 			res.status(403);
 			return res.json({
 				message: "Sorry, this spot is already booked for the specified dates",
@@ -1030,8 +1028,7 @@ router.post("/:spotId/bookings", requireAuth, async (req, res) => {
 				{ inclusive: false }
 			)
 		) {
-			errors.startDate =
-				"Start date conflicts with an existing booking";
+			errors.startDate = "Start date conflicts with an existing booking";
 			errors.endDate = "End date conflicts with an existing booking";
 			res.status(403);
 			return res.json({
@@ -1040,7 +1037,7 @@ router.post("/:spotId/bookings", requireAuth, async (req, res) => {
 			});
 		}
 	});
-	//console.log(errors);
+	////console.log(errors);
 	if (errors.startDate || errors.endDate) {
 		res.status(403);
 		return res.json({
@@ -1049,7 +1046,7 @@ router.post("/:spotId/bookings", requireAuth, async (req, res) => {
 		});
 	}
 
-	//console.log(newStartDate, newEndDate, startDate, endDate);
+	////console.log(newStartDate, newEndDate, startDate, endDate);
 
 	const userId = parseInt(ownerId);
 

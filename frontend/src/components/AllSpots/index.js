@@ -17,16 +17,16 @@ const AllSpots = () => {
 	const { spotId } = useParams();
 
 	const spot = useSelector((state) => {
-		//console.log( state.spots, "console.log the state")
+		////console.log( state.spots, "//console.log the state")
 		return state.spots.list.map((spotId) => state.spots[spotId]);
 	});
 
 	if (!spot) {
-		//console.log('nothing here')
+		////console.log('nothing here')
 		return null;
 	}
 
-	//console.log(spot,'console.log spot')
+	////console.log(spot,'//console.log spot')
 
 	// spot.forEach(element => {
 	//     <h2>{element.name}</h2>
@@ -37,7 +37,7 @@ const AllSpots = () => {
 			<nav>
 				{spot.toReversed().map((spot) => {
 					return (
-						<div key={spot.id}  className="all-spots">
+						<div key={spot.id} className="all-spots">
 							<NavLink to={`/spots/${spot.id}`}>
 								<div className="thumbnail-container">
 									<div>

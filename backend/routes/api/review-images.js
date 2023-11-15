@@ -25,12 +25,7 @@ const router = express.Router();
 router.delete("/:imageId", requireAuth, async (req, res) => {
 	const userId = req.user.id;
 
-	
-
 	const imageId = req.params.imageId;
-
-	
-
 
 	const currImg = await ReviewImage.findByPk(imageId, {
 		include: {
@@ -39,7 +34,7 @@ router.delete("/:imageId", requireAuth, async (req, res) => {
 	});
 
 	if (!currImg) {
-		res.status(404)
+		res.status(404);
 		res.json({
 			message: "Review Image couldn't be found",
 		});
@@ -53,7 +48,7 @@ router.delete("/:imageId", requireAuth, async (req, res) => {
 		});
 	}
 
-	//console.log(currImg.Review.userId)
+	////console.log(currImg.Review.userId)
 
 	if (!currImg) {
 		res.status(404);
@@ -61,8 +56,6 @@ router.delete("/:imageId", requireAuth, async (req, res) => {
 			message: "Review Image couldn't be found",
 		});
 	}
-
-	
 
 	await currImg.destroy();
 

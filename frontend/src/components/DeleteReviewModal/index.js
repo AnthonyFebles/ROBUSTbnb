@@ -12,17 +12,17 @@ const DeleteReviewModal = ({ reviewId }) => {
 	const history = useHistory();
 	const { closeModal } = useModal();
 
-	console.log(reviewId);
+	//console.log(reviewId);
 
 	const handleAgree = (e) => {
 		e.preventDefault();
 		setErrors({});
 		dispatch(deleteReview(reviewId))
-			.then(()=> closeModal())
+			.then(() => closeModal())
 			.catch(async (res) => {
 				const data = await res.json();
 				if (data && data.message) setErrors({ message: data.message });
-				//console.log(data)
+				////console.log(data)
 				alert(data.message);
 			});
 	};

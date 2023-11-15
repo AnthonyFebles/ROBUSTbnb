@@ -6,15 +6,13 @@ import "./ConfirmDelete.css";
 import { useModal } from "../../context/Modal";
 import { deleteSpot } from "../../store/userSpot";
 
-const DeleteSpotModal = ({spotId}) => {
+const DeleteSpotModal = ({ spotId }) => {
 	const dispatch = useDispatch();
 	const [errors, setErrors] = useState({});
 	const history = useHistory();
 	const { closeModal } = useModal();
 
-	console.log(spotId)
-
-
+	//console.log(spotId)
 
 	const handleAgree = (e) => {
 		e.preventDefault();
@@ -24,17 +22,15 @@ const DeleteSpotModal = ({spotId}) => {
 			.catch(async (res) => {
 				const data = await res.json();
 				if (data && data.message) setErrors({ message: data.message });
-				//console.log(data)
+				////console.log(data)
 				alert(data.message);
 			});
 	};
 
-	
 	const handleDisagree = (e) => {
-		e.preventDefault()
-		return closeModal()
-	}
-	
+		e.preventDefault();
+		return closeModal();
+	};
 
 	return (
 		<>
@@ -42,11 +38,7 @@ const DeleteSpotModal = ({spotId}) => {
 			<form className="delete-form" onSubmit={(e) => e.preventDefault}>
 				{errors && <p>{errors.message}</p>}
 				<h2>Are you sure you want to remove this spot from the listings?</h2>
-				<button
-					className="yes-delete"
-					type="submit"
-					onClick={handleAgree}
-				>
+				<button className="yes-delete" type="submit" onClick={handleAgree}>
 					Yes(Delete Spot)
 				</button>
 				<button onClick={handleDisagree} className="dont-delete" type="submit">

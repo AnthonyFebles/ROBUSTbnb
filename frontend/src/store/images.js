@@ -4,24 +4,17 @@ const UPLOAD_IMAGE = "images/UPLOAD_IMAGE";
 const UPLOAD_IMAGES = "images/UPLOAD_IMAGES";
 const DELETE_IMAGE = "images/DELETE_IMAGE";
 
-
-
 const uploadImage = (payload) => ({
 	type: UPLOAD_IMAGE,
 	payload,
 });
-
-
-
 
 const uploadImages = (payloadArray) => ({
 	type: UPLOAD_IMAGES,
 	payloadArray,
 });
 
-
-
-export const addImage= (spot, image) => async (dispatch) => {
+export const addImage = (spot, image) => async (dispatch) => {
 	const response = await csrfFetch(`/api/spots/${spot}/images`, {
 		method: "POST",
 		headers: {
@@ -72,12 +65,12 @@ const sortList = (list) => {
 const ImageReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case UPLOAD_IMAGE:
-			//console.log(action, "console log the action")
+			////console.log(action, "console log the action")
 			const allSpots = {};
 			action.list.Spots.forEach((spot) => {
 				allSpots[spot.id] = spot;
 			});
-			console.log(action, "load action");
+			//console.log(action, "load action");
 			return {
 				...allSpots,
 				...state,

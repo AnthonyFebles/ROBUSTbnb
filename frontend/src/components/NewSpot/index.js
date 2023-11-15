@@ -26,7 +26,7 @@ const NewSpot = () => {
 	const [imageFour, setImageFour] = useState("");
 	const [errors, setErrors] = useState({});
 	const [imgErrors, setImageErrors] = useState({});
-    const [createClick, setCreateClick] = useState(false)
+	const [createClick, setCreateClick] = useState(false);
 
 	useEffect(() => {
 		dispatch(getSpots());
@@ -38,7 +38,7 @@ const NewSpot = () => {
 
 	const spotId = spots.length + 1;
 
-	//console.log(spots, "spots");
+	////console.log(spots, "spots");
 
 	const payload = {
 		address,
@@ -59,7 +59,7 @@ const NewSpot = () => {
 		imgPayload[i] = { url: currImg, spotId: spotId, preview: false };
 		imgPayload[0].preview = true;
 
-		console.log(imgPayload);
+		//console.log(imgPayload);
 	}
 
 	//png, .jpg, or .jpeg
@@ -67,7 +67,7 @@ const NewSpot = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		setErrors({});
-        setCreateClick(true)
+		setCreateClick(true);
 
 		return dispatch(createNewSpot(payload)).then(
 			() => {
@@ -79,14 +79,14 @@ const NewSpot = () => {
 						async (res) => {
 							const data = await res.json();
 							if (data) {
-								console.log(data, "imgErrordata");
+								//console.log(data, "imgErrordata");
 								if (data.message) {
 									setErrors({ message: data.message });
 									alert(data.message);
 								}
 								if (data.errors) {
 									const derrors = data.errors;
-									console.log(derrors, "img errors");
+									//console.log(derrors, "img errors");
 								}
 							}
 						}
@@ -96,12 +96,12 @@ const NewSpot = () => {
 			async (res) => {
 				const data = await res.json();
 				if (previewImg.length === 0) {
-					console.log(previewImg.length, "img preview");
+					//console.log(previewImg.length, "img preview");
 
 					setErrors({
 						preview: "Preview image is required",
 					});
-					console.log(errors.preview);
+					//console.log(errors.preview);
 				}
 
 				if (data) {
@@ -111,7 +111,7 @@ const NewSpot = () => {
 					}
 					if (data.errors instanceof Object) {
 						const derrors = data.errors;
-						console.log(derrors, "form errors");
+						//console.log(derrors, "form errors");
 						if (derrors) {
 							setErrors({
 								...errors,
@@ -138,17 +138,15 @@ const NewSpot = () => {
 
 	const handleDisable = (preview, img1, img2, img3, img4) => {
 		if (preview.length > 1) {
-           if (
-							preview.toString().endsWith(".png") ||
-							preview.toString().endsWith(".jpg") ||
-							preview.toString().endsWith(".jpeg")
-						) {
-							
-							return false;
-						}
-			
+			if (
+				preview.toString().endsWith(".png") ||
+				preview.toString().endsWith(".jpg") ||
+				preview.toString().endsWith(".jpeg")
+			) {
+				return false;
+			}
 		}
-		
+
 		return true;
 	};
 
@@ -362,7 +360,6 @@ const NewSpot = () => {
 
 				<div className="submitButton-form">
 					<button
-                        
 						className="createSpotButton-form"
 						disabled={handleDisable(
 							previewImg,
