@@ -15,7 +15,7 @@ const LoginFormModal = () => {
 	const { closeModal } = useModal();
 
 	if (sessionUser) {
-		//console.log(sessionUser)
+		//console.log(sessionUser);
 	}
 
 	const handleSubmit = (e) => {
@@ -26,7 +26,7 @@ const LoginFormModal = () => {
 			.catch(async (res) => {
 				const data = await res.json();
 				if (data && data.message) setErrors({ message: data.message });
-				////console.log(data)
+				//console.log(data)
 				alert(data.message);
 			});
 	};

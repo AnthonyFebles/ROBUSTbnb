@@ -27,10 +27,10 @@ const ReviewFormModal = ({ spotId }) => {
 		let createdReview = await dispatch(postReview(spotId, payload)).catch(
 			async (res) => {
 				const data = await res.json();
-				//console.log(data)
-				//console.log(data.errors)
+				//console.log(data);
+				//console.log(data.errors);
 				if (data && data.message) setErrors({ message: data.message });
-				////console.log(data)
+				//console.log(data)
 				alert(data.message);
 			}
 		);

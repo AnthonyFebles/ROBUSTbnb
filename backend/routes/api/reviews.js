@@ -60,7 +60,7 @@ router.get("/current", requireAuth, async (req, res) => {
 		reviewsList.push(Review.toJSON());
 	});
 
-	////console.log(reviewsList[0].Spot.id)
+	//console.log(reviewsList[0].Spot.id)
 
 	for (let i = 0; i < reviewsList.length; i++) {
 		let currReview = reviewsList[i];

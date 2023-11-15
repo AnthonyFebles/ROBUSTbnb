@@ -12,7 +12,7 @@ const DeleteSpotModal = ({ spotId }) => {
 	const history = useHistory();
 	const { closeModal } = useModal();
 
-	//console.log(spotId)
+	//console.log(spotId);
 
 	const handleAgree = (e) => {
 		e.preventDefault();
@@ -22,7 +22,7 @@ const DeleteSpotModal = ({ spotId }) => {
 			.catch(async (res) => {
 				const data = await res.json();
 				if (data && data.message) setErrors({ message: data.message });
-				////console.log(data)
+				//console.log(data)
 				alert(data.message);
 			});
 	};

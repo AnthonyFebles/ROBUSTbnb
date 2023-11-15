@@ -48,7 +48,7 @@ router.delete("/:imageId", requireAuth, async (req, res) => {
 		});
 	}
 
-	////console.log(currImg.Review.userId)
+	//console.log(currImg.Review.userId)
 
 	if (!currImg) {
 		res.status(404);
