@@ -7,124 +7,111 @@ import { useModal } from "../../context/Modal";
 import { postReview } from "../../store/reviews";
 import { useParams } from "react-router-dom";
 
+const ReviewFormModal = ({ spotId }) => {
+	const dispatch = useDispatch();
+	const sessionUser = useSelector((state) => state.session.user);
+	const [reviewText, setReviewText] = useState("");
+	const [stars, setStars] = useState(0);
+	const [errors, setErrors] = useState({});
+	const history = useHistory();
+	const { closeModal } = useModal();
 
-const ReviewFormModal = ({spotId}) => {
-    const dispatch = useDispatch();
-		const sessionUser = useSelector((state) => state.session.user);
-		const [reviewText, setReviewText] = useState("");
-		const [stars, setStars] = useState(0);
-		const [errors, setErrors] = useState({});
-		const history = useHistory();
-		const { closeModal } = useModal();
-        
+	const handleSubmit = async (e) => {
+		const payload = {
+			review: reviewText,
+			stars,
+		};
+		e.preventDefault();
+		setErrors({});
 
-       
-				
-				
-    const handleSubmit = async (e) =>{
-        
-        const payload = {
-            review: reviewText,
-            stars
-        }
-        e.preventDefault()
-        setErrors({})
-
-    
-        
-
-
-    let createdReview = await dispatch(postReview(spotId, payload)).catch(
+		let createdReview = await dispatch(postReview(spotId, payload)).catch(
 			async (res) => {
 				const data = await res.json();
-                console.log(data)
-                console.log(data.errors)
-				if (data && data.message) setErrors({message: data.message});
 				//console.log(data)
-				alert(data.message)
+				//console.log(data.errors)
+				if (data && data.message) setErrors({ message: data.message });
+				////console.log(data)
+				alert(data.message);
 			}
 		);
-        
-    if(createdReview) {
-        closeModal()
-        
-    }
-    return history.push(`/spots/${spotId}`);
-     }
 
-    const handleDisabled = (review, stars) => {
-			if (review.length < 10 || stars < 1) {
-				return true;
-			}
+		if (createdReview) {
+			closeModal();
+		}
+		return history.push(`/spots/${spotId}`);
+	};
 
-            
-			return false;
-		};
-    
-    const handleStars = (num) => {
-        return setStars(num)
-    }
+	const handleDisabled = (review, stars) => {
+		if (review.length < 10 || stars < 1) {
+			return true;
+		}
 
-    return (
-			<>
-				{errors && <p>{errors.message}</p>}
-				<h1>How was your stay?</h1>
-				<form className="review-form" onSubmit={handleSubmit}>
-					<label className="review-textarea">
-						<textarea
-							className="review-textarea"
-                            rows='6'
-							placeholder="Leave your review here..."
-							value={reviewText}
-							onChange={(e) => setReviewText(e.target.value)}
-							required
-						/>
-					</label>
-					<label className="stars">
-						<span
-							className={stars >= 1 ? "filled" : "empty"}
-							onClick={() => handleStars(1)}
-						>
-							<i className="fa-solid fa-star"></i>
-						</span>
-						<span
-							className={stars >= 2 ? "filled" : "empty"}
-							onClick={() => handleStars(2)}
-						>
-							<i className="fa-solid fa-star"></i>
-						</span>
-						<span
-							className={stars >= 3 ? "filled" : "empty"}
-							onClick={() => handleStars(3)}
-						>
-							<i className="fa-solid fa-star"></i>
-						</span>
-						<span
-							className={stars >= 4 ? "filled" : "empty"}
-							onClick={() => handleStars(4)}
-						>
-							<i className="fa-solid fa-star"></i>
-						</span>
-						<span
-							className={stars === 5 ? "filled" : "empty"}
-							onClick={() => handleStars(5)}
-						>
-							<i className="fa-solid fa-star"></i>
-						</span>
-						Stars
-					</label>
+		return false;
+	};
 
-					<button
-						className="review-button"
-						type="submit"
-						disabled={handleDisabled(reviewText, stars)}
+	const handleStars = (num) => {
+		return setStars(num);
+	};
+
+	return (
+		<>
+			{errors && <p>{errors.message}</p>}
+			<h1>How was your stay?</h1>
+			<form className="review-form" onSubmit={handleSubmit}>
+				<label className="review-textarea">
+					<textarea
+						className="review-textarea"
+						rows="6"
+						placeholder="Leave your review here..."
+						value={reviewText}
+						onChange={(e) => setReviewText(e.target.value)}
+						required
+					/>
+				</label>
+				<label className="stars">
+					<span
+						className={stars >= 1 ? "filled" : "empty"}
+						onClick={() => handleStars(1)}
 					>
-						Submit Your Review
-					</button>
-				</form>
-			</>
-		);
-}
+						<i className="fa-solid fa-star"></i>
+					</span>
+					<span
+						className={stars >= 2 ? "filled" : "empty"}
+						onClick={() => handleStars(2)}
+					>
+						<i className="fa-solid fa-star"></i>
+					</span>
+					<span
+						className={stars >= 3 ? "filled" : "empty"}
+						onClick={() => handleStars(3)}
+					>
+						<i className="fa-solid fa-star"></i>
+					</span>
+					<span
+						className={stars >= 4 ? "filled" : "empty"}
+						onClick={() => handleStars(4)}
+					>
+						<i className="fa-solid fa-star"></i>
+					</span>
+					<span
+						className={stars === 5 ? "filled" : "empty"}
+						onClick={() => handleStars(5)}
+					>
+						<i className="fa-solid fa-star"></i>
+					</span>
+					Stars
+				</label>
 
+				<button
+					className="review-button"
+					type="submit"
+					disabled={handleDisabled(reviewText, stars)}
+				>
+					Submit Your Review
+				</button>
+			</form>
+		</>
+	);
+};
 
-export default ReviewFormModal
+export default ReviewFormModal;

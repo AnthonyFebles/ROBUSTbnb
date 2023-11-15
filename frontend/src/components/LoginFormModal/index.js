@@ -12,10 +12,10 @@ const LoginFormModal = () => {
 	const [password, setPassword] = useState("");
 	const [errors, setErrors] = useState({});
 	const history = useHistory();
-	const { closeModal } = useModal()
+	const { closeModal } = useModal();
 
-	if(sessionUser) {
-		console.log(sessionUser)
+	if (sessionUser) {
+		//console.log(sessionUser)
 	}
 
 	const handleSubmit = (e) => {
@@ -26,34 +26,32 @@ const LoginFormModal = () => {
 			.catch(async (res) => {
 				const data = await res.json();
 				if (data && data.message) setErrors({ message: data.message });
-				//console.log(data)
+				////console.log(data)
 				alert(data.message);
 			});
 	};
 
 	const handleDisabled = (cred, pass) => {
-		if (cred.length < 4 || pass.length < 6 ) {
-			return true
+		if (cred.length < 4 || pass.length < 6) {
+			return true;
 		}
-		return false
-	}
+		return false;
+	};
 
-	const handleDemo =() => {
-		setCredential('Isa-Demo')
-		setPassword('password')
-		 dispatch(sessionActions.logIn({ credential, password }))
-			.then(() => closeModal()).catch(async (res) => {
+	const handleDemo = () => {
+		setCredential("Isa-Demo");
+		setPassword("password");
+		dispatch(sessionActions.logIn({ credential, password }))
+			.then(() => closeModal())
+			.catch(async (res) => {
 				const data = await res.json();
-				
-				
-			})
-			;
-	}
+			});
+	};
 
 	return (
 		<>
 			<h1>Log In</h1>
-			<form className='login-form' onSubmit={handleSubmit}>
+			<form className="login-form" onSubmit={handleSubmit}>
 				<label>
 					Username or Email
 					<input
@@ -80,12 +78,7 @@ const LoginFormModal = () => {
 				>
 					Log In
 				</button>
-				<button
-				    onClick={handleDemo}
-					className="demo-login"
-					type="submit"
-					
-				>
+				<button onClick={handleDemo} className="demo-login" type="submit">
 					Demo User
 				</button>
 			</form>

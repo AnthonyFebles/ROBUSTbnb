@@ -60,7 +60,7 @@ router.get("/current", requireAuth, async (req, res) => {
 		reviewsList.push(Review.toJSON());
 	});
 
-	//console.log(reviewsList[0].Spot.id)
+	////console.log(reviewsList[0].Spot.id)
 
 	for (let i = 0; i < reviewsList.length; i++) {
 		let currReview = reviewsList[i];
@@ -152,8 +152,6 @@ router.post("/:reviewId/Images", requireAuth, async (req, res) => {
 		});
 	}
 
-	
-
 	const thisReviewList = [];
 
 	thisReview.forEach((el) => {
@@ -200,14 +198,14 @@ router.put("/:reviewId", requireAuth, async (req, res) => {
 			errors.review = "Review text is required";
 		}
 
-		if (stars > 5 || stars < 1 ) {
+		if (stars > 5 || stars < 1) {
 			errors.stars = "Stars must be an integer from 1 to 5";
 		}
 
-		if (typeof stars !== typeof 1){
+		if (typeof stars !== typeof 1) {
 			errors.stars = "Stars must be an integer from 1 to 5";
 		}
-		
+
 		res.status(400);
 		return res.json({
 			message: "Bad Request",

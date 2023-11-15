@@ -10,20 +10,18 @@ import { getOne, updateSpot } from "../../store/spot";
 const UpdateSpot = () => {
 	const dispatch = useDispatch();
 	const history = useHistory();
-    //console.log(spot, "spot from props")
-    const spot = history.location.state?.prop1;
-    console.log(spot, "prop1")
-	
-    const { spotId } = useParams();
-	console.log(spotId, "spotid");
+	////console.log(spot, "spot from props")
+	const spot = history.location.state?.prop1;
+	//console.log(spot, "prop1")
 
-	
+	const { spotId } = useParams();
+	//console.log(spotId, "spotid");
 
-		useEffect( () => {
-		 dispatch(getOne(spotId));
-		}, [dispatch]);
+	useEffect(() => {
+		dispatch(getOne(spotId));
+	}, [dispatch]);
 
-	console.log(spot, "spot");
+	//console.log(spot, "spot");
 
 	let currImg1;
 	let currImg2;
@@ -63,16 +61,7 @@ const UpdateSpot = () => {
 	const [imgErrors, setImageErrors] = useState({});
 	const [createClick, setCreateClick] = useState(false);
 
-
-
-
-	
-
-
-
-   
-
-	//console.log(spots, "spots");
+	////console.log(spots, "spots");
 
 	const payload = {
 		address,
@@ -93,7 +82,7 @@ const UpdateSpot = () => {
 		imgPayload[i] = { url: currImg, spotId: spotId, preview: false };
 		imgPayload[0].preview = true;
 
-		//console.log(imgPayload);
+		////console.log(imgPayload);
 	}
 
 	const handleDisable = (array) => {
@@ -108,10 +97,10 @@ const UpdateSpot = () => {
 					currImg.url.toString().endsWith(".jpg") ||
 					currImg.url.toString().endsWith(".jpeg")
 				) {
-					//console.log(currImg.url, "currimg pass");
+					////console.log(currImg.url, "currimg pass");
 					res = false;
 				} else {
-					//console.log(currImg.url, 'failed img')
+					////console.log(currImg.url, 'failed img')
 					res = true;
 					break;
 				}
@@ -138,14 +127,14 @@ const UpdateSpot = () => {
 						async (res) => {
 							const data = await res.json();
 							if (data) {
-								//console.log(data, "imgErrordata");
+								////console.log(data, "imgErrordata");
 								if (data.message) {
 									setErrors({ message: data.message });
 									alert(data.message);
 								}
 								if (data.errors) {
 									const derrors = data.errors;
-									//console.log(derrors, "img errors");
+									////console.log(derrors, "img errors");
 								}
 							}
 						}
@@ -155,12 +144,12 @@ const UpdateSpot = () => {
 			async (res) => {
 				const data = await res.json();
 				if (previewImg.length === 0) {
-					//console.log(previewImg.length, "img preview");
+					////console.log(previewImg.length, "img preview");
 
 					setErrors({
 						preview: "Preview image is required",
 					});
-					//console.log(errors.preview);
+					////console.log(errors.preview);
 				}
 
 				if (data) {
@@ -170,7 +159,7 @@ const UpdateSpot = () => {
 					}
 					if (data.errors instanceof Object) {
 						const derrors = data.errors;
-						//console.log(derrors, "form errors");
+						////console.log(derrors, "form errors");
 						if (derrors) {
 							setErrors({
 								...errors,

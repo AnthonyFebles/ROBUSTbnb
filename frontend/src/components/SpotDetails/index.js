@@ -3,28 +3,24 @@ import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getOne } from "../../store/spot";
 import { getReviews } from "../../store/reviews";
-import './SpotDetails.css'
+import "./SpotDetails.css";
 import OpenModalButton from "../OpenModalButton";
 import ReviewFormModal from "../ReviewFormModal";
 import DeleteReviewModal from "../DeleteReviewModal";
-
 
 const SpotDetails = () => {
 	const dispatch = useDispatch();
 
 	let { spotId } = useParams();
-	console.log(spotId, 'spotId use params')
-	console.log(useParams())
+	//console.log(spotId, 'spotId use params')
+	//console.log(useParams())
 
-	
 	const [avgStars, setAvgStars] = useState(0);
 
 	useEffect(() => {
 		dispatch(getOne(spotId));
 		dispatch(getReviews(spotId));
-	}, [dispatch, ReviewFormModal ]);
-
-
+	}, [dispatch, ReviewFormModal]);
 
 	useEffect(() => {
 		let final = 0;
@@ -32,147 +28,134 @@ const SpotDetails = () => {
 		for (let i = 0; i < Reviews.length; i++) {
 			const currReview = Reviews[i];
 			total += currReview.stars;
-			//console.log(currReview)
+			////console.log(currReview)
 		}
 
 		if (total > 0) {
 			final = parseFloat(total / Reviews.length).toFixed(2);
 		}
-		//console.log(final, 'total', total)
+		////console.log(final, 'total', total)
 		setAvgStars(final);
 	});
 
-	//console.log(owner, "owner");
+	////console.log(owner, "owner");
 
 	const Spot = useSelector((state) => {
-		return state.spot
+		return state.spot;
 	});
 
 	const user = useSelector((state) => {
-		console.log(state.session, "session slice of state aka user variable")
-		return state.session.user
-	})
+		//console.log(state.session, "session slice of state aka user variable")
+		return state.session.user;
+	});
 	// useEffect(() => {
 	//     setReviews(Reviews)
-	//     console.log(reviews, "reviews")
+	//     //console.log(reviews, "reviews")
 	// }, [Spot] )
 
 	const Reviews = useSelector((state) => {
-		console.log(state, "entire state in side Reviews");
-        if(state.reviews.list.message) {
-            return []
-        }
+		//console.log(state, "entire state in side Reviews");
+		if (state.reviews.list.message) {
+			return [];
+		}
 		return state.reviews.list.map((spotId) => state.reviews[spotId]);
 	});
 
-	if( Reviews) {
-		for (let i = 0; i < Reviews.length ; i++) {
-			let currReview = Reviews[i]
+	if (Reviews) {
+		for (let i = 0; i < Reviews.length; i++) {
+			let currReview = Reviews[i];
 			if (currReview === undefined) {
-				let deadArr = Reviews.splice(i,1)
+				let deadArr = Reviews.splice(i, 1);
 			}
 		}
 	}
 
-	console.log(Reviews, "Reviews");
+	//console.log(Reviews, "Reviews");
 
-    //console.log(Spot, "spot")
-	
+	////console.log(Spot, "spot")
+
 	if (!Reviews.length) {
-		//console.log("no reviews");
+		////console.log("no reviews");
 	}
 
 	let content = null;
 
 	let numReviews = null;
 
-    const reviewDate = (element) => {
-        const arr = element.split('-')
-        const year = arr[0]
-        const month = arr[1]
+	const reviewDate = (element) => {
+		const arr = element.split("-");
+		const year = arr[0];
+		const month = arr[1];
 
-        const monthNames = [
-					"January",
-					"February",
-					"March",
-					"April",
-					"May",
-					"June",
-					"July",
-					"August",
-					"September",
-					"October",
-					"November",
-					"December",
-				];
-        const longMonth = monthNames[month -1]
+		const monthNames = [
+			"January",
+			"February",
+			"March",
+			"April",
+			"May",
+			"June",
+			"July",
+			"August",
+			"September",
+			"October",
+			"November",
+			"December",
+		];
+		const longMonth = monthNames[month - 1];
 
-        const date = `${longMonth} ${year}`
-        return date
-    
-    }
-if(Reviews[0]) {
-    console.log(reviewDate(Reviews[0].createdAt))
-}
+		const date = `${longMonth} ${year}`;
+		return date;
+	};
+	if (Reviews[0]) {
+		//console.log(reviewDate(Reviews[0].createdAt))
+	}
 	if (Reviews.length === 1) {
-		numReviews = (
-			
-				<b>{Reviews.length} review</b>
-			
-		);
+		numReviews = <b>{Reviews.length} review</b>;
 	}
 
 	if (Reviews.length > 1) {
-		numReviews = (
-			
-				<b>{Reviews.length} reviews</b>
-			
-		);
+		numReviews = <b>{Reviews.length} reviews</b>;
 	}
 
 	let owner;
 
-	if( Spot.Owner) {
-		owner = Spot.Owner[0]
+	if (Spot.Owner) {
+		owner = Spot.Owner[0];
 	}
 	let isOwner = false;
 	if (user && Spot.Owner) {
-		console.log(user.id, "user");
+		//console.log(user.id, "user");
 		const isOwnerFunc = () => {
 			if (user.id === Spot.Owner[0].id) {
-				return true 
-			}
-			else return false 
+				return true;
+			} else return false;
 		};
 		isOwner = isOwnerFunc();
 	}
 
 	let hasReview = false;
 
-	
-	
-
 	const hasReviewFunc = () => {
 		if (Reviews.length) {
 			for (let i = 0; i < Reviews.length; i++) {
 				let currReview = Reviews[i];
-				console.log(currReview, "currReview");
+				//console.log(currReview, "currReview");
 				if (user) {
-					if(currReview){
-					if (user.id === currReview.userId) {
-						console.log("you have a review");
-						return true
+					if (currReview) {
+						if (user.id === currReview.userId) {
+							//console.log("you have a review");
+							return true;
+						}
 					}
 				}
 			}
-			}
 		}
-		return false
-	}
+		return false;
+	};
 
-	hasReview = hasReviewFunc()
+	hasReview = hasReviewFunc();
 
-	//console.log(Spot.Owner[0].id, "owner")
+	////console.log(Spot.Owner[0].id, "owner")
 
 	content = (
 		<div className="Spot-detail-lists">
@@ -305,11 +288,7 @@ if(Reviews[0]) {
 		</div>
 	);
 
-	return (
-		<body className="spot-detail">
-			{content}
-		</body>
-	);
+	return <body className="spot-detail">{content}</body>;
 };
 
 export default SpotDetails;

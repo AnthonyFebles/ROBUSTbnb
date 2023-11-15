@@ -13,18 +13,15 @@ const removeSpot = (spotId) => ({
 	spotId,
 });
 
-
-
-
 export const getUserSpots = () => async (dispatch) => {
 	const res = await csrfFetch(`/api/spots/current`);
 
 	if (res.ok) {
-        const userList = await res.json();
-		//console.log(userList, "res");
+		const userList = await res.json();
+		////console.log(userList, "res");
 		dispatch(load(userList));
 	}
-	//console.log(res, "res");
+	////console.log(res, "res");
 	return res;
 };
 export const deleteSpot = (spotId) => async (dispatch) => {
@@ -34,14 +31,13 @@ export const deleteSpot = (spotId) => async (dispatch) => {
 
 	if (res.ok) {
 		const spot = await res.json();
-		console.log(spot, "res when deleting spot");
+		//console.log(spot, "res when deleting spot");
 		dispatch(removeSpot(spotId));
 		return spot;
 	}
 
 	return res;
 };
-
 
 const initialState = {
 	userList: [],
@@ -56,16 +52,16 @@ const sortList = (list) => {
 };
 
 const UserSpotsReducer = (state = initialState, action) => {
-    //console.log(action, "action console.log line 41 reducer")
+	////console.log(action, "action //console.log line 41 reducer")
 	switch (action.type) {
 		case LOAD:
-			//console.log(action, "console log the action")
+			////console.log(action, "console log the action")
 			const allSpots = {};
 			if (action.userList.Spots) {
 				action.userList.Spots.forEach((spot) => {
 					allSpots[spot.id] = spot;
 				});
-				//console.log(action, "load action");
+				////console.log(action, "load action");
 				return {
 					...allSpots,
 					...state,
@@ -74,25 +70,22 @@ const UserSpotsReducer = (state = initialState, action) => {
 			} else
 				return {
 					...state,
-                    userList: []
-					
+					userList: [],
 				};
 
 		case DELETE_SPOT:
-			console.log(action, "action when deleting")
-			console.log(state, "state when deleting")
+			//console.log(action, "action when deleting")
+			//console.log(state, "state when deleting")
 			const newState = { ...state };
 			delete newState[action.spotId];
-			const index = newState.userList.indexOf(action.spotId)
-			const x = newState.userList.splice(index, 1)
-			console.log(newState, "newState when deleting a spot")
-			console.log(x, 'index removed')
+			const index = newState.userList.indexOf(action.spotId);
+			const x = newState.userList.splice(index, 1);
+			//console.log(newState, "newState when deleting a spot")
+			//console.log(x, 'index removed')
 			return newState;
 
-		
-
 		default:
-            //console.log('enter default')
+			////console.log('enter default')
 			return state;
 	}
 };

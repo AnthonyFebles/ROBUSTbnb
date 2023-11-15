@@ -2,15 +2,12 @@ import { csrfFetch } from "./csrf";
 const LOAD = "spot/LOAD";
 const CREATE_SPOT = "spot/CREATE_Spot";
 const UPDATE_SPOT = "spot/UPDATE_Spot";
-const DELETE_SPOT = 'spot/DELETE'
-
-
+const DELETE_SPOT = "spot/DELETE";
 
 const load = (list) => ({
 	type: LOAD,
 	list,
 });
-
 
 const createSpot = (spot) => ({
 	type: CREATE_SPOT,
@@ -22,28 +19,18 @@ const updatedSpot = (spot) => ({
 	spot,
 });
 
-
-
-
-
 export const getSpots = () => async (dispatch) => {
 	const response = await fetch(`/api/spots`);
 
 	if (response.ok) {
 		const list = await response.json();
-        //console.log(list, "This is the list **********")
-		//console.log(list, "***************")
+		////console.log(list, "This is the list **********")
+		////console.log(list, "***************")
 		dispatch(load(list));
 	}
 
-    
-
 	return response;
 };
-
-
-
-
 
 export const createNewSpot = (spot) => async (dispatch) => {
 	const response = await csrfFetch(`/api/spots`, {
@@ -83,7 +70,6 @@ export const updateSpot = (spot) => async (dispatch) => {
 
 const initialState = {
 	list: [],
-	
 };
 
 const sortList = (list) => {
@@ -97,24 +83,24 @@ const sortList = (list) => {
 const SpotsReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case LOAD:
-            //console.log(action, "console log the action")
+			////console.log(action, "console log the action")
 			const allSpots = {};
-			if(action.list.Spots) {
-			action.list.Spots.forEach((spot) => {
-				allSpots[spot.id] = spot;
-			});
-            console.log(action, "load action")
-			return {
-				...allSpots,
-				...state,
-				list: sortList(action.list.Spots),
-			}}else return {
-				...allSpots,
-				...state,
-				
-			};
-	
-		
+			if (action.list.Spots) {
+				action.list.Spots.forEach((spot) => {
+					allSpots[spot.id] = spot;
+				});
+				//console.log(action, "load action")
+				return {
+					...allSpots,
+					...state,
+					list: sortList(action.list.Spots),
+				};
+			} else
+				return {
+					...allSpots,
+					...state,
+				};
+
 		default:
 			return state;
 	}
