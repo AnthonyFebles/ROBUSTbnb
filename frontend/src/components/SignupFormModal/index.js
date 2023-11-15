@@ -37,7 +37,7 @@ const SignupFormModal = () => {
 				.catch(async (res) => {
 					const data = await res.json();
 					if (data && data.errors) {
-						//console.log(data)
+						//console.log(data);
 						setErrors(data.errors);
 					}
 				});

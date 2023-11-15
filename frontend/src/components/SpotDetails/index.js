@@ -12,8 +12,8 @@ const SpotDetails = () => {
 	const dispatch = useDispatch();
 
 	let { spotId } = useParams();
-	//console.log(spotId, 'spotId use params')
-	//console.log(useParams())
+	//console.log(spotId, "spotId use params");
+	//console.log(useParams());
 
 	const [avgStars, setAvgStars] = useState(0);
 
@@ -28,29 +28,29 @@ const SpotDetails = () => {
 		for (let i = 0; i < Reviews.length; i++) {
 			const currReview = Reviews[i];
 			total += currReview.stars;
-			////console.log(currReview)
+			//console.log(currReview)
 		}
 
 		if (total > 0) {
 			final = parseFloat(total / Reviews.length).toFixed(2);
 		}
-		////console.log(final, 'total', total)
+		//console.log(final, 'total', total)
 		setAvgStars(final);
 	});
 
-	////console.log(owner, "owner");
+	//console.log(owner, "owner");
 
 	const Spot = useSelector((state) => {
 		return state.spot;
 	});
 
 	const user = useSelector((state) => {
-		//console.log(state.session, "session slice of state aka user variable")
+		//console.log(state.session, "session slice of state aka user variable");
 		return state.session.user;
 	});
 	// useEffect(() => {
 	//     setReviews(Reviews)
-	//     //console.log(reviews, "reviews")
+	//     console.log(reviews, "reviews")
 	// }, [Spot] )
 
 	const Reviews = useSelector((state) => {
@@ -72,10 +72,10 @@ const SpotDetails = () => {
 
 	//console.log(Reviews, "Reviews");
 
-	////console.log(Spot, "spot")
+	//console.log(Spot, "spot")
 
 	if (!Reviews.length) {
-		////console.log("no reviews");
+		//console.log("no reviews");
 	}
 
 	let content = null;
@@ -107,7 +107,7 @@ const SpotDetails = () => {
 		return date;
 	};
 	if (Reviews[0]) {
-		//console.log(reviewDate(Reviews[0].createdAt))
+		//console.log(reviewDate(Reviews[0].createdAt));
 	}
 	if (Reviews.length === 1) {
 		numReviews = <b>{Reviews.length} review</b>;
@@ -155,7 +155,7 @@ const SpotDetails = () => {
 
 	hasReview = hasReviewFunc();
 
-	////console.log(Spot.Owner[0].id, "owner")
+	//console.log(Spot.Owner[0].id, "owner")
 
 	content = (
 		<div className="Spot-detail-lists">

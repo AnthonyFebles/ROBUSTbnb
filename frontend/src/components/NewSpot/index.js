@@ -38,7 +38,7 @@ const NewSpot = () => {
 
 	const spotId = spots.length + 1;
 
-	////console.log(spots, "spots");
+	//console.log(spots, "spots");
 
 	const payload = {
 		address,
@@ -86,7 +86,7 @@ const NewSpot = () => {
 								}
 								if (data.errors) {
 									const derrors = data.errors;
-									//console.log(derrors, "img errors");
+									console.log(derrors, "img errors");
 								}
 							}
 						}
@@ -111,7 +111,7 @@ const NewSpot = () => {
 					}
 					if (data.errors instanceof Object) {
 						const derrors = data.errors;
-						//console.log(derrors, "form errors");
+						//(derrors, "form errors");
 						if (derrors) {
 							setErrors({
 								...errors,

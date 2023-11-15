@@ -79,7 +79,7 @@ router.get("/current", requireAuth, async (req, res) => {
 			spotList.push(spot.toJSON());
 		});
 
-		////console.log(spotList[0].Reviews[0].avgRating);
+		//console.log(spotList[0].Reviews[0].avgRating);
 		for (let j = 0; j < spotList.length; j++) {
 			const currSpot = spotList[j];
 
@@ -94,10 +94,10 @@ router.get("/current", requireAuth, async (req, res) => {
 				currSpot.avgStarRating = 0;
 			}
 
-			////console.log(currSpot, "###########BEFORE");
+			//console.log(currSpot, "###########BEFORE");
 
 			delete currSpot.avgRating;
-			////console.log(currSpot, "**************AFTER");
+			//console.log(currSpot, "**************AFTER");
 
 			const images = await SpotImage.findAll({
 				where: {
@@ -123,8 +123,8 @@ router.get("/current", requireAuth, async (req, res) => {
 
 				currSpot.SpotImages = imageList;
 				delete currSpot.SpotImages;
-				////console.log(currSpot, "#############SPOT");
-				////console.log(currBookingList, "*****************BOOKINGLIST");
+				//console.log(currSpot, "#############SPOT");
+				//console.log(currBookingList, "*****************BOOKINGLIST");
 
 				currBookingList.spotId = currBookingList.Spot.id;
 				currBookingList.Spot.previewImage = currSpot.previewImage;
@@ -174,7 +174,7 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
 		},
 	});
 
-	////console.log(spotList)
+	//console.log(spotList)
 
 	if (bookingList[0].userId !== userId) {
 		res.status(403);
@@ -297,7 +297,7 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
 		}
 	});
 
-	////console.log(errors, "########################################################################################################");
+	//console.log(errors, "########################################################################################################");
 	// if (errors.startDate || errors.endDate) {
 	// 	res.status(403);
 	// 	return res.json({
@@ -306,7 +306,7 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
 	// 	});
 	// }
 
-	////console.log(newStartDate, newEndDate, startDate, endDate);
+	//console.log(newStartDate, newEndDate, startDate, endDate);
 
 	const currBooking = await Booking.findByPk(bookingId);
 

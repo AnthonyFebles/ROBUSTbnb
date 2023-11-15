@@ -20,11 +20,11 @@ const ManageSpots = () => {
 	};
 
 	const spot = useSelector((state) => {
-		//console.log( state, "//console.log the state inside manage spots")
+		//console.log(state, "console.log the state inside manage spots");
 		return state.userSpots.userList.map((spotId) => state.userSpots[spotId]);
 	});
 
-	//console.log(spot, '//console.log spot from use selector')
+	//console.log(spot, "console.log spot from use selector");
 
 	useEffect(() => {
 		dispatch(getUserSpots());
@@ -34,7 +34,7 @@ const ManageSpots = () => {
 		history.push("/spots/new");
 	};
 
-	////console.log(spot, 'spot')
+	//console.log(spot, 'spot')
 
 	// if (!spot) {
 

@@ -26,10 +26,10 @@ module.exports = (sequelize, DataTypes) => {
 				validate: {
 					isAfter(value) {
 						const currDate = new Date();
-						////console.log(currDate)
+						//console.log(currDate)
 						if (this.startDate < currDate) {
-							// //console.log(currDate < this.startDate);
-							// //console.log(this.startDate);
+							// console.log(currDate < this.startDate);
+							// console.log(this.startDate);
 							throw new Error("Date cannot be in the past");
 						}
 					},

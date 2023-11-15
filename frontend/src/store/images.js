@@ -65,7 +65,7 @@ const sortList = (list) => {
 const ImageReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case UPLOAD_IMAGE:
-			////console.log(action, "console log the action")
+			//console.log(action, "console log the action")
 			const allSpots = {};
 			action.list.Spots.forEach((spot) => {
 				allSpots[spot.id] = spot;

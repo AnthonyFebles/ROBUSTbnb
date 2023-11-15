@@ -69,12 +69,12 @@ const sessionReducer = (state = { user: null }, action) => {
 		case SET_USER: {
 			const newState = { ...state };
 			newState.user = action.payload;
-			//console.log(action, 'this is the action for set_user')
+			//console.log(action, "this is the action for set_user");
 			return { user: action.payload.user };
 		}
 		case REMOVE_USER: {
 			const newState = { ...state };
-			////console.log(newState, "new state in log out")
+			//console.log(newState, "new state in log out")
 			newState.user = null;
 			return newState;
 		}

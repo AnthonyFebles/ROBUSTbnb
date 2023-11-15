@@ -21,7 +21,7 @@ const removeSpot = (spotId) => ({
 
 export const getOne = (spotId) => async (dispatch) => {
 	const response = await csrfFetch(`/api/spots/${spotId}`);
-	////console.log(response, "asdhfbjlasdjbfioas")
+	//console.log(response, "asdhfbjlasdjbfioas")
 	if (response.ok) {
 		const Spot = await response.json();
 		dispatch(getOneSpot(Spot));
@@ -75,7 +75,7 @@ export const deleteSpot = (spotId) => async (dispatch) => {
 
 	if (res.ok) {
 		const spot = await res.json();
-		//console.log(spot, "res when deleting spot")
+		//console.log(spot, "res when deleting spot");
 		dispatch(removeSpot(spotId));
 		return spot;
 	}
@@ -86,12 +86,12 @@ export const deleteSpot = (spotId) => async (dispatch) => {
 const SpotReducer = (state = {}, action) => {
 	switch (action.type) {
 		case GET_ONE:
-			//console.log(action, "action inside get one spot reducer")
+			//console.log(action, "action inside get one spot reducer");
 			const newGet = {};
 			return { ...newGet, ...action.spot[0] };
 
 		case DELETE_SPOT:
-			//console.log(action, "action when deleting")
+			//console.log(action, "action when deleting");
 			const newState = { ...state };
 			delete newState[action.spotId];
 
