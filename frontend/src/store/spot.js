@@ -9,10 +9,6 @@ const createSpot = (spot) => ({
 	spot,
 });
 
-const updatedSpot = (spot) => ({
-	type: UPDATE_SPOT,
-	spot,
-});
 
 const getOneSpot = (spot) => ({
 	type: GET_ONE,
@@ -90,10 +86,10 @@ export const deleteSpot = (spotId) => async (dispatch) => {
 const SpotReducer = (state = {}, action) => {
 	switch (action.type) {
 		case GET_ONE:
-			//console.log(action, "action", state, "state")
-
+			console.log(action, "action", state, "state")
+			
 			return {
-				...state,
+				
 				...action.spot[0],
 			};
 

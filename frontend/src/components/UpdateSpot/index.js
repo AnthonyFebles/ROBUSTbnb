@@ -11,16 +11,17 @@ const UpdateSpot = () => {
 	const dispatch = useDispatch();
 	const history = useHistory();
 
-	const { spotId } = useParams();
-    console.log(spotId, 'spotid')
-
-	useEffect(() => {
-		dispatch(getOne(spotId));
-	}, [dispatch]);
+	
+    const { spotId } = useParams();
+	console.log(spotId, "spotid");
 
 	const currSpot = useSelector((state) => {
 		return state.spot;
 	});
+
+		useEffect(() => {
+			dispatch(getOne(spotId));
+		}, [dispatch]);
 
 	console.log(currSpot, "currSpot");
 
@@ -62,9 +63,16 @@ const UpdateSpot = () => {
 	const [imgErrors, setImageErrors] = useState({});
 	const [createClick, setCreateClick] = useState(false);
 
+
+
+
+	
+
 	const spots = useSelector((state) => {
 		return state.spots.list;
 	});
+
+   
 
 	//console.log(spots, "spots");
 
@@ -90,31 +98,29 @@ const UpdateSpot = () => {
 		//console.log(imgPayload);
 	}
 
-    const handleDisable = (array) => {
-	
-        let res; 
-    
-        for(let i =0; i <array.length; i ++) {
-        let currImg = array[i]
+	const handleDisable = (array) => {
+		let res;
 
-        if (currImg.url) {
-            if (
+		for (let i = 0; i < array.length; i++) {
+			let currImg = array[i];
+
+			if (currImg.url) {
+				if (
 					currImg.url.toString().endsWith(".png") ||
 					currImg.url.toString().endsWith(".jpg") ||
 					currImg.url.toString().endsWith(".jpeg")
 				) {
-                  //console.log(currImg.url, "currimg pass");
-                   res = false 
-                } else {
-                    //console.log(currImg.url, 'failed img')
-                    res = true
-                    break
-                    
-                }
-    }}
+					//console.log(currImg.url, "currimg pass");
+					res = false;
+				} else {
+					//console.log(currImg.url, 'failed img')
+					res = true;
+					break;
+				}
+			}
+		}
 
-
-     return res
+		return res;
 	};
 
 	//png, .jpg, or .jpeg

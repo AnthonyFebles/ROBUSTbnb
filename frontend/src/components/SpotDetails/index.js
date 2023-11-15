@@ -263,7 +263,7 @@ if(Reviews[0]) {
 									</div>
 									<div className="review">
 										{element.review}
-										{element ? (
+										{element && user ? (
 											element.userId === user.id ? (
 												<div>
 													<OpenModalButton
