@@ -70,9 +70,11 @@ const sessionReducer = (state = { user: null }, action) => {
 			const newState = { ...state };
 			newState.user = action.payload;
 			console.log(action, "this is the action for set_user");
-            if(action.payload.user) {
-                return {user: action.payload.user}
-            } else  return { user: action.payload };
+            if(action.payload) {
+                if (action.payload.user) {
+									return { user: action.payload.user };
+								} else return { user: action.payload };
+            }
 			
 		}
 		case REMOVE_USER: {
