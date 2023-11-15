@@ -122,3 +122,14 @@ max-height: 120px
 .post-review-button{
     padding-top: 10px;
 }
+
+.delete-review-button{
+    margin-top: 10px;
+    background: grey;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 1) 5px 5px 3px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    font-size: 12px;
+    border-radius: 0px;
+}

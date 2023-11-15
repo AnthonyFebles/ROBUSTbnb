@@ -149,11 +149,13 @@ if(Reviews[0]) {
 				let currReview = Reviews[i];
 				console.log(currReview, "currReview");
 				if (user) {
+					if(currReview){
 					if (user.id === currReview.userId) {
 						console.log("you have a review");
 						return true
 					}
 				}
+			}
 			}
 		}
 		return false
@@ -259,8 +261,26 @@ if(Reviews[0]) {
 									<div className="review-date">
 										{reviewDate(element.createdAt)}
 									</div>
-									<div className="review">{element.review}</div>
-									{element.userId === user.id ? <button className="delete-review" >Delete Review</button> : <></> }
+									<div className="review">
+										{element.review}
+										{element ? (
+											element.userId === user.id ? (
+												<div>
+													<OpenModalButton
+														className="delete-review-button"
+														buttonText="Delete"
+														modalComponent={
+															<DeleteReviewModal reviewId={element.id} />
+														}
+													/>
+												</div>
+											) : (
+												<></>
+											)
+										) : (
+											<></>
+										)}
+									</div>
 								</div>
 							);
 						})
