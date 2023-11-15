@@ -65,6 +65,15 @@ const SpotDetails = () => {
 		return state.reviews.list.map((spotId) => state.reviews[spotId]);
 	});
 
+	if( Reviews) {
+		for (let i = 0; i < Reviews.length ; i++) {
+			let currReview = Reviews[i]
+			if (currReview === undefined) {
+				let deadArr = Reviews.splice(i,1)
+			}
+		}
+	}
+
 	console.log(Reviews, "Reviews");
 
     //console.log(Spot, "spot")
