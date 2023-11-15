@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import "./ConfirmDelete.css";
 import { useModal } from "../../context/Modal";
-import { deleteSpot } from "../../store/spot";
+import { deleteSpot } from "../../store/userSpot";
 
 const DeleteSpotModal = ({spotId}) => {
 	const dispatch = useDispatch();

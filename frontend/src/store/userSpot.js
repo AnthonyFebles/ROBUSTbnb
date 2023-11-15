@@ -8,6 +8,10 @@ const load = (userList) => ({
 	type: LOAD,
 	userList,
 });
+const removeSpot = (spotId) => ({
+	type: DELETE_SPOT,
+	spotId,
+});
 
 
 
@@ -21,6 +25,20 @@ export const getUserSpots = () => async (dispatch) => {
 		dispatch(load(userList));
 	}
 	//console.log(res, "res");
+	return res;
+};
+export const deleteSpot = (spotId) => async (dispatch) => {
+	const res = await csrfFetch(`/api/spots/${spotId}`, {
+		method: "DELETE",
+	});
+
+	if (res.ok) {
+		const spot = await res.json();
+		console.log(spot, "res when deleting spot");
+		dispatch(removeSpot(spotId));
+		return spot;
+	}
+
 	return res;
 };
 
@@ -59,6 +77,19 @@ const UserSpotsReducer = (state = initialState, action) => {
                     userList: []
 					
 				};
+
+		case DELETE_SPOT:
+			console.log(action, "action when deleting")
+			console.log(state, "state when deleting")
+			const newState = { ...state };
+			delete newState[action.spotId];
+			const index = newState.userList.indexOf(action.spotId)
+			const x = newState.userList.splice(index, 1)
+			console.log(newState, "newState when deleting a spot")
+			console.log(x, 'index removed')
+			return newState;
+
+		
 
 		default:
             //console.log('enter default')

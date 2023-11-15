@@ -22,9 +22,11 @@ const ManageSpots = () => {
 	};
 	
 	const spot = useSelector((state) => {
-		//console.log( state, "console.log the state")
+		console.log( state, "console.log the state inside manage spots")
 		return state.userSpots.userList.map((spotId) => state.userSpots[spotId]);
 	});
+
+	console.log(spot, 'console.log spot from use selector')
  
 	useEffect(() => {
 		dispatch(getUserSpots());
@@ -38,15 +40,16 @@ const ManageSpots = () => {
 
     //console.log(spot, 'spot')
 
-	if (!spot.length) {
+	// if (!spot) {
 		
-		return (
-            <div className="outer-div-manage">
-				<h1 className="manage-spots-header">Manage Your Spots</h1>
-            <button onClick={handleNewSpot} >Create New Spot</button>
-            </div>
-        )
-	}
+	// 	return (
+    //         <div className="outer-div-manage">
+	// 			<h1 className="manage-spots-header">Manage Your Spots</h1>
+    //         <button onClick={handleNewSpot} >Create New Spot</button>
+    //         </div>
+    //     )
+	// }
+
 const handleUpdate = (spot) => {
     history.push(`/spots/${spot.id}/edit`)
 }
@@ -58,8 +61,9 @@ const handleUpdate = (spot) => {
 			<div className="outer-div-manage">
 				<h1 className="manage-spots-header">Manage Your Spots</h1>
 				<nav>
-					{spot.toReversed().map((spot) => {
+					{spot.length ? spot.toReversed().map((spot) => {
 						return (
+
 							<div key={spot.id} className="all-spots">
 								<NavLink to={`/spots/${spot.id}`}>
 									<div className="thumbnail-container">
@@ -121,7 +125,14 @@ const handleUpdate = (spot) => {
 								</div>
 							</div>
 						);
-					})}
+					}) :
+					<>
+            <div className="outer-div-manage">
+            <button onClick={handleNewSpot} >Create New Spot</button>
+            </div>
+			</>
+         }
+					
 				</nav>
 			</div>
 		</>
