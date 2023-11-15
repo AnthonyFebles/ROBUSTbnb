@@ -87,12 +87,12 @@ export const deleteSpot = (spotId) => async (dispatch) => {
 const SpotReducer = (state = {}, action) => {
 	switch (action.type) {
 		case GET_ONE:
-			console.log(action, "action", state, "state")
-			
-			return {
+			console.log(action, "action inside get one spot reducer")
+			const newGet = {}
+			return (
 				
-				...action.spot[0],
-			};
+				{ ...newGet, ...action.spot[0]}
+			);
 
 		case DELETE_SPOT:
 			console.log(action, "action when deleting")

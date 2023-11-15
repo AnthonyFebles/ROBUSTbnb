@@ -16,11 +16,12 @@ const UpdateSpot = () => {
 	console.log(spotId, "spotid");
 
 	const currSpot = useSelector((state) => {
+        console.log(state, "whole state in currspot use selector")
 		return state.spot;
 	});
 
-		useEffect(() => {
-			dispatch(getOne(spotId));
+		useEffect( () => {
+		 dispatch(getOne(spotId));
 		}, [dispatch]);
 
 	console.log(currSpot, "currSpot");
@@ -68,9 +69,7 @@ const UpdateSpot = () => {
 
 	
 
-	const spots = useSelector((state) => {
-		return state.spots.list;
-	});
+
 
    
 
