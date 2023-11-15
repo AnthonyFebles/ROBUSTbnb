@@ -10,52 +10,51 @@ import { getOne, updateSpot } from "../../store/spot";
 const UpdateSpot = () => {
 	const dispatch = useDispatch();
 	const history = useHistory();
-
+    //console.log(spot, "spot from props")
+    const spot = history.location.state?.prop1;
+    console.log(spot, "prop1")
 	
     const { spotId } = useParams();
 	console.log(spotId, "spotid");
 
-	const currSpot = useSelector((state) => {
-        console.log(state, "whole state in currspot use selector")
-		return state.spot;
-	});
+	
 
 		useEffect( () => {
 		 dispatch(getOne(spotId));
 		}, [dispatch]);
 
-	console.log(currSpot, "currSpot");
+	console.log(spot, "spot");
 
 	let currImg1;
 	let currImg2;
 	let currImg3;
 	let currImg4;
 
-	if (currSpot.SpotImages) {
-		if (currSpot.SpotImages[1]) {
-			currImg1 = currSpot.SpotImages[1].url;
+	if (spot.SpotImages) {
+		if (spot.SpotImages[1]) {
+			currImg1 = spot.SpotImages[1].url;
 		}
-		if (currSpot.SpotImages[2]) {
-			currImg2 = currSpot.SpotImages[2].url;
+		if (spot.SpotImages[2]) {
+			currImg2 = spot.SpotImages[2].url;
 		}
-		if (currSpot.SpotImages[3]) {
-			currImg3 = currSpot.SpotImages[3].url;
+		if (spot.SpotImages[3]) {
+			currImg3 = spot.SpotImages[3].url;
 		}
-		if (currSpot.SpotImages[4]) {
-			currImg4 = currSpot.SpotImages[4].url;
+		if (spot.SpotImages[4]) {
+			currImg4 = spot.SpotImages[4].url;
 		}
 	}
 
-	const [country, setCountry] = useState(currSpot.country);
-	const [address, setAddress] = useState(currSpot.address);
-	const [city, setCity] = useState(currSpot.city);
-	const [state, setState] = useState(currSpot.state);
-	const [lat, setLat] = useState(currSpot.lat);
-	const [lng, setLng] = useState(currSpot.lng);
-	const [description, setDescription] = useState(currSpot.description);
-	const [title, setTitle] = useState(currSpot.name);
-	const [price, setPrice] = useState(currSpot.price);
-	const [previewImg, setPreviewImg] = useState(currSpot.previewImage);
+	const [country, setCountry] = useState(spot.country);
+	const [address, setAddress] = useState(spot.address);
+	const [city, setCity] = useState(spot.city);
+	const [state, setState] = useState(spot.state);
+	const [lat, setLat] = useState(spot.lat);
+	const [lng, setLng] = useState(spot.lng);
+	const [description, setDescription] = useState(spot.description);
+	const [title, setTitle] = useState(spot.name);
+	const [price, setPrice] = useState(spot.price);
+	const [previewImg, setPreviewImg] = useState(spot.previewImage);
 	const [imageOne, setImageOne] = useState(currImg1 || "");
 	const [imageTwo, setImageTwo] = useState(currImg2 || "");
 	const [imageThree, setImageThree] = useState(currImg3 || "");

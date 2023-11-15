@@ -8,7 +8,7 @@ import SpotDetails from "../SpotDetails";
 import { deleteSpot } from "../../store/spot";
 import OpenModalButton from "../OpenModalButton";
 import DeleteSpotModal from "../DeleteSpotModal";
-
+import UpdateSpot from "../UpdateSpot";
 
 
 const ManageSpots = () => {
@@ -51,7 +51,13 @@ const ManageSpots = () => {
 	// }
 
 const handleUpdate = (spot) => {
-    history.push(`/spots/${spot.id}/edit`)
+	
+    history.push( {
+		pathname: `/spots/${spot.id}/edit`,
+		state: {
+			prop1:spot
+		}
+	})
 }
 
 
