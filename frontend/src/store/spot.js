@@ -19,7 +19,10 @@ const getOneSpot = (spot) => ({
 	spot,
 });
 
-
+const removeSpot = (spotId) => ({
+	type: DELETE_SPOT,
+	spotId,
+});
 
 export const getOne = (spotId) => async (dispatch) => {
 	const response = await csrfFetch(`/api/spots/${spotId}`);
@@ -70,28 +73,39 @@ export const updateSpot = (spot, spotId) => async (dispatch) => {
 	return new Error("Failed to Update");
 };
 
+export const deleteSpot = (spotId) => async (dispatch) => {
+	const res = await csrfFetch(`/api/spots/${spotId}`, {
+		method: "DELETE",
+	});
 
+	if (res.ok) {
+		const spot = await res.json();
+		dispatch(removeSpot(spotId));
+		return spot;
+	}
 
-
+	return res;
+};
 
 const SpotReducer = (state = {}, action) => {
 	switch (action.type) {
-		
 		case GET_ONE:
 			//console.log(action, "action", state, "state")
 
-			return { 
+			return {
 				...state,
 				...action.spot[0],
 			};
 
-		
-
+		case DELETE_SPOT:
+			
+			const newState = { ...state };
+			delete newState[action.spotId];
+			
+			return newState;
 
 		default:
 			return state;
-
-		
 	}
 };
 

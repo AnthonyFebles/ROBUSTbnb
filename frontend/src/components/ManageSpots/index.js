@@ -5,6 +5,9 @@ import "./ManageSpots.css";
 import { getUserSpots } from "../../store/userSpot";
 import { NavLink, useParams, Route, useHistory } from "react-router-dom";
 import SpotDetails from "../SpotDetails";
+import { deleteSpot } from "../../store/spot";
+import OpenModalButton from "../OpenModalButton";
+import DeleteSpotModal from "../DeleteSpotModal";
 
 
 
@@ -13,6 +16,15 @@ const ManageSpots = () => {
     const history = useHistory()
 
     const {spotId} = useParams
+
+	const handleDelete = (spotId) => {
+		dispatch(deleteSpot(spotId));
+	};
+	
+	const spot = useSelector((state) => {
+		//console.log( state, "console.log the state")
+		return state.userSpots.userList.map((spotId) => state.userSpots[spotId]);
+	});
  
 	useEffect(() => {
 		dispatch(getUserSpots());
@@ -22,10 +34,7 @@ const ManageSpots = () => {
         history.push('/spots/new')
     }
 
-	const spot = useSelector((state) => {
-		//console.log( state, "console.log the state")
-		return state.userSpots.userList.map((spotId) => state.userSpots[spotId]);
-	});
+	
 
     //console.log(spot, 'spot')
 
@@ -41,6 +50,8 @@ const ManageSpots = () => {
 const handleUpdate = (spot) => {
     history.push(`/spots/${spot.id}/edit`)
 }
+
+
 
 	return (
 		<>
@@ -94,8 +105,18 @@ const handleUpdate = (spot) => {
 								</NavLink>
 								<div className="update-delete-container">
 									<span className="update-delete-buttons">
-										<button className="update" onClick={()=> handleUpdate(spot)} > Update</button>{" "}
-										<button className="delete">Delete</button>
+										<button
+											className="update"
+											onClick={() => handleUpdate(spot)}
+										>
+											{" "}
+											Update{" "}
+										</button>{" "}
+										
+										<OpenModalButton
+											buttonText="Delete"
+											modalComponent={<DeleteSpotModal spotId={spot.id} />}
+										/>
 									</span>
 								</div>
 							</div>

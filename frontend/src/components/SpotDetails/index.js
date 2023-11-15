@@ -6,6 +6,7 @@ import { getReviews } from "../../store/reviews";
 import './SpotDetails.css'
 import OpenModalButton from "../OpenModalButton";
 import ReviewFormModal from "../ReviewFormModal";
+import DeleteReviewModal from "../DeleteReviewModal";
 
 
 const SpotDetails = () => {
@@ -259,6 +260,7 @@ if(Reviews[0]) {
 										{reviewDate(element.createdAt)}
 									</div>
 									<div className="review">{element.review}</div>
+									{element.userId === user.id ? <button className="delete-review" >Delete Review</button> : <></> }
 								</div>
 							);
 						})

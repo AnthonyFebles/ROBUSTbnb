@@ -21,14 +21,14 @@ const LoginFormModal = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		setErrors({});
-		return dispatch(sessionActions.logIn({ credential, password })).then(closeModal).catch(
-			async (res) => {
+		dispatch(sessionActions.logIn({ credential, password }))
+			.then(() => closeModal())
+			.catch(async (res) => {
 				const data = await res.json();
-				if (data && data.message) setErrors({message: data.message});
+				if (data && data.message) setErrors({ message: data.message });
 				//console.log(data)
-				alert(data.message)
-			}
-		);
+				alert(data.message);
+			});
 	};
 
 	const handleDisabled = (cred, pass) => {
@@ -41,8 +41,8 @@ const LoginFormModal = () => {
 	const handleDemo =() => {
 		setCredential('Isa-Demo')
 		setPassword('password')
-		return dispatch(sessionActions.logIn({ credential, password }))
-			.then(closeModal).catch(async (res) => {
+		 dispatch(sessionActions.logIn({ credential, password }))
+			.then(() => closeModal()).catch(async (res) => {
 				const data = await res.json();
 				
 				
