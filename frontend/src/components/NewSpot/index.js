@@ -189,6 +189,7 @@ const NewSpot = () => {
 								value={city}
 								onChange={(e) => setCity(e.target.value)}
 							></input>
+							,
 						</label>
 
 						{errors.state && <p className="rr">{errors.state}</p>}
@@ -268,12 +269,14 @@ const NewSpot = () => {
 							higher in search results.
 						</p>
 					</div>
-					$ {errors.price && <p className="rr">{errors.price}</p>}
-					<input
-						placeholder="Price per night(USD)"
-						value={price}
-						onChange={(e) => setPrice(e.target.value)}
-					></input>
+					{errors.price && <p className="rr">{errors.price}</p>}
+					<span className="dollar-sign">$
+						<input
+							placeholder="Price per night(USD)"
+							value={price}
+							onChange={(e) => setPrice(e.target.value)}
+						></input>
+					</span>
 				</div>
 
 				<div className="photos-form">
