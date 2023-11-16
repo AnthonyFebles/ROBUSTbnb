@@ -33,7 +33,7 @@ module.exports = {
 					stars: 3,
 				},
 				{
-					userId: 1,
+					userId: 3,
 					spotId: 2,
 					review:
 						"I used to be lonely, but after staying here one night I always feel like somebody si right there behind me, watching my back :)",

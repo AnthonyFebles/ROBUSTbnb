@@ -77,7 +77,7 @@ module.exports = {
 				isPreview: false,
 			},
 			{
-				url: "https://tinypic.host/images/2023/11/16/preview3.png",
+				url: "https://tinypic.host/images/2023/11/16/preview3a83891d0a8da7a58.png",
 				spotId: 2,
 				isPreview: false,
 			},
