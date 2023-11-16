@@ -33,7 +33,7 @@ export const getSpots = () => async (dispatch) => {
 };
 
 export const createNewSpot = (spot) => async (dispatch) => {
-	const response = await csrfFetch(`/api/spots`, {
+	 try {const response = await csrfFetch(`/api/spots`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -42,12 +42,20 @@ export const createNewSpot = (spot) => async (dispatch) => {
 	});
 
 	if (response.ok) {
+		console.log("res is ok?")
 		const newSpot = await response.json();
 		dispatch(createSpot(newSpot));
 		return newSpot;
 	}
 
-	return new Error("Failed to create Spot");
+}
+catch(error) {
+	const res = await error.json()
+	//console.log(res, "error")
+	throw res
+}
+
+	
 };
 
 export const updateSpot = (spot) => async (dispatch) => {

@@ -15,7 +15,7 @@ const rootReducer = combineReducers({
   reviews: ReviewReducer,
   spot: SpotReducer,
   userSpots: UserSpotsReducer,
-  images: ImageReducer
+  
 });
 
 let enhancer;

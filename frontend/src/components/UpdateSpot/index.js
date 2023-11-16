@@ -119,39 +119,11 @@ const UpdateSpot = () => {
 
 		return dispatch(updateSpot(payload, spotId)).then(
 			() => {
-				return imgPayload.forEach((el, idx, arr) => {
-                    console.log(el, "element in imgpayload", idx, "indx of element");
-					dispatch(addImage(spotId, el)).then(
-						() => {
-							//return history.push(`/spots/${spotId}`);
-						},
-						async (res) => {
-							const data = await res.json();
-							if (data) {
-								//console.log(data, "imgErrordata");
-								if (data.message) {
-									setErrors({ message: data.message });
-									alert(data.message);
-								}
-								if (data.errors) {
-									const derrors = data.errors;
-									//console.log(derrors, "img errors");
-								}
-							}
-						}
-					);
-				});
+				return history.push(`/spots/${spotId}`);
 			},
 			async (res) => {
+				console.log(res, "res on line 121 update spot");
 				const data = await res.json();
-				if (previewImg.length === 0) {
-					//console.log(previewImg.length, "img preview");
-
-					setErrors({
-						preview: "Preview image is required",
-					});
-					//console.log(errors.preview);
-				}
 
 				if (data) {
 					if (data.message) {
@@ -314,13 +286,13 @@ const UpdateSpot = () => {
 					</span>
 				</div>
 
-				<div className="photos-form">
+				{/* <div className="photos-form">
 					<div className="photos-headers">
 						<h2>Liven up your spot with photos</h2>
 						<p>Submit a link to at least one photo to publish your spot.</p>
-					</div>
+					</div> */}
 
-					<input
+				{/* <input
 						placeholder="Preview image URL"
 						value={previewImg}
 						onChange={(e) => setPreviewImg(e.target.value)}
@@ -393,8 +365,8 @@ const UpdateSpot = () => {
 						)
 					) : (
 						<p></p>
-					)}
-				</div>
+					)} */}
+				{/* </div> */}
 
 				<div className="submitButton-form">
 					<button

@@ -44,7 +44,7 @@ const SpotDetails = () => {
 		return state.spot;
 	});
 
-	console.log(Spot, 'spot')
+	console.log(Spot, "spot");
 
 	const user = useSelector((state) => {
 		//console.log(state.session, "session slice of state aka user variable");
@@ -157,6 +157,19 @@ const SpotDetails = () => {
 
 	hasReview = hasReviewFunc();
 
+	let spotImages = {}
+
+	
+
+	if (Spot.SpotImages) {
+		for (let i = 1; i < Spot.SpotImages.length ; i++) {
+			let currImg = Spot.SpotImages[i]
+			if (currImg.url !== '') {
+				spotImages[i] = currImg.url
+			}
+		}
+	}
+
 	//console.log(Spot.Owner[0].id, "owner")
 
 	content = (
@@ -178,79 +191,24 @@ const SpotDetails = () => {
 						}
 						alt="preview"
 					></img>
-					{Spot.SpotImages ? (
-						Spot.SpotImages[1] ? (
-							<img
-								src={
-									Spot.SpotImages
-										? Spot.SpotImages[1]
-											? Spot.SpotImages[1].url
-											: Spot.city
-										: Spot.city
-								}
-								id="prev1"
-								alt="small-img"
-							></img>
-						) : (
-							<></>
-						)
+
+					{spotImages[1] ? (
+						<img src={spotImages[1]} id="prev1" alt="small-img"></img>
 					) : (
 						<></>
 					)}
-					{Spot.SpotImages ? (
-						Spot.SpotImages[2] ? (
-							<img
-								src={
-									Spot.SpotImages
-										? Spot.SpotImages[2]
-											? Spot.SpotImages[2].url
-											: Spot.city
-										: Spot.city
-								}
-								id="prev1"
-								alt="small-img"
-							></img>
-						) : (
-							<></>
-						)
+					{spotImages[2] ? (
+						<img src={spotImages[2]} id="prev2" alt="small-img"></img>
 					) : (
 						<></>
 					)}
-					{Spot.SpotImages ? (
-						Spot.SpotImages[3] ? (
-							<img
-								src={
-									Spot.SpotImages
-										? Spot.SpotImages[3]
-											? Spot.SpotImages[3].url
-											: Spot.city
-										: Spot.city
-								}
-								id="prev1"
-								alt="small-img"
-							></img>
-						) : (
-							<></>
-						)
+					{spotImages[3] ? (
+						<img src={spotImages[3]} id="prev3" alt="small-img"></img>
 					) : (
 						<></>
 					)}
-					{Spot.SpotImages ? (
-						Spot.SpotImages[4] ? (
-							<img
-								src={
-									Spot.SpotImages
-										? Spot.SpotImages[4]
-											? Spot.SpotImages[4].url
-											: Spot.city
-										: Spot.city
-								}
-								id="prev1"
-								alt="small-img"
-							></img>
-						) : (
-							<></>
-						)
+					{spotImages[4] ? (
+						<img src={spotImages[4]} id="prev4" alt="small-img"></img>
 					) : (
 						<></>
 					)}
@@ -264,9 +222,9 @@ const SpotDetails = () => {
 							{owner === undefined ? "Loading" : owner.lastName}
 						</h2>
 						<br></br>
-						<p>
-							<b>{Spot.description}</b>
-						</p>
+						<div className="description-p">
+							<p> {Spot.description} </p>
+						</div>
 
 						<br></br>
 					</div>

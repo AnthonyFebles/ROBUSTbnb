@@ -33,6 +33,7 @@ const NewSpot = () => {
 	}, [dispatch]);
 
 	const spots = useSelector((state) => {
+		console.log(state, "state inside new spots")
 		return state.spots.list;
 	});
 
@@ -62,54 +63,45 @@ const NewSpot = () => {
 		//console.log(imgPayload);
 	}
 
+	let finalImgPayload =[]
+
+	for (let i = 0; i <imgPayload.length; i ++){
+		let currImg = imgPayload[i]
+		if (currImg.url) {
+			finalImgPayload.push(currImg)
+		}
+	}
+
 	//png, .jpg, or .jpeg
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		setErrors({});
 		setCreateClick(true);
 
-		return dispatch(createNewSpot(payload)).then(
-			() => {
-				return imgPayload.forEach((el, idx, arr) => {
-					dispatch(addImage(spotId, el)).then(
-						() => {
-							return history.push(`/spots/${spotId}`);
-						},
-						async (res) => {
-							const data = await res.json();
-							if (data) {
-								//console.log(data, "imgErrordata");
-								if (data.message) {
-									setErrors({ message: data.message });
-									alert(data.message);
-								}
-								if (data.errors) {
-									const derrors = data.errors;
-									console.log(derrors, "img errors");
-								}
-							}
-						}
-					);
-				});
-			},
-			async (res) => {
-				const data = await res.json();
-				if (previewImg.length === 0) {
+
+		let createdSpot;
+
+		try {
+			createdSpot = await dispatch(createNewSpot(payload))
+		} catch (data) {
+			console.log(data, "error")
+			if (data) {
+					if (data.message) {
+						setErrors({ message: data.message });
+						
+					}
+					if (data.errors instanceof Object) {
+
+						if (previewImg.length === 0) {
 					//console.log(previewImg.length, "img preview");
 
 					setErrors({
 						preview: "Preview image is required",
 					});
 					//console.log(errors.preview);
-				}
+		 		}
 
-				if (data) {
-					if (data.message) {
-						setErrors({ message: data.message });
-						alert(data.message);
-					}
-					if (data.errors instanceof Object) {
+
 						const derrors = data.errors;
 						//(derrors, "form errors");
 						if (derrors) {
@@ -126,6 +118,7 @@ const NewSpot = () => {
 								lng: derrors.lng,
 							});
 						}
+						
 					}
 
 					if (typeof data.errors === typeof "string") {
@@ -133,8 +126,105 @@ const NewSpot = () => {
 					}
 				}
 			}
-		);
+
+	if(createdSpot) {
+
+		try{ 
+			const createdImages = async ()  => {
+
+			return finalImgPayload.forEach((el, idx, arr) => { dispatch(addImage(spotId, el))})
+				
+
+
+		} 
+		createdImages()
+		return history.push(`/spots/${spotId}`);
+		
+	} catch (data) {
+		 if (data) {
+								//console.log(data, "imgErrordata");
+		 						if (data.message) {
+		 							setErrors({ message: data.message });
+		 							alert(data.message);
+		 						}
+		 						if (data.errors) {
+									const derrors = data.errors;
+		 							console.log(derrors, "img errors");
+		 }
+	}
+		
+	}
+
+		// return dispatch(createNewSpot(payload)).then(
+		// 	() => {
+				 
+					
+				
+		// 		return finalImgPayload.forEach((el, idx, arr) => {
+		// 			dispatch(addImage(spotId, el)).then(
+		// 				() => {
+		// 					return history.push(`/spots/${spotId}`);
+		// 				},
+		// 				async (res) => {
+		// 					const data = await res.json();
+		// 					if (data) {
+		// 						//console.log(data, "imgErrordata");
+		// 						if (data.message) {
+		// 							setErrors({ message: data.message });
+		// 							alert(data.message);
+		// 						}
+		// 						if (data.errors) {
+		// 							const derrors = data.errors;
+		// 							console.log(derrors, "img errors");
+		// 						}
+		// 					}
+		// 				}
+		// 			);
+		// 		});
+		// 	},
+		// 	async (res) => {
+		// 		const data = await res.json();
+		// 		if (previewImg.length === 0) {
+		// 			//console.log(previewImg.length, "img preview");
+
+		// 			setErrors({
+		// 				preview: "Preview image is required",
+		// 			});
+		// 			//console.log(errors.preview);
+		// 		}
+
+		// 		if (data) {
+		// 			if (data.message) {
+		// 				setErrors({ message: data.message });
+						
+		// 			}
+		// 			if (data.errors instanceof Object) {
+		// 				const derrors = data.errors;
+		// 				//(derrors, "form errors");
+		// 				if (derrors) {
+		// 					setErrors({
+		// 						...errors,
+		// 						address: derrors.address,
+		// 						city: derrors.city,
+		// 						country: derrors.country,
+		// 						description: derrors.description,
+		// 						name: derrors.name,
+		// 						price: derrors.price,
+		// 						state: derrors.state,
+		// 						lat: derrors.lat,
+		// 						lng: derrors.lng,
+		// 					});
+		// 				}
+		// 			}
+
+		// 			if (typeof data.errors === typeof "string") {
+		// 				alert(data.errors);
+		// 			}
+		// 		}
+		// 	}
+		// );
 	};
+}
 
 	const handleDisable = (preview, img1, img2, img3, img4) => {
 		if (preview.length > 1) {
