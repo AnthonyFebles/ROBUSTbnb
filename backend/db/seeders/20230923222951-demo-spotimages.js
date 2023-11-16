@@ -32,11 +32,6 @@ module.exports = {
 				isPreview: false,
 			},
 			{
-				url: "https://tinypic.host/images/2023/11/16/preview3.jpeg",
-				spotId: 1,
-				isPreview: false,
-			},
-			{
 				url: "https://tinypic.host/images/2023/11/16/Capsule_Corp_2023-11-16-150723.png",
 				spotId: 3,
 				isPreview: true,
