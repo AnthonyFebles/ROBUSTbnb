@@ -45,7 +45,7 @@ module.exports = {
 					lat: 67.7645358,
 					lng: -125.4730327,
 					name: "Capsule Corp",
-					description: "Where Bulma does her research and Vegeta does his training. You can rent out the entire lot which includes access to the capsule corp lab, and the capsule corp state-of-the-art gym. We do have to mention that the local dead beat dad will come and pick a fight with you if you're a decent fighter. We don't know how he can tell, he just can. ",
+					description: "Where Bulma does her research. We do have to mention that the local dead beat dad will come and pick a fight with you if you're a decent fighter. We don't know how he can tell, he just can. ",
 					price: 9001,
 				},
 				{
