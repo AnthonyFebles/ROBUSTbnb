@@ -27,17 +27,17 @@ module.exports = {
 				isPreview: false,
 			},
 			{
-				url: "hhttps://tinypic.host/images/2023/11/16/preview3.jpeg",
+				url: "https://tinypic.host/images/2023/11/16/preview3.jpeg",
 				spotId: 1,
 				isPreview: false,
 			},
 			{
-				url: "hhttps://tinypic.host/images/2023/11/16/preview3.jpeg",
+				url: "https://tinypic.host/images/2023/11/16/preview3.jpeg",
 				spotId: 1,
 				isPreview: false,
 			},
 			{
-				url: "https://i.imgur.com/f9iJGg7.jpg",
+				url: "https://tinypic.host/images/2023/11/16/Capsule_Corp_2023-11-16-150723.png",
 				spotId: 3,
 				isPreview: true,
 			},
@@ -87,27 +87,27 @@ module.exports = {
 				isPreview: false,
 			},
 			{
-				url: "https://tinypic.host/images/2023/11/06/Capsule_Corporation.webp",
+				url: "https://tinypic.host/images/2023/11/16/Disney_converted2_d20cae6a-87aa-46bb-9675-2b138fe3d6db.jpeg",
 				spotId: 4,
 				isPreview: true,
 			},
 			{
-				url: "https://tinypic.host/images/2023/11/06/Capsule_Corp.webp",
+				url: "https://tinypic.host/images/2023/11/16/preview1.jpeg",
 				spotId: 4,
 				isPreview: false,
 			},
 			{
-				url: "https://tinypic.host/images/2023/11/06/Capsule_Corp.webp",
+				url: "https://tinypic.host/images/2023/11/16/preview220c604da6a55ed56.png",
 				spotId: 4,
 				isPreview: false,
 			},
 			{
-				url: "https://tinypic.host/images/2023/11/06/Capsule_Corp.webp",
+				url: "https://tinypic.host/images/2023/11/16/preview30cfa7ceaf59f34d4.png",
 				spotId: 4,
 				isPreview: false,
 			},
 			{
-				url: "https://tinypic.host/images/2023/11/06/Capsule_Corp.webp",
+				url: "https://tinypic.host/images/2023/11/16/preview4.png",
 				spotId: 4,
 				isPreview: false,
 			},
