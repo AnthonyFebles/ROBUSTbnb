@@ -26,6 +26,7 @@ export const addImage = (spot, image) => async (dispatch) => {
 	if (response.ok) {
 		const image = await response.json();
 		dispatch(uploadImage(image));
+		console.log(image, "image res")
 		return image;
 	}
 
@@ -65,12 +66,14 @@ const sortList = (list) => {
 const ImageReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case UPLOAD_IMAGE:
-			//console.log(action, "console log the action")
+			console.log(action, "console log the action")
 			const allSpots = {};
 			action.list.Spots.forEach((spot) => {
 				allSpots[spot.id] = spot;
 			});
-			//console.log(action, "load action");
+			console.log(action, "console log load action");
+			console.log(allSpots, "console.log all spots")
+			console.log(state, "console.log the state")
 			return {
 				...allSpots,
 				...state,

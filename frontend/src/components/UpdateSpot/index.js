@@ -30,16 +30,16 @@ const UpdateSpot = () => {
 
 	if (spot.SpotImages) {
 		if (spot.SpotImages[1]) {
-			currImg1 = spot.SpotImages[1].url;
+			if (spot.SpotImages[1].url !== "") currImg1 = spot.SpotImages[1].url;
 		}
 		if (spot.SpotImages[2]) {
-			currImg2 = spot.SpotImages[2].url;
+			if (spot.SpotImages[2].url !== "") currImg1 = spot.SpotImages[2].url;
 		}
 		if (spot.SpotImages[3]) {
-			currImg3 = spot.SpotImages[3].url;
+			if (spot.SpotImages[3].url !== "") currImg1 = spot.SpotImages[3].url;
 		}
 		if (spot.SpotImages[4]) {
-			currImg4 = spot.SpotImages[4].url;
+			if (spot.SpotImages[4].url !== "") currImg1 = spot.SpotImages[4].url;
 		}
 	}
 
@@ -120,9 +120,10 @@ const UpdateSpot = () => {
 		return dispatch(updateSpot(payload, spotId)).then(
 			() => {
 				return imgPayload.forEach((el, idx, arr) => {
+                    console.log(el, "element in imgpayload", idx, "indx of element");
 					dispatch(addImage(spotId, el)).then(
 						() => {
-							return history.push(`/spots/${spotId}`);
+							//return history.push(`/spots/${spotId}`);
 						},
 						async (res) => {
 							const data = await res.json();

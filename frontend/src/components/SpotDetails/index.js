@@ -44,6 +44,8 @@ const SpotDetails = () => {
 		return state.spot;
 	});
 
+	console.log(Spot, 'spot')
+
 	const user = useSelector((state) => {
 		//console.log(state.session, "session slice of state aka user variable");
 		return state.session.user;
@@ -167,29 +169,91 @@ const SpotDetails = () => {
 				<div className="image-container">
 					<img
 						className="previewImg"
-						src="https://variety.com/wp-content/uploads/2022/01/03_c-Joshua-White-JWPictures_2081.jpg"
+						src={
+							Spot.SpotImages
+								? Spot.SpotImages[0]
+									? Spot.SpotImages[0].url
+									: Spot.city
+								: Spot.city
+						}
 						alt="preview"
 					></img>
-					<img
-						src="https://variety.com/wp-content/uploads/2022/01/03_c-Joshua-White-JWPictures_2081.jpg"
-						id="prev1"
-						alt="small-img"
-					></img>
-					<img
-						src="https://variety.com/wp-content/uploads/2022/01/03_c-Joshua-White-JWPictures_2081.jpg"
-						id="prev2"
-						alt="small-img2"
-					></img>
-					<img
-						src="https://variety.com/wp-content/uploads/2022/01/03_c-Joshua-White-JWPictures_2081.jpg"
-						id="prev3"
-						alt="small-img3"
-					></img>
-					<img
-						src="https://variety.com/wp-content/uploads/2022/01/03_c-Joshua-White-JWPictures_2081.jpg"
-						id="prev4"
-						alt="small-img4"
-					></img>
+					{Spot.SpotImages ? (
+						Spot.SpotImages[1] ? (
+							<img
+								src={
+									Spot.SpotImages
+										? Spot.SpotImages[1]
+											? Spot.SpotImages[1].url
+											: Spot.city
+										: Spot.city
+								}
+								id="prev1"
+								alt="small-img"
+							></img>
+						) : (
+							<></>
+						)
+					) : (
+						<></>
+					)}
+					{Spot.SpotImages ? (
+						Spot.SpotImages[2] ? (
+							<img
+								src={
+									Spot.SpotImages
+										? Spot.SpotImages[2]
+											? Spot.SpotImages[2].url
+											: Spot.city
+										: Spot.city
+								}
+								id="prev1"
+								alt="small-img"
+							></img>
+						) : (
+							<></>
+						)
+					) : (
+						<></>
+					)}
+					{Spot.SpotImages ? (
+						Spot.SpotImages[3] ? (
+							<img
+								src={
+									Spot.SpotImages
+										? Spot.SpotImages[3]
+											? Spot.SpotImages[3].url
+											: Spot.city
+										: Spot.city
+								}
+								id="prev1"
+								alt="small-img"
+							></img>
+						) : (
+							<></>
+						)
+					) : (
+						<></>
+					)}
+					{Spot.SpotImages ? (
+						Spot.SpotImages[4] ? (
+							<img
+								src={
+									Spot.SpotImages
+										? Spot.SpotImages[4]
+											? Spot.SpotImages[4].url
+											: Spot.city
+										: Spot.city
+								}
+								id="prev1"
+								alt="small-img"
+							></img>
+						) : (
+							<></>
+						)
+					) : (
+						<></>
+					)}
 				</div>
 				<div className="under-images">
 					<div id="hosted-by">
