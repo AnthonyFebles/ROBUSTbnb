@@ -38,12 +38,12 @@
     max-height: 200%;
     min-height: 200% ;
     margin: 5px;
+    max-width: 100%;
     
 }
 
 
 #prev1, #prev2, #prev3, #prev4 {
-   
     border-radius: 15px;
     max-width: 100%;
     min-width: 100%;
@@ -60,6 +60,8 @@
     padding-top: 20px;
     padding-bottom: 10px;
     max-width: 70%;
+    display: flex;
+    flex-direction: column;
 }
 
 .under-images {
@@ -132,4 +134,10 @@ max-height: 120px
     padding-bottom: 0px;
     font-size: 12px;
     border-radius: 0px;
+}
+
+.description-p {
+    max-width: 70%;
+    display: flex;
+    flex-wrap: wrap;
 }

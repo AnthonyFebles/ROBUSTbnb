@@ -1,4 +1,11 @@
 /* TODO Add site wide styles */
+
+@import url('https://fonts.googleapis.com/css2?family=Wix+Madefor+Display&display=swap');
+
 body {
     margin: 0
+}
+
+* {
+font-family: 'Wix Madefor Display', sans-serif;
 }

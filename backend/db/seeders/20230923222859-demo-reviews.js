@@ -11,7 +11,8 @@ if (process.env.NODE_ENV === "production") {
 module.exports = {
 	async up(queryInterface, Sequelize) {
 		options.tableName = "Reviews";
-		return queryInterface.bulkInsert(options,
+		return queryInterface.bulkInsert(
+			options,
 			[
 				{
 					userId: 1,
@@ -32,9 +33,24 @@ module.exports = {
 					stars: 3,
 				},
 				{
+					userId: 3,
+					spotId: 2,
+					review:
+						"I used to be lonely, but after staying here one night I always feel like somebody si right there behind me, watching my back :)",
+					stars: 5,
+				},
+				{
 					userId: 1,
 					spotId: 2,
-					review: "this place is amazing :D",
+					review:
+						"Price is outrageous. They say one thing on the website but there are hidden fees. The invoice included my entire mortal soul! SCAM STAY AWAY",
+					stars: 1,
+				},
+				{
+					userId: 4,
+					spotId: 4,
+					review:
+						"Only the true ballers could afford something like this. Ball is life. Only place with rats bigger than the ones in NY ",
 					stars: 5,
 				},
 			],

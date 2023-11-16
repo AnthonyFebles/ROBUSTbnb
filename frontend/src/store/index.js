@@ -6,6 +6,7 @@ import SpotsReducer from "./spots";
 import ReviewReducer from './reviews';
 import SpotReducer from "./spot";
 import UserSpotsReducer from "./userSpot";
+import ImageReducer from "./images";
 
 const rootReducer = combineReducers({
   // add reducer functions here
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   spots : SpotsReducer,
   reviews: ReviewReducer,
   spot: SpotReducer,
-  userSpots: UserSpotsReducer
+  userSpots: UserSpotsReducer,
+  
 });
 
 let enhancer;

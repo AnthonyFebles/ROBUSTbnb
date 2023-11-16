@@ -24,7 +24,10 @@ function Navigation({ isLoaded }) {
 				<ul>
 					<li className="logo-home">
 						<NavLink exact to="/">
-							<img className="logo" src="https://i.imgur.com/9IQJP32.png"></img>
+							<img
+								className="logo"
+								src="https://tinypic.host/images/2023/11/16/Robust-BnB.png"
+							></img>
 						</NavLink>
 					</li>
 				</ul>
@@ -32,7 +35,13 @@ function Navigation({ isLoaded }) {
 			{isLoaded && (
 				<div className="right-side-nav">
 					<div className="newSpotButton">
-						{sessionUser ? <button onClick={handleClick} className="new-spot-button">Create A New Spot</button> : <></>}
+						{sessionUser ? (
+							<button onClick={handleClick} className="new-spot-button">
+								Create A New Spot
+							</button>
+						) : (
+							<></>
+						)}
 					</div>
 
 					<div className="profile-button">

@@ -44,6 +44,8 @@ const SpotDetails = () => {
 		return state.spot;
 	});
 
+	console.log(Spot, "spot");
+
 	const user = useSelector((state) => {
 		//console.log(state.session, "session slice of state aka user variable");
 		return state.session.user;
@@ -155,6 +157,19 @@ const SpotDetails = () => {
 
 	hasReview = hasReviewFunc();
 
+	let spotImages = {}
+
+	
+
+	if (Spot.SpotImages) {
+		for (let i = 1; i < Spot.SpotImages.length ; i++) {
+			let currImg = Spot.SpotImages[i]
+			if (currImg.url !== '') {
+				spotImages[i] = currImg.url
+			}
+		}
+	}
+
 	//console.log(Spot.Owner[0].id, "owner")
 
 	content = (
@@ -167,29 +182,36 @@ const SpotDetails = () => {
 				<div className="image-container">
 					<img
 						className="previewImg"
-						src="https://variety.com/wp-content/uploads/2022/01/03_c-Joshua-White-JWPictures_2081.jpg"
+						src={
+							Spot.SpotImages
+								? Spot.SpotImages[0]
+									? Spot.SpotImages[0].url
+									: Spot.city
+								: Spot.city
+						}
 						alt="preview"
 					></img>
-					<img
-						src="https://variety.com/wp-content/uploads/2022/01/03_c-Joshua-White-JWPictures_2081.jpg"
-						id="prev1"
-						alt="small-img"
-					></img>
-					<img
-						src="https://variety.com/wp-content/uploads/2022/01/03_c-Joshua-White-JWPictures_2081.jpg"
-						id="prev2"
-						alt="small-img2"
-					></img>
-					<img
-						src="https://variety.com/wp-content/uploads/2022/01/03_c-Joshua-White-JWPictures_2081.jpg"
-						id="prev3"
-						alt="small-img3"
-					></img>
-					<img
-						src="https://variety.com/wp-content/uploads/2022/01/03_c-Joshua-White-JWPictures_2081.jpg"
-						id="prev4"
-						alt="small-img4"
-					></img>
+
+					{spotImages[1] ? (
+						<img src={spotImages[1]} id="prev1" alt="small-img"></img>
+					) : (
+						<></>
+					)}
+					{spotImages[2] ? (
+						<img src={spotImages[2]} id="prev2" alt="small-img"></img>
+					) : (
+						<></>
+					)}
+					{spotImages[3] ? (
+						<img src={spotImages[3]} id="prev3" alt="small-img"></img>
+					) : (
+						<></>
+					)}
+					{spotImages[4] ? (
+						<img src={spotImages[4]} id="prev4" alt="small-img"></img>
+					) : (
+						<></>
+					)}
 				</div>
 				<div className="under-images">
 					<div id="hosted-by">
@@ -200,9 +222,9 @@ const SpotDetails = () => {
 							{owner === undefined ? "Loading" : owner.lastName}
 						</h2>
 						<br></br>
-						<p>
-							<b>{Spot.description}</b>
-						</p>
+						<div className="description-p">
+							<p> {Spot.description} </p>
+						</div>
 
 						<br></br>
 					</div>
