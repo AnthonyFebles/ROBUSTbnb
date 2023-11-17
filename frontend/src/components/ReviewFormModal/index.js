@@ -9,6 +9,7 @@ const ReviewFormModal = ({ spotId }) => {
 	const dispatch = useDispatch();
 	const [reviewText, setReviewText] = useState("");
 	const [stars, setStars] = useState(0);
+	const [permaStars, setPermaStars] = useState(0)
 	const [errors, setErrors] = useState({});
 	const history = useHistory();
 	const { closeModal } = useModal();
@@ -50,6 +51,12 @@ const ReviewFormModal = ({ spotId }) => {
 		return setStars(num);
 	};
 
+	const handlePerma = (num) => {
+		return setPermaStars(num)
+	}
+
+	
+
 	return (
 		<>
 			{errors && <p>{errors.message}</p>}
@@ -68,31 +75,41 @@ const ReviewFormModal = ({ spotId }) => {
 				<label className="stars">
 					<span
 						className={stars >= 1 ? "filled" : "empty"}
-						onClick={() => handleStars(1)}
+						onMouseOver={() => handleStars(1)}
+						onMouseOut={() => handleStars(permaStars)}
+						onClick={() => handlePerma(1)}
 					>
 						<i className="fa-solid fa-star"></i>
 					</span>
 					<span
 						className={stars >= 2 ? "filled" : "empty"}
-						onClick={() => handleStars(2)}
+						onMouseOver={() => handleStars(2)}
+						onMouseOut={() => handleStars(permaStars)}
+						onClick={() => handlePerma(2)}
 					>
 						<i className="fa-solid fa-star"></i>
 					</span>
 					<span
 						className={stars >= 3 ? "filled" : "empty"}
-						onClick={() => handleStars(3)}
+						onMouseOver={() => handleStars(3)}
+						onMouseOut={() => handleStars(permaStars)}
+						onClick={() => handlePerma(3)}
 					>
 						<i className="fa-solid fa-star"></i>
 					</span>
 					<span
 						className={stars >= 4 ? "filled" : "empty"}
-						onClick={() => handleStars(4)}
+						onMouseOver={() => handleStars(4)}
+						onMouseOut={() => handleStars(permaStars)}
+						onClick={() => handlePerma(4)}
 					>
 						<i className="fa-solid fa-star"></i>
 					</span>
 					<span
 						className={stars === 5 ? "filled" : "empty"}
-						onClick={() => handleStars(5)}
+						onMouseOver={() => handleStars(5)}
+						onMouseOut={() => handleStars(permaStars)}
+						onClick={() => handlePerma(5)}
 					>
 						<i className="fa-solid fa-star"></i>
 					</span>
