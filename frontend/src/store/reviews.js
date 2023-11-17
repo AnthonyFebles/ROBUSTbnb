@@ -39,7 +39,7 @@ export const postReview = (spotId, spot) => async (dispatch) => {
 
 	if (res.ok) {
 		const data = await res.json();
-		console.log(data, "data from post review");
+		//console.log(data, "data from post review");
 		dispatch(getReviews(data.spotId));
 		return data;
 	}
@@ -54,7 +54,7 @@ export const deleteReview = (reviewId) => async (dispatch) => {
 
 	if (res.ok) {
 		const review = await res.json();
-		console.log(review, "res when deleting a review");
+		//console.log(review, "res when deleting a review");
 		dispatch(remove(reviewId));
 		return review;
 	}

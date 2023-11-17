@@ -1,11 +1,10 @@
 //aka Landing Page
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./AllSpots.css";
 import { getSpots } from "../../store/spots";
-import { NavLink, useParams, Route } from "react-router-dom";
-import SpotDetails from "../SpotDetails";
+import { NavLink } from "react-router-dom";
 
 const AllSpots = () => {
 	const dispatch = useDispatch();
@@ -13,8 +12,6 @@ const AllSpots = () => {
 	useEffect(() => {
 		dispatch(getSpots());
 	}, [dispatch]);
-
-	const { spotId } = useParams();
 
 	const spot = useSelector((state) => {
 		//console.log( state.spots, "console.log the state")
@@ -33,7 +30,7 @@ const AllSpots = () => {
 	// });
 
 	return (
-		<>
+		<div className="outer-nav-container">
 			<nav>
 				{spot.toReversed().map((spot) => {
 					return (
@@ -84,7 +81,7 @@ const AllSpots = () => {
 					);
 				})}
 			</nav>
-		</>
+		</div>
 	);
 };
 

@@ -1,132 +1,175 @@
 .headers {
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 30px;
-     text-align: left;
-    justify-content: left;
-    display: flex;
-    align-items: start;
-    max-width: 64vw;
-    margin: 0 auto;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-bottom: 30px;
+	text-align: left;
+	justify-content: left;
+	display: flex;
+	align-items: start;
+	max-width: 800px;
+	min-width: 750px;
+	margin: 0 auto;
+	border: black solid 2px;
+	border-bottom: none;
+	padding-left: 20px;
+	background-color: white;
+}
+
+p {
+	text-align: left;
 }
 
 .newSpotForm {
-    padding-top: 10px;
-    margin-top: 30px;
-    margin: 0 auto;
-    max-width: 80vw;
-    display: flex;
-    align-items: center;
-    border: none;
-    
+	padding-top: 10px;
+	margin-top: 30px;
+	margin: 0 auto;
+	max-width: 800px;
+	min-width: 750px;
+	display: flex;
+	align-items: center;
+	border-top: none;
+	border-radius: 0%;
+	padding-left: 20px;
+	background-color: white;
 }
 
 .cityState-form {
-    display: inline-block;
-    width: 100%;
-}
-
-.latLong-form{
-    display: inline-block;
-   
-}
-
-label {
-    display: inline-flex;
-    max-width: 100%;
-    justify-content: center;
-    align-items: center;
-}
-
-input {
-  margin: 5px;
-   padding: 6px;
-   width: 100%;
-    background-color: rgba(0, 255, 255, 0.05);
-}
-
-.rr {
-    color: red;
-    font-size: 15px;
-}
-
-.location-form {
-    display: flex;
-    flex-direction: column;
-    max-width: 100%;
-    min-height: 80%;
-    margin: 0 auto;
-    justify-content: center;
-    min-width: 80%;
-    text-align: center;
-    
-}
-
-.createSpotButton-form:disabled {
-    background-color: white;
-        color: grey;
-        border: grey solid 3px;
-        box-shadow: 0px 5px 0px;
-        cursor: not-allowed;
-}
-
-.cityState-form {
-    display: inline-flex;
-    justify-content: space-around;
+	display: inline-block;
+	width: 100%;
+	padding-left: 2px;
+	padding-right: 5px;
 }
 
 .latLong-form {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    flex-wrap: nowrap;
-    border-bottom: solid black 2px ;
-    padding-bottom: 10px;
+	display: inline-block;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+label {
+	display: inline-flex;
+	max-width: 100%;
+	justify-content: center;
+	align-items: center;
+	text-align: left;
+	align-items: center;
+	justify-content: center;
+}
+
+input {
+	margin: 5px;
+	padding: 6px;
+	width: 100%;
+	background-color: rgba(0, 255, 255, 0.05);
+}
+
+input:hover {
+    scale: 1.01;
+}
+
+input:focus {
+	background-color: rgba(0, 0, 255, 0.05);
+	border: solid black 3px;
+	border-radius: 5px;
+}
+
+.descriptionText-form:focus {
+	background-color: rgba(0, 0, 255, 0.05);
+	border: solid black 3px;
+	border-radius: 5px;
+}
+
+.descriptionText-form:hover {
+    scale: 1.01;
+}
+
+.rr {
+	color: red;
+	font-size: 15px;
+}
+
+.location-form {
+	display: flex;
+	flex-direction: column;
+	max-width: 100%;
+	min-height: 80%;
+	margin: 0 auto;
+	justify-content: center;
+	min-width: 80%;
+	text-align: center;
+}
+
+.createSpotButton-form:disabled {
+	background-color: white;
+	color: grey;
+	border: grey solid 3px;
+	box-shadow: 0px 5px 0px;
+	cursor: not-allowed;
+}
+
+.cityState-form {
+	display: inline-flex;
+	justify-content: space-between;
+}
+
+.latLong-form {
+	display: inline-flex;
+	justify-content: space-between;
+	border-bottom: solid black 2px;
+	padding-bottom: 10px;
+	padding-right: 20px;
+	padding-left: 15px;
 }
 
 textarea {
-    width: 90%;
-    background-color: rgba(0, 255, 255, 0.05);
-    border: solid black 2px;
-    margin-bottom: 15px;
+	width: 90%;
+	background-color: rgba(0, 255, 255, 0.05);
+	border: solid black 2px;
+	margin-bottom: 15px;
 }
 
 .description-form {
-    padding-top: 30px;
-    border-bottom: solid black 2px;
-    max-width: 80%;
+	padding-top: 30px;
+	border-bottom: solid black 2px;
+	max-width: 80%;
+}
+
+.descriptionText-form {
+	margin-top: 30px;
 }
 
 .title-headers {
-    padding-top: 20px;
-    min-width: 64vw;
+	padding-top: 20px;
+	max-width: 800px;
+	min-width: 750px;
 }
 
 .photos-form {
-    padding-top: 20px;
-    min-width: 80%;
-    padding-bottom: 20px;
-    border-bottom: solid black 2px ;
+	padding-top: 20px;
+	min-width: 80%;
+	padding-bottom: 20px;
+	border-bottom: solid black 2px;
 }
 
 .createSpotButton-form {
-    margin-top: 20px;
-    margin-bottom: 20px;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 
 .price-form {
-padding-top: 10px;
-   min-width: 64vw;
-   padding-bottom: 20px;
-   border-bottom: black solid 2px;
+	padding-top: 10px;
+	max-width: 800px;
+	min-width: 750px;
+	padding-bottom: 20px;
+	border-bottom: black solid 2px;
 }
 
 .dollar-sign {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    min-width: 100%;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	min-width: 100%;
 }

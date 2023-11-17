@@ -1,23 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./ManageSpots.css";
 import { getUserSpots } from "../../store/userSpot";
-import { NavLink, useParams, Route, useHistory } from "react-router-dom";
-import SpotDetails from "../SpotDetails";
-import { deleteSpot } from "../../store/spot";
+import { NavLink, useHistory } from "react-router-dom";
 import OpenModalButton from "../OpenModalButton";
 import DeleteSpotModal from "../DeleteSpotModal";
-import UpdateSpot from "../UpdateSpot";
 
 const ManageSpots = () => {
 	const dispatch = useDispatch();
 	const history = useHistory();
-
-	const { spotId } = useParams;
-
-	const handleDelete = (spotId) => {
-		dispatch(deleteSpot(spotId));
-	};
 
 	const spot = useSelector((state) => {
 		//console.log(state, "console.log the state inside manage spots");
@@ -116,6 +107,7 @@ const ManageSpots = () => {
 												Update{" "}
 											</button>{" "}
 											<OpenModalButton
+											className={"delete-button"}
 												buttonText="Delete"
 												modalComponent={<DeleteSpotModal spotId={spot.id} />}
 											/>

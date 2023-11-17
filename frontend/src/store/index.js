@@ -3,37 +3,35 @@ import thunk from "redux-thunk";
 import { restoreCSRF, csrfFetch } from "./csrf";
 import sessionReducer from "./session";
 import SpotsReducer from "./spots";
-import ReviewReducer from './reviews';
+import ReviewReducer from "./reviews";
 import SpotReducer from "./spot";
 import UserSpotsReducer from "./userSpot";
-import ImageReducer from "./images";
 
 const rootReducer = combineReducers({
-  // add reducer functions here
-  session: sessionReducer,
-  spots : SpotsReducer,
-  reviews: ReviewReducer,
-  spot: SpotReducer,
-  userSpots: UserSpotsReducer,
-  
+	// add reducer functions here
+	session: sessionReducer,
+	spots: SpotsReducer,
+	reviews: ReviewReducer,
+	spot: SpotReducer,
+	userSpots: UserSpotsReducer,
 });
 
 let enhancer;
 
 if (process.env.NODE_ENV === "production") {
-  enhancer = applyMiddleware(thunk);
+	enhancer = applyMiddleware(thunk);
 } else {
-  const logger = require("redux-logger").default;
-  const composeEnhancers =
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-  enhancer = composeEnhancers(applyMiddleware(thunk, logger));
+	const logger = require("redux-logger").default;
+	const composeEnhancers =
+		window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+	enhancer = composeEnhancers(applyMiddleware(thunk, logger));
 }
 
 const configureStore = (preloadedState) => {
-  return createStore(rootReducer, preloadedState, enhancer);
+	return createStore(rootReducer, preloadedState, enhancer);
 };
 
-const store = configureStore()
+const store = configureStore();
 
 if (process.env.NODE_ENV !== "production") {
 	restoreCSRF();

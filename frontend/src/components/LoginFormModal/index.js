@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 import "./LoginForm.css";
 import { useModal } from "../../context/Modal";
 
@@ -11,7 +10,7 @@ const LoginFormModal = () => {
 	const [credential, setCredential] = useState("");
 	const [password, setPassword] = useState("");
 	const [errors, setErrors] = useState({});
-	const history = useHistory();
+
 	const { closeModal } = useModal();
 
 	if (sessionUser) {

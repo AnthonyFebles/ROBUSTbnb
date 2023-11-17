@@ -71,8 +71,8 @@ header {
 }
 
 .profile-dropdown {
-	margin-right: 20px;
-	margin-top: 8px;
+	margin-right: 40px;
+	margin-top: 10px;
 	font-size: 10px;
 	position: absolute;
 	right: 0;
@@ -144,4 +144,14 @@ header {
 	background: white;
 		color: turquoise;
 		border: none;
+}
+
+.initial-login, .initial-signup {
+	width: 100%;
+	border-radius: 20px;
+}
+
+.initial-login:hover, .initial-signup:hover{
+	box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.1);
+	border: gray solid 1px;
 }

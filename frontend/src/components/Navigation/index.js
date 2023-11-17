@@ -1,22 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { NavLink, useHistory } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 
-// import * as sessionActions from "../../store/session";
-// import LoginFormModal from "../LoginFormModal";
-// import SignupFormModal from "../SignupFormModal";
-// import OpenModalButton from "../OpenModalButton";
 import "./Navigation.css";
 
 function Navigation({ isLoaded }) {
 	const sessionUser = useSelector((state) => state.session.user);
 
-	const history= useHistory()
+	const history = useHistory();
 
 	const handleClick = () => {
-		 history.push('/spots/new')
-	}
+		history.push("/spots/new");
+	};
 
 	return (
 		<header>

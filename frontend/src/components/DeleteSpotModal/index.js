@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
-import * as sessionActions from "../../store/session";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import "./ConfirmDelete.css";
 import { useModal } from "../../context/Modal";
 import { deleteSpot } from "../../store/userSpot";
@@ -9,7 +7,6 @@ import { deleteSpot } from "../../store/userSpot";
 const DeleteSpotModal = ({ spotId }) => {
 	const dispatch = useDispatch();
 	const [errors, setErrors] = useState({});
-	const history = useHistory();
 	const { closeModal } = useModal();
 
 	//console.log(spotId);

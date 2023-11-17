@@ -6,14 +6,34 @@
     cursor: not-allowed;
 }
 
-.demo-login {
-    width: 50%;
+.login {
     justify-content: center;
     justify-self: center;
-    margin-top: 10px;
+    margin-top: 0px;
+    width: 90%;
+	border-radius: 20px;
+}
+
+.login:hover {
+     box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.1);
+	border: gray solid 1px;
+}
+
+.demo-login {
     
+    justify-content: center;
+    justify-self: center;
+    margin-top: 20px;
+    width: 90%;
+	border-radius: 20px;
     
 }
+
+.demo-login:hover {
+    box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.1);
+	border: gray solid 1px;
+}
+
 
 .login-form {
     width: 900px;

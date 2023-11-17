@@ -4,14 +4,14 @@ import * as sessionActions from "../../store/session";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
-import './Navigation.css'
+import "./Navigation.css";
 import { useHistory } from "react-router-dom";
 
 function ProfileButton({ user }) {
 	const dispatch = useDispatch();
 	const [showMenu, setShowMenu] = useState(false);
 	const ulRef = useRef();
-	const history = useHistory()
+	const history = useHistory();
 
 	const openMenu = () => {
 		if (showMenu) return;
@@ -35,22 +35,20 @@ function ProfileButton({ user }) {
 	const logout = (e) => {
 		e.preventDefault();
 		dispatch(sessionActions.logOut());
-		history.push('/')
-		setShowMenu(false)
+		history.push("/");
+		setShowMenu(false);
 	};
 
 	const manageButton = () => {
-		return history.push('/spots/current')
-	}
+		return history.push("/spots/current");
+	};
 
 	const ulClassName = "profile-dropdown" + (showMenu ? " " : " hidden");
 
 	return (
 		<>
 			<button className="actual-profile-button" onClick={openMenu}>
-				<i className="fa-solid fa-bars"></i>
-				{' '}
-				
+				<i className="fa-solid fa-bars"></i>{" "}
 				<i className="fas fa-user-circle" />
 			</button>
 			<ul className={ulClassName} ref={ulRef}>
@@ -61,21 +59,29 @@ function ProfileButton({ user }) {
 							Hello {user.firstName} {user.lastName}
 						</li>
 						<li className="dropdown-li email">{user.email}</li>
-						<li className="dropdown-li manage"><button onClick={manageButton} className="manage-spots">Manage Spots</button></li>
+						<li className="dropdown-li manage">
+							<button onClick={manageButton} className="manage-spots">
+								Manage Spots
+							</button>
+						</li>
 						<li className="dropdown-li ">
-							<button className="logout" onClick={logout}>Log Out</button>
+							<button className="logout" onClick={logout}>
+								Log Out
+							</button>
 						</li>
 					</>
 				) : (
 					<>
 						<li className="dropdown-li-login">
 							<OpenModalButton
+								className={"initial-login"}
 								buttonText="Log In"
 								modalComponent={<LoginFormModal />}
 							/>
 						</li>
 						<li className="dropdown-li-signup">
 							<OpenModalButton
+								className={"initial-signup"}
 								buttonText="Sign Up"
 								modalComponent={<SignupFormModal />}
 							/>

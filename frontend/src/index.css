@@ -9,3 +9,7 @@ body {
 * {
 font-family: 'Wix Madefor Display', sans-serif;
 }
+
+h1 {
+    font-size: 40px;
+}

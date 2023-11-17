@@ -1,6 +1,6 @@
 import "./NewSpot.css";
 import { useState, useEffect } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { createNewSpot } from "../../store/spots";
 import { addImage } from "../../store/images";
@@ -33,7 +33,7 @@ const NewSpot = () => {
 	}, [dispatch]);
 
 	const spots = useSelector((state) => {
-		console.log(state, "state inside new spots")
+		//console.log(state, "state inside new spots")
 		return state.spots.list;
 	});
 
@@ -63,12 +63,12 @@ const NewSpot = () => {
 		//console.log(imgPayload);
 	}
 
-	let finalImgPayload =[]
+	let finalImgPayload = [];
 
-	for (let i = 0; i <imgPayload.length; i ++){
-		let currImg = imgPayload[i]
+	for (let i = 0; i < imgPayload.length; i++) {
+		let currImg = imgPayload[i];
 		if (currImg.url) {
-			finalImgPayload.push(currImg)
+			finalImgPayload.push(currImg);
 		}
 	}
 
@@ -78,153 +78,141 @@ const NewSpot = () => {
 		e.preventDefault();
 		setCreateClick(true);
 
-
 		let createdSpot;
 
 		try {
-			createdSpot = await dispatch(createNewSpot(payload))
+			createdSpot = await dispatch(createNewSpot(payload));
 		} catch (data) {
-			console.log(data, "error")
+			//console.log(data, "error");
 			if (data) {
+				if (data.message) {
+					setErrors({ message: data.message });
+				}
+				if (data.errors instanceof Object) {
+					if (previewImg.length === 0) {
+						//console.log(previewImg.length, "img preview");
+
+						setErrors({
+							preview: "Preview image is required",
+						});
+						//console.log(errors.preview);
+					}
+
+					const derrors = data.errors;
+					//(derrors, "form errors");
+					if (derrors) {
+						setErrors({
+							...errors,
+							address: derrors.address,
+							city: derrors.city,
+							country: derrors.country,
+							description: derrors.description,
+							name: derrors.name,
+							price: derrors.price,
+							state: derrors.state,
+							lat: derrors.lat,
+							lng: derrors.lng,
+						});
+					}
+				}
+
+				if (typeof data.errors === typeof "string") {
+					alert(data.errors);
+				}
+			}
+		}
+
+		if (createdSpot) {
+			try {
+				const createdImages = async () => {
+					return finalImgPayload.forEach((el, idx, arr) => {
+						dispatch(addImage(spotId, el));
+					});
+				};
+				createdImages();
+				return history.push(`/spots/${spotId}`);
+			} catch (data) {
+				if (data) {
+					//console.log(data, "imgErrordata");
 					if (data.message) {
 						setErrors({ message: data.message });
-						
+						alert(data.message);
 					}
-					if (data.errors instanceof Object) {
-
-						if (previewImg.length === 0) {
-					//console.log(previewImg.length, "img preview");
-
-					setErrors({
-						preview: "Preview image is required",
-					});
-					//console.log(errors.preview);
-		 		}
-
-
+					if (data.errors) {
 						const derrors = data.errors;
-						//(derrors, "form errors");
-						if (derrors) {
-							setErrors({
-								...errors,
-								address: derrors.address,
-								city: derrors.city,
-								country: derrors.country,
-								description: derrors.description,
-								name: derrors.name,
-								price: derrors.price,
-								state: derrors.state,
-								lat: derrors.lat,
-								lng: derrors.lng,
-							});
-						}
-						
-					}
-
-					if (typeof data.errors === typeof "string") {
-						alert(data.errors);
+						//console.log(derrors, "img errors");
 					}
 				}
 			}
 
-	if(createdSpot) {
+			// return dispatch(createNewSpot(payload)).then(
+			// 	() => {
 
-		try{ 
-			const createdImages = async ()  => {
+			// 		return finalImgPayload.forEach((el, idx, arr) => {
+			// 			dispatch(addImage(spotId, el)).then(
+			// 				() => {
+			// 					return history.push(`/spots/${spotId}`);
+			// 				},
+			// 				async (res) => {
+			// 					const data = await res.json();
+			// 					if (data) {
+			// 						//console.log(data, "imgErrordata");
+			// 						if (data.message) {
+			// 							setErrors({ message: data.message });
+			// 							alert(data.message);
+			// 						}
+			// 						if (data.errors) {
+			// 							const derrors = data.errors;
+			// 							console.log(derrors, "img errors");
+			// 						}
+			// 					}
+			// 				}
+			// 			);
+			// 		});
+			// 	},
+			// 	async (res) => {
+			// 		const data = await res.json();
+			// 		if (previewImg.length === 0) {
+			// 			//console.log(previewImg.length, "img preview");
 
-			return finalImgPayload.forEach((el, idx, arr) => { dispatch(addImage(spotId, el))})
-				
+			// 			setErrors({
+			// 				preview: "Preview image is required",
+			// 			});
+			// 			//console.log(errors.preview);
+			// 		}
 
+			// 		if (data) {
+			// 			if (data.message) {
+			// 				setErrors({ message: data.message });
 
-		} 
-		createdImages()
-		return history.push(`/spots/${spotId}`);
-		
-	} catch (data) {
-		 if (data) {
-								//console.log(data, "imgErrordata");
-		 						if (data.message) {
-		 							setErrors({ message: data.message });
-		 							alert(data.message);
-		 						}
-		 						if (data.errors) {
-									const derrors = data.errors;
-		 							console.log(derrors, "img errors");
-		 }
-	}
-		
-	}
+			// 			}
+			// 			if (data.errors instanceof Object) {
+			// 				const derrors = data.errors;
+			// 				//(derrors, "form errors");
+			// 				if (derrors) {
+			// 					setErrors({
+			// 						...errors,
+			// 						address: derrors.address,
+			// 						city: derrors.city,
+			// 						country: derrors.country,
+			// 						description: derrors.description,
+			// 						name: derrors.name,
+			// 						price: derrors.price,
+			// 						state: derrors.state,
+			// 						lat: derrors.lat,
+			// 						lng: derrors.lng,
+			// 					});
+			// 				}
+			// 			}
 
-		// return dispatch(createNewSpot(payload)).then(
-		// 	() => {
-				 
-					
-				
-		// 		return finalImgPayload.forEach((el, idx, arr) => {
-		// 			dispatch(addImage(spotId, el)).then(
-		// 				() => {
-		// 					return history.push(`/spots/${spotId}`);
-		// 				},
-		// 				async (res) => {
-		// 					const data = await res.json();
-		// 					if (data) {
-		// 						//console.log(data, "imgErrordata");
-		// 						if (data.message) {
-		// 							setErrors({ message: data.message });
-		// 							alert(data.message);
-		// 						}
-		// 						if (data.errors) {
-		// 							const derrors = data.errors;
-		// 							console.log(derrors, "img errors");
-		// 						}
-		// 					}
-		// 				}
-		// 			);
-		// 		});
-		// 	},
-		// 	async (res) => {
-		// 		const data = await res.json();
-		// 		if (previewImg.length === 0) {
-		// 			//console.log(previewImg.length, "img preview");
-
-		// 			setErrors({
-		// 				preview: "Preview image is required",
-		// 			});
-		// 			//console.log(errors.preview);
-		// 		}
-
-		// 		if (data) {
-		// 			if (data.message) {
-		// 				setErrors({ message: data.message });
-						
-		// 			}
-		// 			if (data.errors instanceof Object) {
-		// 				const derrors = data.errors;
-		// 				//(derrors, "form errors");
-		// 				if (derrors) {
-		// 					setErrors({
-		// 						...errors,
-		// 						address: derrors.address,
-		// 						city: derrors.city,
-		// 						country: derrors.country,
-		// 						description: derrors.description,
-		// 						name: derrors.name,
-		// 						price: derrors.price,
-		// 						state: derrors.state,
-		// 						lat: derrors.lat,
-		// 						lng: derrors.lng,
-		// 					});
-		// 				}
-		// 			}
-
-		// 			if (typeof data.errors === typeof "string") {
-		// 				alert(data.errors);
-		// 			}
-		// 		}
-		// 	}
-		// );
+			// 			if (typeof data.errors === typeof "string") {
+			// 				alert(data.errors);
+			// 			}
+			// 		}
+			// 	}
+			// );
+		}
 	};
-}
 
 	const handleDisable = (preview, img1, img2, img3, img4) => {
 		if (preview.length > 1) {
@@ -241,7 +229,7 @@ const NewSpot = () => {
 	};
 
 	return (
-		<>
+		<div className="container">
 			<div className="headers">
 				<h1>Create a new Spot</h1>
 				<h2>Where's your place located?</h2>
@@ -262,7 +250,7 @@ const NewSpot = () => {
 					</label>
 					{errors.address && <p className="rr">{errors.address}</p>}
 					<label>
-						Street Address
+						Address
 						<input
 							placeholder="Address"
 							value={address}
@@ -272,7 +260,7 @@ const NewSpot = () => {
 
 					<span className="cityState-form">
 						{errors.city && <p className="rr">{errors.city}</p>}
-						<label>
+						<label className="city-state-label">
 							City
 							<input
 								placeholder="City"
@@ -294,7 +282,7 @@ const NewSpot = () => {
 					</span>
 					<span className="latLong-form">
 						{errors.lat && <p className="rr">{errors.lat}</p>}
-						<label>
+						<label className="latLong-label">
 							Latitude
 							<input
 								placeholder="Latitude"
@@ -360,7 +348,8 @@ const NewSpot = () => {
 						</p>
 					</div>
 					{errors.price && <p className="rr">{errors.price}</p>}
-					<span className="dollar-sign">$
+					<span className="dollar-sign">
+						$
 						<input
 							placeholder="Price per night(USD)"
 							value={price}
@@ -466,7 +455,7 @@ const NewSpot = () => {
 					</button>
 				</div>
 			</form>
-		</>
+		</div>
 	);
 };
 
