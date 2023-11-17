@@ -2,7 +2,7 @@
 
 ## Database Schema Design
 
-![Schema](ROBUSTbnb.png)
+![Schema](./SchemaImage/ROBUSTbnb.png)
 
 ## API Documentation
 
