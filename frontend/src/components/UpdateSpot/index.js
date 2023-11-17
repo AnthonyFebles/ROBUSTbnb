@@ -1,10 +1,7 @@
 import "./UpdateSpot.css";
 import { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { createNewSpot } from "../../store/spots";
-import { addImage } from "../../store/images";
-import { getSpots } from "../../store/spots";
+import { useDispatch } from "react-redux";
 import { getOne, updateSpot } from "../../store/spot";
 
 const UpdateSpot = () => {
@@ -122,7 +119,7 @@ const UpdateSpot = () => {
 				return history.push(`/spots/${spotId}`);
 			},
 			async (res) => {
-				console.log(res, "res on line 121 update spot");
+				//console.log(res, "res on line 121 update spot");
 				const data = await res.json();
 
 				if (data) {

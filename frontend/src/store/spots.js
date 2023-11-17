@@ -2,7 +2,6 @@ import { csrfFetch } from "./csrf";
 const LOAD = "spot/LOAD";
 const CREATE_SPOT = "spot/CREATE_Spot";
 const UPDATE_SPOT = "spot/UPDATE_Spot";
-const DELETE_SPOT = "spot/DELETE";
 
 const load = (list) => ({
 	type: LOAD,
@@ -33,29 +32,26 @@ export const getSpots = () => async (dispatch) => {
 };
 
 export const createNewSpot = (spot) => async (dispatch) => {
-	 try {const response = await csrfFetch(`/api/spots`, {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify(spot),
-	});
+	try {
+		const response = await csrfFetch(`/api/spots`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(spot),
+		});
 
-	if (response.ok) {
-		console.log("res is ok?")
-		const newSpot = await response.json();
-		dispatch(createSpot(newSpot));
-		return newSpot;
+		if (response.ok) {
+			//console.log("res is ok?")
+			const newSpot = await response.json();
+			dispatch(createSpot(newSpot));
+			return newSpot;
+		}
+	} catch (error) {
+		const res = await error.json();
+		//console.log(res, "error")
+		throw res;
 	}
-
-}
-catch(error) {
-	const res = await error.json()
-	//console.log(res, "error")
-	throw res
-}
-
-	
 };
 
 export const updateSpot = (spot) => async (dispatch) => {

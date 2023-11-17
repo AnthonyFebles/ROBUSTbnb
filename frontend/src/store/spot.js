@@ -1,6 +1,5 @@
 import { csrfFetch } from "./csrf";
 const CREATE_SPOT = "spot/CREATE_Spot";
-const UPDATE_SPOT = "spot/UPDATE_Spot";
 const DELETE_SPOT = "spot/DELETE";
 const GET_ONE = "spot/GET_ONE";
 

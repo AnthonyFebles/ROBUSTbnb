@@ -44,7 +44,7 @@ const SpotDetails = () => {
 		return state.spot;
 	});
 
-	console.log(Spot, "spot");
+	//console.log(Spot, "spot");
 
 	const user = useSelector((state) => {
 		//console.log(state.session, "session slice of state aka user variable");
@@ -310,7 +310,7 @@ const SpotDetails = () => {
 		</div>
 	);
 
-	return <body className="spot-detail">{content}</body>;
+	return <div className="spot-detail">{content}</div>;
 };
 
 export default SpotDetails;

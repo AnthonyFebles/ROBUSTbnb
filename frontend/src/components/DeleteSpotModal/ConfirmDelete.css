@@ -4,7 +4,9 @@
     margin-top: 15px;
      border: black solid 2px;
     box-shadow: rgba(0, 0, 0, 1) 5px 5px;
-    width: 100%;
+    width: 90%;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 h2 {
@@ -15,10 +17,11 @@ h2 {
 .yes-delete{
      margin-bottom: 15px;
     margin-top: 15px;
-    
+    margin-left: 10px;
+    margin-right: 10px;
      border: black solid 2px;
     box-shadow: rgba(0, 0, 0, 1) 5px 5px;
-    width: 100%;
+    width: 90%;
 }
 
 .delete-form {

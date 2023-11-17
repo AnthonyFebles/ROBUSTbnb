@@ -15,7 +15,7 @@ module.exports = {
 			options,
 			[
 				{
-					userId: 1,
+					userId: 4,
 					spotId: 1,
 					review: "this place is great :)",
 					stars: 4,

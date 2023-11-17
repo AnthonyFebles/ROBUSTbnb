@@ -3,6 +3,19 @@ img {
     max-width: 20vw;
     
 }
+.logo:hover {
+    scale: 1.01;
+}
+
+button:hover {
+    scale: 1.02;
+}
+
+.thumbnail-image:hover{
+    border: solid 1px black;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2);
+    scale: 1.01;
+}
 .thumbnail-container {
     max-height: 50vh;
     min-width: 300px;
@@ -11,8 +24,8 @@ img {
     grid-template-columns: 1fr; 
     grid-template-rows: 1fr 0.1fr  ;
     flex-basis: 33%;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-left: 10vw;
+    margin-right: 10vw;
 }
 
 
@@ -23,7 +36,13 @@ img {
 }
 
 .secondary-text {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
     font-size: 16px;
+    min-width: 300px;
+    width: 20vw;
+    
+    
 }
 
 
@@ -31,35 +50,50 @@ img {
 nav:not(.nav-bar){
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
     flex-direction: row;
-   
+
+    grid-column: 2
 }
 
 .thumbnail-image {
     height: 175px;
     min-width: 300px;
+    width: 20vw;
+    max-width: 25vw;
 }
 
 .thumbnail {
-    display: flex;
-   justify-content: space-between;
+    
+   
     height: 75px;
     align-items: flex-start;
+    min-width: 300px;
+    width: 20vw;
 }
 
 .address-text {
     text-align: left;
     display: inline;
+    justify-self: left;
+    grid-row: 1;
 }
 
 .star-text {
     display: inline-block;
     text-align: right;
     padding-left: 50px;
+    grid-row: 1;
 }
 
 .price-text {
     text-align: left;
     
 }
+
+.outer-nav-container {
+justify-content: center;
+align-items: center;
+margin-left: 8%;
+padding-top: 10px;
+}
+

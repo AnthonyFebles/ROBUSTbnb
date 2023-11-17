@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -78,8 +78,8 @@ const SignupFormModal = () => {
 		<>
 			<h1>Sign Up</h1>
 			<form className="signUp" onSubmit={handleSubmit}>
+				Email
 				<label>
-					Email
 					<input
 						type="text"
 						value={email}
@@ -88,8 +88,8 @@ const SignupFormModal = () => {
 					/>
 				</label>
 				{errors.email && <p>{errors.email}</p>}
+				Username
 				<label>
-					Username
 					<input
 						type="text"
 						value={username}
@@ -98,8 +98,8 @@ const SignupFormModal = () => {
 					/>
 				</label>
 				{errors.username && <p>{errors.username}</p>}
+				First Name
 				<label>
-					First Name
 					<input
 						type="text"
 						value={firstName}
@@ -108,8 +108,8 @@ const SignupFormModal = () => {
 					/>
 				</label>
 				{errors.firstName && <p>{errors.firstName}</p>}
+				Last Name
 				<label>
-					Last Name
 					<input
 						type="text"
 						value={lastName}
@@ -118,8 +118,8 @@ const SignupFormModal = () => {
 					/>
 				</label>
 				{errors.lastName && <p>{errors.lastName}</p>}
+				Password
 				<label>
-					Password
 					<input
 						type="password"
 						value={password}
@@ -128,8 +128,8 @@ const SignupFormModal = () => {
 					/>
 				</label>
 				{errors.password && <p>{errors.password}</p>}
+				Confirm Password
 				<label>
-					Confirm Password
 					<input
 						type="password"
 						value={confirmPassword}

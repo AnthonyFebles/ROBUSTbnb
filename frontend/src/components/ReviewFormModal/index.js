@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from "react";
-import * as sessionActions from "../../store/session";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import "./ReviewForm.css";
 import { useModal } from "../../context/Modal";
 import { postReview } from "../../store/reviews";
-import { useParams } from "react-router-dom";
 
 const ReviewFormModal = ({ spotId }) => {
 	const dispatch = useDispatch();
-	const sessionUser = useSelector((state) => state.session.user);
 	const [reviewText, setReviewText] = useState("");
 	const [stars, setStars] = useState(0);
 	const [errors, setErrors] = useState({});
