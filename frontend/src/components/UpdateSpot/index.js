@@ -367,10 +367,11 @@ const UpdateSpot = () => {
 
 				<div className="submitButton-form">
 					<button
+					
 						className="createSpotButton-form"
 						disabled={handleDisable(imgPayload)}
 					>
-						Update Spot
+						Update your Spot
 					</button>
 				</div>
 			</form>

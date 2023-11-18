@@ -23,11 +23,22 @@ const AllSpots = () => {
 		return null;
 	}
 
-	//console.log(spot,'console.log spot')
+	console.log(spot,'console.log spot')
 
 	// spot.forEach(element => {
 	//     <h2>{element.name}</h2>
 	// });
+
+	const getDeciaml = (num) => {
+		let final = 0;
+		
+		if (num > 0) {
+			final = (Math.round(num* 100) / 100).toFixed(1);
+		}
+
+		
+		return (final);
+	};
 
 	return (
 		<div className="outer-nav-container">
@@ -66,7 +77,7 @@ const AllSpots = () => {
 													</div>
 													<div className="star-text">
 														<i className="fa-solid fa-star"></i>{" "}
-														{spot.avgRating}{" "}
+														{getDeciaml(spot.avgRating)}{" "}
 													</div>
 													<div className="price-text">
 														<b>${spot.price}</b> night

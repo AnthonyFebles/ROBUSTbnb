@@ -451,7 +451,7 @@ const NewSpot = () => {
 							imageFour
 						)}
 					>
-						Create a spot
+						Create Spot
 					</button>
 				</div>
 			</form>
