@@ -33,7 +33,10 @@ const SpotDetails = () => {
 
 		if (total > 0) {
 			final = parseFloat(total / Reviews.length).toFixed(2);
+			final = (Math.round(final * 100) / 100).toFixed(2);
 		}
+
+		
 		//console.log(final, 'total', total)
 		setAvgStars(final);
 	});
@@ -253,6 +256,7 @@ const SpotDetails = () => {
 						<div className="post-review-button">
 							{user && !hasReview && !isOwner ? (
 								<OpenModalButton
+									className={"review-spot-button"}
 									buttonText="Post Your Review"
 									modalComponent={<ReviewFormModal spotId={spotId} />}
 								/>

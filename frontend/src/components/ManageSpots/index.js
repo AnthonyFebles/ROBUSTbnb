@@ -46,6 +46,16 @@ const ManageSpots = () => {
 		});
 	};
 
+	const getDecimal = (num) => {
+		let final = 0;
+
+		if (num > 0) {
+			final = (Math.round(num * 100) / 100).toFixed(1);
+		}
+
+		return final;
+	};
+
 	return (
 		<>
 			<div className="outer-div-manage">
@@ -86,7 +96,7 @@ const ManageSpots = () => {
 															</div>
 															<div className="star-text">
 																<i className="fa-solid fa-star"></i>{" "}
-																{spot.avgRating}{" "}
+																{getDecimal(spot.avgRating)}{" "}
 															</div>
 															<div className="price-text">
 																<b>${spot.price}</b> night
