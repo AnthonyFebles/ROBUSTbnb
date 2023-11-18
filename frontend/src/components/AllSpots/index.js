@@ -23,7 +23,7 @@ const AllSpots = () => {
 		return null;
 	}
 
-	console.log(spot,'console.log spot')
+	//console.log(spot,'console.log spot')
 
 	// spot.forEach(element => {
 	//     <h2>{element.name}</h2>
